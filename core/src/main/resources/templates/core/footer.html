@@ -1,0 +1,36 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<footer th:fragment="footer">
+    <div class="main-background-image">
+        <div class="main">
+            <a class="small-screen-size" href="/management/">
+                <img alt="GreenCity Logo" class="logo" th:src="@{/img/greencity-logo.png}">
+            </a>
+            <div class="links">
+                <div class="left-side">
+                    <ul class="list-of-site-links">
+                        <li>
+                            <a class="router-links"
+                               href="/management/eco-news">[[#{greenCity.page.footer.eco.news}]]</a>
+                        </li>
+                        <li>                        <!-- /{userId}/findAll/friends/ -->
+                            <a class="router-links" href="/management/users/">[[#{greenCity.page.footer.friends}]]</a>
+                        </li>
+                        <li>
+                            <a class="router-links" href="/management/aboutus/">[[#{greenCity.page.footer.about.us}]]</a>
+                        </li>
+                        <li>
+                            <a class="router-links" href="/management/habits/">[[#{greenCity.page.footer.habits}]]</a>
+                        </li>
+                        <li>                    <!-- 11111111111111111111111 -->
+                            <a class="router-links" href="/management/">[[#{greenCity.page.footer.ubs.courier}]]</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bottom-part">
+                    &copy; Copyright 2020. Green City.
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

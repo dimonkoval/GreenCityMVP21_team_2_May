@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="Bokalo-2" author="Nazar Bokalo">
+        <dropTable  cascadeConstraints="true"
+                    tableName="events"/>
+
+        <dropTable  cascadeConstraints="true"
+                    tableName="events_attenders"/>
+
+        <dropTable  cascadeConstraints="true"
+                    tableName="events_comment"/>
+
+        <dropTable  cascadeConstraints="true"
+                    tableName="events_comment_users_likes"/>
+
+        <dropTable  cascadeConstraints="true"
+                    tableName="events_dates_locations"/>
+
+        <dropTable  cascadeConstraints="true"
+                    tableName="events_followers"/>
+
+        <dropTable  cascadeConstraints="true"
+                    tableName="events_grades"/>
+
+        <dropTable  cascadeConstraints="true"
+                    tableName="events_images"/>
+
+        <dropTable  cascadeConstraints="true"
+                    tableName="events_tags"/>
+
+    </changeSet>
+</databaseChangeLog>
