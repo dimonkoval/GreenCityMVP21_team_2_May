@@ -3,7 +3,7 @@ package greencity.dto.user;
 import greencity.enums.Role;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor

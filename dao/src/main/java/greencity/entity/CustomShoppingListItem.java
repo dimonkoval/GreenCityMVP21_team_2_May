@@ -4,7 +4,7 @@ import greencity.enums.ShoppingListItemStatus;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity

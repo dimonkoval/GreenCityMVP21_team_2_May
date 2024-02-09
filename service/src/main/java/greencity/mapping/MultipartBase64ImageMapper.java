@@ -1,19 +1,19 @@
 package greencity.mapping;
 
 import greencity.exception.exceptions.NotSavedException;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItem;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.file.Files;
+import javax.imageio.ImageIO;
+import greencity.service.MultipartFileImpl;
 import org.apache.commons.io.IOUtils;
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItem;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.nio.file.Files;
 
 import static org.apache.tomcat.util.codec.binary.Base64.decodeBase64;
 
@@ -39,12 +39,13 @@ public class MultipartBase64ImageMapper extends AbstractConverter<String, Multip
             BufferedImage bufferedImage = ImageIO.read(bis);
             ImageIO.write(bufferedImage, "png", tempFile);
             FileItem fileItem = new DiskFileItem("mainFile", Files.probeContentType(tempFile.toPath()),
-                false, tempFile.getName(), (int) tempFile.length(), tempFile.getParentFile());
+                    false, tempFile.getName(), (int) tempFile.length(), tempFile.getParentFile());
             try (InputStream input = new FileInputStream(tempFile);
-                OutputStream outputStream = fileItem.getOutputStream()) {
+                 OutputStream outputStream = fileItem.getOutputStream()) {
                 IOUtils.copy(input, outputStream);
                 outputStream.flush();
-                return new CommonsMultipartFile(fileItem);
+                return new MultipartFileImpl("mainFile", tempFile.getName(),
+                        Files.probeContentType(tempFile.toPath()), Files.readAllBytes(tempFile.toPath()));
             }
         } catch (IOException e) {
             throw new NotSavedException("Cannot convert to BASE64 image");

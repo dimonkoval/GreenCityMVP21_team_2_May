@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Tuple;
+import jakarta.persistence.Tuple;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -82,29 +82,6 @@ public interface HabitStatisticRepo extends JpaRepository<HabitStatistic, Long>,
     @Query(value = "SELECT hs FROM HabitStatistic hs "
         + "WHERE hs.habitAssign.habit.id = :habitId")
     List<HabitStatistic> findAllByHabitId(@Param("habitId") Long habitId);
-
-    /**
-     * Method for finding amount of items for one {@link HabitAssign} for previous
-     * day.
-     *
-     * @param habitAssignId {@link HabitAssign} id.
-     * @return amount of items in Optional in case of absence such info.
-     */
-    @Query(value = "SELECT hs.amountOfItems FROM HabitStatistic hs "
-        + "WHERE cast(hs.createDate as date) = CURRENT_DATE - 1 "
-        + "AND hs.habitAssign.id = :habitAssignId")
-    Optional<Integer> getAmountOfItemsOfAssignedHabitInPreviousDay(@Param("habitAssignId") Long habitAssignId);
-
-    /**
-     * Method for finding general amount of certain {@link Habit} items for the
-     * previous day.
-     *
-     * @param habitId {@link Habit} id.
-     * @return amount of items in Optional in case of absence such info.
-     */
-    @Query(value = "SELECT hs.amountOfItems FROM HabitStatistic hs "
-        + "WHERE cast(hs.createDate as date) = CURRENT_DATE - 1 AND hs.habitAssign.habit.id = :habitId")
-    Optional<Integer> getGeneralAmountOfHabitItemsInPreviousDay(@Param("habitId") Long habitId);
 
     /**
      * Method for finding amount of items for one {@link HabitAssign} for current

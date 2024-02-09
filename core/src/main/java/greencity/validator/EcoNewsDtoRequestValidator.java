@@ -6,8 +6,8 @@ import greencity.constant.ValidationConstants;
 import greencity.dto.econews.AddEcoNewsDtoRequest;
 import greencity.exception.exceptions.WrongCountOfTagsException;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.util.List;
 
 import static greencity.validator.UrlValidator.isUrlValid;

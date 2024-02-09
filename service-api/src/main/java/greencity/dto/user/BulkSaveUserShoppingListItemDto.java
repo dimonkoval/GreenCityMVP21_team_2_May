@@ -2,7 +2,7 @@ package greencity.dto.user;
 
 import lombok.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @NoArgsConstructor

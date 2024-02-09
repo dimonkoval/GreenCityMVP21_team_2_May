@@ -5,8 +5,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.7.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>3.2.2</version>
+        <relativePath/>
     </parent>
 
     <groupId>Lv-427.Java</groupId>
@@ -24,22 +24,28 @@
     </modules>
 
     <properties>
-        <junit-jupiter.version>5.7.0</junit-jupiter.version>
-        <mockito-junit-jupiter.version>3.4.0</mockito-junit-jupiter.version>
-        <mockito-core.version>3.4.0</mockito-core.version>
-        <modelmapper.version>2.3.5</modelmapper.version>
-        <java.version>11</java.version>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <checkstyle-maven-plugin.version>3.1.0</checkstyle-maven-plugin.version>
+        <spring.boot.version>3.2.2</spring.boot.version>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <junit-jupiter.version>5.10.2</junit-jupiter.version>
+        <mockito-junit-jupiter.version>5.10.0</mockito-junit-jupiter.version>
+        <mockito-core.version>5.10.0</mockito-core.version>
+        <mockito-inline.version>5.2.0</mockito-inline.version>
+        <modelmapper.version>3.2.0</modelmapper.version>
+        <checkstyle-maven-plugin.version>3.3.1</checkstyle-maven-plugin.version>
+        <formatter.maven.plugin.version>2.23.0</formatter.maven.plugin.version>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.exclusions>**/config/*</sonar.exclusions>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.language>java</sonar.language>
-        <test.containers.version>1.15.1</test.containers.version>
-        <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
-        <net.java.dev.jna.version>4.5.2</net.java.dev.jna.version>
+        <test.containers.version>1.19.4</test.containers.version>
+        <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
+        <jacoco.maven.plugin.version>0.8.11</jacoco.maven.plugin.version>
+        <net.java.dev.jna.version>5.14.0</net.java.dev.jna.version>
+        <jjwt.version>0.12.5</jjwt.version>
     </properties>
 
     <build>
@@ -47,8 +53,8 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.6</version>
-                 <configuration>
+                <version>${jacoco.maven.plugin.version}</version>
+                <configuration>
                     <excludes>
                         <exclude>**/config/*</exclude>
                         <exclude>**/enums/*</exclude>
@@ -83,7 +89,7 @@
             <plugin>
                 <groupId>net.revelc.code.formatter</groupId>
                 <artifactId>formatter-maven-plugin</artifactId>
-                <version>2.13.0</version>
+                <version>${formatter.maven.plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>

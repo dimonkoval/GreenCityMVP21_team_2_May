@@ -6,8 +6,8 @@ import greencity.dto.language.LanguageTranslationDTO;
 import greencity.service.LanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;

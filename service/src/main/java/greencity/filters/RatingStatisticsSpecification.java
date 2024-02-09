@@ -7,7 +7,7 @@ import greencity.entity.User;
 import greencity.entity.User_;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.criteria.*;
+import jakarta.persistence.criteria.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -3,8 +3,8 @@ package greencity.dto.user;
 import greencity.dto.shoppinglistitem.ShoppingListItemRequestDto;
 import lombok.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor

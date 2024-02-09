@@ -4,9 +4,9 @@ import greencity.constant.ServiceValidationConstants;
 import greencity.enums.HabitRate;
 import lombok.*;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
 @NoArgsConstructor

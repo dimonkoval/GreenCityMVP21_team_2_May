@@ -2,7 +2,7 @@ package greencity.dto.user;
 
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 @Builder
 @NoArgsConstructor

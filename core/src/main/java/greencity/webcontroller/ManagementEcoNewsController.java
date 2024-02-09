@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.security.Principal;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

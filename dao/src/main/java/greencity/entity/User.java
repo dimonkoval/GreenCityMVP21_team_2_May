@@ -7,7 +7,10 @@ import greencity.enums.Role;
 import greencity.enums.UserStatus;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.type.descriptor.jdbc.IntegerJdbcType;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +100,7 @@ public class User {
     private Role role;
 
     @Enumerated(value = EnumType.ORDINAL)
+    @JdbcType(IntegerJdbcType.class)
     private UserStatus userStatus;
 
     @Column(nullable = false)
@@ -112,6 +116,7 @@ public class User {
     private RestorePasswordEmail restorePasswordEmail;
 
     @Enumerated(value = EnumType.ORDINAL)
+    @JdbcType(IntegerJdbcType.class)
     private EmailNotification emailNotification;
 
     @Column(name = "refresh_token_key", nullable = false)

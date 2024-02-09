@@ -202,12 +202,12 @@ public interface HabitAssignRepo extends JpaRepository<HabitAssign, Long>,
      * @return list of {@link HabitAssign} instances.
      */
     @Query(value = "SELECT DISTINCT ha FROM HabitAssign ha "
-        + "JOIN FETCH ha.habit h JOIN FETCH h.habitTranslations ht "
-        + "JOIN FETCH ht.language l "
-        + "WHERE upper(ha.status) = 'INPROGRESS'"
-        + "AND ha.user.id = :userId "
-        + "AND cast(ha.createDate as date) <= cast(:date as date) "
-        + "AND cast(ha.createDate as date) + ha.duration >= cast(:date as date)")
+            + "JOIN FETCH ha.habit h JOIN FETCH h.habitTranslations ht "
+            + "JOIN FETCH ht.language l "
+            + "WHERE upper(ha.status) = 'INPROGRESS' "
+            + "AND ha.user.id = :userId "
+            + "AND cast(ha.createDate as date) <= cast(:date as date) "
+            + "AND cast(FUNCTION('DATE_ADD', ha.createDate, ha.duration) as date) >= cast(:date as date)")
     List<HabitAssign> findAllInprogressHabitAssignsOnDate(@Param("userId") Long userId, @Param("date") LocalDate date);
 
     /**
@@ -231,20 +231,21 @@ public interface HabitAssignRepo extends JpaRepository<HabitAssign, Long>,
      * @return list of {@link HabitAssign} instances.
      */
     @Query(value = "SELECT DISTINCT ha FROM HabitAssign ha "
-        + "JOIN FETCH ha.habit h JOIN FETCH h.habitTranslations ht "
-        + "JOIN FETCH ht.language l "
-        + "WHERE upper(ha.status) = 'INPROGRESS'"
-        + "AND ha.user.id = :userId "
-        + "AND (cast(ha.createDate as date) BETWEEN cast(:from as date) AND cast(:to as date) "
-        + "OR cast(ha.createDate as date) + ha.duration BETWEEN cast(:from as date) AND cast(:to as date)"
-        + "OR cast(ha.createDate as date) <= cast(:from as date) "
-        + "AND cast(:to as date) <= cast(ha.createDate as date) + ha.duration)")
+            + "JOIN FETCH ha.habit h JOIN FETCH h.habitTranslations ht "
+            + "JOIN FETCH ht.language l "
+            + "WHERE upper(ha.status) = 'INPROGRESS' "
+            + "AND ha.user.id = :userId "
+            + "AND cast(ha.createDate as date) BETWEEN cast(:from as date) AND cast(:to as date) "
+            + "OR cast(FUNCTION('DATE_ADD', ha.createDate, ha.duration) as date) "
+            + "BETWEEN cast(:from as date) AND cast(:to as date) "
+            + "OR cast(ha.createDate as date) <= cast(:from as date) "
+            + "AND cast(:to as date) <= cast(FUNCTION('DATE_ADD', ha.createDate, ha.duration) as date)")
     List<HabitAssign> findAllHabitAssignsBetweenDates(@Param("userId") Long userId, @Param("from") LocalDate from,
-        @Param("to") LocalDate to);
+                                                      @Param("to") LocalDate to);
 
     /**
      * Method to find all inprogress, habit assigns.
-     * 
+     *
      * @return list of {@link HabitAssign} instances.
      */
     @Query(value = "SELECT DISTINCT ha FROM HabitAssign ha "
@@ -289,8 +290,8 @@ public interface HabitAssignRepo extends JpaRepository<HabitAssign, Long>,
      * @author Lilia Mokhnatska
      */
     @Modifying
-    @Query("UPDATE HabitAssign ha SET ha.progressNotificationHasDisplayed = 'true'"
-        + " WHERE ha.id = :habitAssignId and ha.user.id = :userId")
+    @Query("UPDATE HabitAssign ha SET ha.progressNotificationHasDisplayed = true"
+            + " WHERE ha.id = :habitAssignId AND ha.user.id = :userId")
     void updateProgressNotificationHasDisplayed(@Param("habitAssignId") Long habitAssignId,
         @Param("userId") Long userId);
 }

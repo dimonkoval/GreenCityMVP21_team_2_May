@@ -2,7 +2,7 @@ package greencity.dto.shoppinglistitem;
 
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 @AllArgsConstructor

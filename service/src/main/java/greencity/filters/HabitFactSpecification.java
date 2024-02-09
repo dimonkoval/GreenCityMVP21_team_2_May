@@ -2,7 +2,7 @@ package greencity.filters;
 
 import greencity.entity.*;
 
-import javax.persistence.criteria.*;
+import jakarta.persistence.criteria.*;
 import java.util.List;
 
 import static greencity.entity.HabitFactTranslation_.content;

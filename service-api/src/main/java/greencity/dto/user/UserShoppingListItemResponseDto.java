@@ -3,9 +3,9 @@ package greencity.dto.user;
 import greencity.enums.ShoppingListItemStatus;
 import lombok.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor

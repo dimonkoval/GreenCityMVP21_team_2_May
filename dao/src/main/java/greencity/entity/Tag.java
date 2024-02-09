@@ -4,7 +4,7 @@ import greencity.entity.localization.TagTranslation;
 import greencity.enums.TagType;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.Set;
 
