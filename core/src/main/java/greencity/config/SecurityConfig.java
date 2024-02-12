@@ -92,6 +92,8 @@ public class SecurityConfig {
                         .accessDeniedHandler((req, resp, exc) -> resp.sendError(SC_FORBIDDEN, "You don't have authorities.")))
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/", "/management/", "/management/login").permitAll()
+                        .requestMatchers("/v2/api-docs/**", "/v3/api-docs/**", "/swagger.json", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/swagger-resources/**", "/webjars/**", "/swagger-ui/**").permitAll()
                         .requestMatchers("/management/**",
                                 "/econews/comments/replies/{parentCommentId}")
                         .hasAnyRole(ADMIN)
@@ -278,24 +280,6 @@ public class SecurityConfig {
                         .deleteCookies("accessToken")
                         .logoutSuccessUrl("/"));
         return http.build();
-    }
-
-    /**
-     * Method for configure matchers that will be ignored in security.
-     *
-     * @return {@link WebSecurityCustomizer}
-     */
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> {
-            web.ignoring().requestMatchers("/v2/api-docs/**");
-            web.ignoring().requestMatchers("/v3/api-docs/**");
-            web.ignoring().requestMatchers("/swagger.json");
-            web.ignoring().requestMatchers("/swagger-ui.html");
-            web.ignoring().requestMatchers("/swagger-resources/**");
-            web.ignoring().requestMatchers("/webjars/**");
-            web.ignoring().requestMatchers("/swagger-ui/**");
-        };
     }
 
     /**
