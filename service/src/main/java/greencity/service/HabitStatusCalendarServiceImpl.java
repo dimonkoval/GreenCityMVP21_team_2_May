@@ -8,7 +8,6 @@ import greencity.repository.HabitStatusCalendarRepo;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;

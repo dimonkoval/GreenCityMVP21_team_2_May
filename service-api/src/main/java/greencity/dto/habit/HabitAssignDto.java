@@ -4,7 +4,6 @@ import greencity.dto.habitstatuscalendar.HabitStatusCalendarDto;
 import greencity.dto.user.UserShoppingListItemAdvanceDto;
 import greencity.enums.HabitAssignStatus;
 import lombok.*;
-
 import java.time.ZonedDateTime;
 import java.util.List;
 

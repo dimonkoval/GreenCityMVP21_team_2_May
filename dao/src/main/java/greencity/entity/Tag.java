@@ -3,7 +3,6 @@ package greencity.entity;
 import greencity.entity.localization.TagTranslation;
 import greencity.enums.TagType;
 import lombok.*;
-
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.Set;

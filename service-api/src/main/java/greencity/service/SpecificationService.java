@@ -2,7 +2,6 @@ package greencity.service;
 
 import greencity.dto.specification.SpecificationNameDto;
 import greencity.dto.specification.SpecificationVO;
-
 import java.util.List;
 
 public interface SpecificationService {

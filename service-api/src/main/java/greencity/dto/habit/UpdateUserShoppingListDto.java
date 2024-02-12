@@ -2,7 +2,6 @@ package greencity.dto.habit;
 
 import greencity.dto.user.UserShoppingListItemAdvanceDto;
 import lombok.*;
-
 import java.util.List;
 
 @NoArgsConstructor

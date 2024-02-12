@@ -4,7 +4,6 @@ import greencity.dto.habit.HabitAssignVO;
 import greencity.dto.shoppinglistitem.ShoppingListItemVO;
 import greencity.enums.ShoppingListItemStatus;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @NoArgsConstructor

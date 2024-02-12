@@ -5,7 +5,6 @@ import greencity.entity.Tag;
 import greencity.entity.localization.TagTranslation;
 import org.modelmapper.AbstractConverter;
 import org.springframework.stereotype.Component;
-
 import java.util.Optional;
 
 @Component

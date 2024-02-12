@@ -5,7 +5,6 @@ import greencity.dto.habit.HabitDto;
 import greencity.dto.habit.HabitManagementDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 public interface ManagementHabitService {

@@ -3,7 +3,6 @@ package greencity.dto.tag;
 import greencity.annotations.LanguageTranslationConstraint;
 import greencity.enums.TagType;
 import lombok.*;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;

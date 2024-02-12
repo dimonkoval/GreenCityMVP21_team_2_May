@@ -1,14 +1,12 @@
 package greencity.annotations;
 
 import greencity.validator.LanguageValidator;
-
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import static greencity.constant.ErrorMessage.SELECT_CORRECT_LANGUAGE;
 
 @Constraint(validatedBy = LanguageValidator.class)

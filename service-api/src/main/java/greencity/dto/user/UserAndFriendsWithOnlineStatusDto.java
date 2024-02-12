@@ -1,7 +1,6 @@
 package greencity.dto.user;
 
 import lombok.*;
-
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 

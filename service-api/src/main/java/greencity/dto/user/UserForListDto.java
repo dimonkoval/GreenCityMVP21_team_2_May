@@ -4,7 +4,6 @@ import greencity.constant.ServiceValidationConstants;
 import greencity.enums.Role;
 import greencity.enums.UserStatus;
 import lombok.*;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

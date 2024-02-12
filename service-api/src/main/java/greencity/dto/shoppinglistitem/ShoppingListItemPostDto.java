@@ -3,7 +3,6 @@ package greencity.dto.shoppinglistitem;
 import greencity.annotations.LanguageTranslationConstraint;
 import greencity.dto.language.LanguageTranslationDTO;
 import lombok.*;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;

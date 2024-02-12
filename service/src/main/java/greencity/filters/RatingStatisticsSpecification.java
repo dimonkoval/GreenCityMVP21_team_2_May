@@ -6,7 +6,6 @@ import greencity.entity.RatingStatistics_;
 import greencity.entity.User;
 import greencity.entity.User_;
 import lombok.NoArgsConstructor;
-
 import jakarta.persistence.criteria.*;
 import java.util.Arrays;
 import java.util.List;

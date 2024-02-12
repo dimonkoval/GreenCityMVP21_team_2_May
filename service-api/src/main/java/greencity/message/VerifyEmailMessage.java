@@ -3,7 +3,6 @@ package greencity.message;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
-
 import java.io.Serializable;
 
 @Getter

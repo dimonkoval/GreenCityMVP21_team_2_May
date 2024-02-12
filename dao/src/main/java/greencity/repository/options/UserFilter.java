@@ -5,7 +5,6 @@ import greencity.dto.filter.FilterUserDto;
 import greencity.dto.filter.UserFilterDto;
 import greencity.entity.User;
 import org.springframework.data.jpa.domain.Specification;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;

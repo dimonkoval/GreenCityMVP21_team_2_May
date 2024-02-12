@@ -9,7 +9,6 @@ import greencity.entity.UserShoppingListItem;
 import greencity.enums.ShoppingListItemStatus;
 import org.modelmapper.AbstractConverter;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 

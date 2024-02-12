@@ -2,7 +2,6 @@ package greencity.dto.econewscomment;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-
 import jakarta.validation.constraints.NotBlank;
 
 @Getter

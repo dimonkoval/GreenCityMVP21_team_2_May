@@ -3,7 +3,6 @@ package greencity.dto.habit;
 import greencity.dto.user.UserVO;
 import greencity.enums.HabitAssignStatus;
 import lombok.*;
-
 import java.time.ZonedDateTime;
 
 @NoArgsConstructor

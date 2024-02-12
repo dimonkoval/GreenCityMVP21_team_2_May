@@ -40,12 +40,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-
 import static greencity.constant.AppConstant.AUTHORIZATION;
 
 @Service
@@ -221,7 +219,6 @@ public class EcoNewsServiceImpl implements EcoNewsService {
      * {@inheritDoc}
      *
      * @author Kovaliv Taras.
-     * @return
      */
     @Override
     public PageableAdvancedDto<EcoNewsGenericDto> find(Pageable page, List<String> tags) {

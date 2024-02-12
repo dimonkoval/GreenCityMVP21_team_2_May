@@ -2,7 +2,6 @@ package greencity.dto.shoppinglistitem;
 
 import greencity.dto.user.UserShoppingListItemVO;
 import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
 

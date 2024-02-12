@@ -3,7 +3,6 @@ package greencity.dto.ratingstatistics;
 import greencity.annotations.RatingCalculationEnum;
 import greencity.dto.user.UserVO;
 import lombok.*;
-
 import java.time.ZonedDateTime;
 
 @Getter
