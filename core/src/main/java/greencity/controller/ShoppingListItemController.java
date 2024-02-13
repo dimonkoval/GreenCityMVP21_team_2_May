@@ -11,15 +11,16 @@ import greencity.dto.shoppinglistitem.ShoppingListItemRequestDto;
 import greencity.dto.user.UserShoppingListItemResponseDto;
 import greencity.dto.user.UserVO;
 import greencity.service.ShoppingListItemService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import java.util.List;
@@ -39,19 +40,19 @@ public class ShoppingListItemController {
      * @return new {@link ResponseEntity}.
      * @author Vitalii Skolozdra
      */
-    @ApiOperation(value = "Save one or multiple shopping list items for current user.")
+    @Operation(summary = "Save one or multiple shopping list items for current user.")
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = HttpStatuses.CREATED),
-        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+        @ApiResponse(responseCode = "201", description = HttpStatuses.CREATED),
+        @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
+        @ApiResponse(responseCode = "403", description = HttpStatuses.FORBIDDEN),
     })
     @PostMapping
     @ApiLocale
     public ResponseEntity<List<UserShoppingListItemResponseDto>> saveUserShoppingListItems(
         @Valid @RequestBody List<ShoppingListItemRequestDto> dto,
-        @ApiIgnore @CurrentUser UserVO user,
+        @Parameter(hidden=true) @CurrentUser UserVO user,
         Long habitId,
-        @ApiIgnore @ValidLanguage Locale locale) {
+        @Parameter(hidden=true) @ValidLanguage Locale locale) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(shoppingListItemService.saveUserShoppingListItems(user.getId(), habitId, dto, locale.getLanguage()));
@@ -65,18 +66,19 @@ public class ShoppingListItemController {
      * @return List of {@link UserShoppingListItemResponseDto}.
      * @author Dmytro Khonko
      */
-    @ApiOperation(value = "Get user`s shopping list.")
+    @Operation(summary = "Get user`s shopping list.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK),
-        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+        @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
+        @ApiResponse(responseCode = "403", description = HttpStatuses.FORBIDDEN),
     })
     @GetMapping("/habits/{habitId}/shopping-list")
     @ApiLocale
     public ResponseEntity<List<UserShoppingListItemResponseDto>> getShoppingListItemsAssignedToUser(
-        @ApiIgnore @CurrentUser UserVO user,
-        @ApiParam("Id of the Habit that belongs to current user. Cannot be empty.") @PathVariable Long habitId,
-        @ApiIgnore @ValidLanguage Locale locale) {
+        @Parameter(hidden=true) @CurrentUser UserVO user,
+        @Parameter(description =
+                "Id of the Habit that belongs to current user. Cannot be empty.") @PathVariable Long habitId,
+        @Parameter(hidden=true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(shoppingListItemService.getUserShoppingList(user.getId(), habitId, locale.getLanguage()));
     }
@@ -89,15 +91,15 @@ public class ShoppingListItemController {
      * @author Dmytro Khonko
      */
 
-    @ApiOperation(value = "Delete from shopping list")
+    @Operation(summary = "Delete from shopping list")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK),
-        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+        @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
+        @ApiResponse(responseCode = "403", description = HttpStatuses.FORBIDDEN),
     })
     @DeleteMapping
     public void delete(
-        @ApiIgnore @CurrentUser UserVO user, Long habitId, Long shoppingListItemId) {
+        @Parameter(hidden=true) @CurrentUser UserVO user, Long habitId, Long shoppingListItemId) {
         shoppingListItemService.deleteUserShoppingListItemByItemIdAndUserIdAndHabitId(shoppingListItemId, user.getId(),
             habitId);
     }
@@ -109,19 +111,19 @@ public class ShoppingListItemController {
      * @return new {@link ResponseEntity}.
      * @author Vitalii Skolozdra
      */
-    @ApiOperation(value = "Change status of one of the shopping list item for current user to DONE.")
+    @Operation(summary = "Change status of one of the shopping list item for current user to DONE.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK),
-        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+        @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
+        @ApiResponse(responseCode = "403", description = HttpStatuses.FORBIDDEN),
     })
     @PatchMapping("/{userShoppingListItemId}")
     @ApiLocale
     public ResponseEntity<UserShoppingListItemResponseDto> updateUserShoppingListItemStatus(
-        @ApiIgnore @CurrentUser UserVO user,
-        @ApiParam("Id of the UserShoppingListItems that belongs to current user."
+        @Parameter(hidden=true) @CurrentUser UserVO user,
+        @Parameter(description = "Id of the UserShoppingListItems that belongs to current user."
             + " Cannot be empty.") @PathVariable Long userShoppingListItemId,
-        @ApiIgnore @ValidLanguage Locale locale) {
+        @Parameter(hidden=true) @ValidLanguage Locale locale) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(shoppingListItemService.updateUserShopingListItemStatus(user.getId(), userShoppingListItemId,
@@ -135,21 +137,22 @@ public class ShoppingListItemController {
      * @return new {@link ResponseEntity}.
      * @author Mykola Danylko
      */
-    @ApiOperation(value = "Change status of one of the user shopping list item for current user.")
+    @Operation(summary = "Change status of one of the user shopping list item for current user.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = UserShoppingListItemResponseDto[].class),
-        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(code = 404, message = HttpStatuses.NOT_FOUND),
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK,
+                content = @Content(schema = @Schema(implementation = UserShoppingListItemResponseDto[].class))),
+        @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
+        @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED),
+        @ApiResponse(responseCode = "404", description = HttpStatuses.NOT_FOUND),
     })
     @PatchMapping("/{userShoppingListItemId}/status/{status}")
     @ApiLocale
     public ResponseEntity<List<UserShoppingListItemResponseDto>> updateUserShoppingListItemStatus(
-        @ApiIgnore @CurrentUser UserVO user,
-        @ApiParam("Id of the userShoppingListItem that belongs to current user."
+        @Parameter(hidden=true) @CurrentUser UserVO user,
+        @Parameter(description = "Id of the userShoppingListItem that belongs to current user."
             + " Cannot be empty.") @PathVariable(value = "userShoppingListItemId") Long userShoppingListItemId,
         @PathVariable(value = "status") String status,
-        @ApiIgnore @ValidLanguage Locale locale) {
+        @Parameter(hidden=true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK).body(shoppingListItemService
             .updateUserShoppingListItemStatus(user.getId(), userShoppingListItemId, locale.getLanguage(), status));
     }
@@ -161,19 +164,20 @@ public class ShoppingListItemController {
      * @return new {@link ResponseEntity}
      * @author Bogdan Kuzenko
      */
-    @ApiOperation(value = "Delete user shopping list item")
+    @Operation(summary = "Delete user shopping list item")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK, response = Long.class),
-        @ApiResponse(code = 303, message = HttpStatuses.SEE_OTHER),
-        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
-        @ApiResponse(code = 403, message = HttpStatuses.FORBIDDEN),
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK,
+                content = @Content(schema = @Schema(implementation = Long.class))),
+        @ApiResponse(responseCode = "303", description = HttpStatuses.SEE_OTHER),
+        @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
+        @ApiResponse(responseCode = "403", description = HttpStatuses.FORBIDDEN),
     })
     @DeleteMapping("/user-shopping-list-items")
     public ResponseEntity<List<Long>> bulkDeleteUserShoppingListItems(
-        @ApiParam(value = "Ids of user shopping list items separated by a comma \n e.g. 1,2", required = true) @Pattern(
+        @Parameter(description = "Ids of user shopping list items separated by a comma \n e.g. 1,2", required = true) @Pattern(
             regexp = "^\\d+(,\\d+)++$",
             message = ValidationConstants.BAD_COMMA_SEPARATED_NUMBERS) @RequestParam String ids,
-        @ApiIgnore @CurrentUser UserVO user) {
+        @Parameter(hidden=true) @CurrentUser UserVO user) {
         return ResponseEntity.status(HttpStatus.OK).body(shoppingListItemService
             .deleteUserShoppingListItems(ids));
     }
@@ -185,11 +189,11 @@ public class ShoppingListItemController {
      * @return list of {@link ResponseEntity}
      * @author Bogdan Kuzenko
      */
-    @ApiOperation(value = "Get all user shopping-list-items with 'INPROGRESS' status.")
+    @Operation(summary = "Get all user shopping-list-items with 'INPROGRESS' status.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK),
-        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST),
-        @ApiResponse(code = 401, message = HttpStatuses.UNAUTHORIZED),
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+        @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
+        @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED),
     })
     @GetMapping("/{userId}/get-all-inprogress")
     public ResponseEntity<List<ShoppingListItemDto>> findInProgressByUserId(
