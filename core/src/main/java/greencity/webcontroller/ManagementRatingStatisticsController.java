@@ -8,7 +8,7 @@ import greencity.dto.ratingstatistics.RatingStatisticsVO;
 import greencity.dto.ratingstatistics.RatingStatisticsViewDto;
 import greencity.exporter.RatingExcelExporter;
 import greencity.service.RatingStatisticsService;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -53,7 +53,7 @@ public class ManagementRatingStatisticsController {
      * @author Dovganyuk Taras
      */
     @ApiPageable
-    @ApiOperation(value = "Get management page with facts of the day.")
+    @Operation(summary = "Get management page with facts of the day.")
     @GetMapping("")
     public String getUserRatingStatistics(Model model, @PageableDefault(value = 20) @ApiIgnore Pageable pageable) {
         Pageable paging =

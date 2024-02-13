@@ -19,7 +19,6 @@
         <liquibase.version>4.25.1</liquibase.version>
         <jackson.version>2.16.1</jackson.version>
         <powermock.version>2.0.9</powermock.version>
-        <swagger.version>3.0.0</swagger.version>
         <google.cloud.storage.version>2.32.1</google.cloud.storage.version>
         <azure.webapp.maven.plugin.version>2.13.0</azure.webapp.maven.plugin.version>
         <tngtech.version>1.13.1</tngtech.version>
@@ -116,16 +115,6 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
