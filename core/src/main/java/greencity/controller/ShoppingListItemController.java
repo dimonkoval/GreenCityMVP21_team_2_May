@@ -50,9 +50,9 @@ public class ShoppingListItemController {
     @ApiLocale
     public ResponseEntity<List<UserShoppingListItemResponseDto>> saveUserShoppingListItems(
         @Valid @RequestBody List<ShoppingListItemRequestDto> dto,
-        @Parameter(hidden=true) @CurrentUser UserVO user,
+        @Parameter(hidden = true) @CurrentUser UserVO user,
         Long habitId,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(shoppingListItemService.saveUserShoppingListItems(user.getId(), habitId, dto, locale.getLanguage()));
@@ -75,10 +75,10 @@ public class ShoppingListItemController {
     @GetMapping("/habits/{habitId}/shopping-list")
     @ApiLocale
     public ResponseEntity<List<UserShoppingListItemResponseDto>> getShoppingListItemsAssignedToUser(
-        @Parameter(hidden=true) @CurrentUser UserVO user,
+        @Parameter(hidden = true) @CurrentUser UserVO user,
         @Parameter(description =
                 "Id of the Habit that belongs to current user. Cannot be empty.") @PathVariable Long habitId,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(shoppingListItemService.getUserShoppingList(user.getId(), habitId, locale.getLanguage()));
     }
@@ -99,7 +99,7 @@ public class ShoppingListItemController {
     })
     @DeleteMapping
     public void delete(
-        @Parameter(hidden=true) @CurrentUser UserVO user, Long habitId, Long shoppingListItemId) {
+        @Parameter(hidden = true) @CurrentUser UserVO user, Long habitId, Long shoppingListItemId) {
         shoppingListItemService.deleteUserShoppingListItemByItemIdAndUserIdAndHabitId(shoppingListItemId, user.getId(),
             habitId);
     }
@@ -120,10 +120,10 @@ public class ShoppingListItemController {
     @PatchMapping("/{userShoppingListItemId}")
     @ApiLocale
     public ResponseEntity<UserShoppingListItemResponseDto> updateUserShoppingListItemStatus(
-        @Parameter(hidden=true) @CurrentUser UserVO user,
+        @Parameter(hidden = true) @CurrentUser UserVO user,
         @Parameter(description = "Id of the UserShoppingListItems that belongs to current user."
             + " Cannot be empty.") @PathVariable Long userShoppingListItemId,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(shoppingListItemService.updateUserShopingListItemStatus(user.getId(), userShoppingListItemId,
@@ -148,11 +148,11 @@ public class ShoppingListItemController {
     @PatchMapping("/{userShoppingListItemId}/status/{status}")
     @ApiLocale
     public ResponseEntity<List<UserShoppingListItemResponseDto>> updateUserShoppingListItemStatus(
-        @Parameter(hidden=true) @CurrentUser UserVO user,
+        @Parameter(hidden = true) @CurrentUser UserVO user,
         @Parameter(description = "Id of the userShoppingListItem that belongs to current user."
             + " Cannot be empty.") @PathVariable(value = "userShoppingListItemId") Long userShoppingListItemId,
         @PathVariable(value = "status") String status,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK).body(shoppingListItemService
             .updateUserShoppingListItemStatus(user.getId(), userShoppingListItemId, locale.getLanguage(), status));
     }
@@ -174,10 +174,10 @@ public class ShoppingListItemController {
     })
     @DeleteMapping("/user-shopping-list-items")
     public ResponseEntity<List<Long>> bulkDeleteUserShoppingListItems(
-        @Parameter(description = "Ids of user shopping list items separated by a comma \n e.g. 1,2", required = true) @Pattern(
-            regexp = "^\\d+(,\\d+)++$",
+        @Parameter(description = "Ids of user shopping list items separated by a comma \n e.g. 1,2", required = true)
+        @Pattern(regexp = "^\\d+(,\\d+)++$",
             message = ValidationConstants.BAD_COMMA_SEPARATED_NUMBERS) @RequestParam String ids,
-        @Parameter(hidden=true) @CurrentUser UserVO user) {
+        @Parameter(hidden = true) @CurrentUser UserVO user) {
         return ResponseEntity.status(HttpStatus.OK).body(shoppingListItemService
             .deleteUserShoppingListItems(ids));
     }

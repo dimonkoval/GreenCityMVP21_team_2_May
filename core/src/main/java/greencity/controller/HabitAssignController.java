@@ -54,7 +54,7 @@ public class HabitAssignController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @PostMapping("/{habitId}")
     public ResponseEntity<HabitAssignManagementDto> assignDefault(@PathVariable Long habitId,
-        @Parameter(hidden=true) @CurrentUser UserVO userVO) {
+        @Parameter(hidden = true) @CurrentUser UserVO userVO) {
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(habitAssignService.assignDefaultHabitForUser(habitId, userVO));
     }
@@ -79,7 +79,7 @@ public class HabitAssignController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @PostMapping("/{habitId}/custom")
     public ResponseEntity<List<HabitAssignManagementDto>> assignCustom(@PathVariable Long habitId,
-        @Parameter(hidden=true) @CurrentUser UserVO userVO,
+        @Parameter(hidden = true) @CurrentUser UserVO userVO,
         @Valid @RequestBody HabitAssignCustomPropertiesDto habitAssignCustomPropertiesDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(habitAssignService.assignCustomHabitForUser(habitId, userVO, habitAssignCustomPropertiesDto));
@@ -104,7 +104,7 @@ public class HabitAssignController {
     })
     public ResponseEntity<HabitAssignUserDurationDto> updateHabitAssignDuration(
         @PathVariable Long habitAssignId,
-        @Parameter(hidden=true) @CurrentUser UserVO userVO,
+        @Parameter(hidden = true) @CurrentUser UserVO userVO,
         @RequestParam @Min(AppConstant.MIN_DAYS_DURATION) @Max(AppConstant.MAX_DAYS_DURATION) Integer duration) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitAssignService.updateUserHabitInfoDuration(habitAssignId, userVO.getId(), duration));
@@ -131,7 +131,7 @@ public class HabitAssignController {
     @ApiLocale
     @GetMapping("/{habitAssignId}")
     public ResponseEntity<HabitAssignDto> getHabitAssign(@PathVariable Long habitAssignId,
-        @Parameter(hidden=true) @CurrentUser UserVO userVO, @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @CurrentUser UserVO userVO, @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitAssignService.getByHabitAssignIdAndUserId(habitAssignId, userVO.getId(), locale.getLanguage()));
     }
@@ -154,8 +154,8 @@ public class HabitAssignController {
     @ApiLocale
     @GetMapping("/allForCurrentUser")
     public ResponseEntity<List<HabitAssignDto>> getCurrentUserHabitAssignsByIdAndAcquired(
-        @Parameter(hidden=true) @CurrentUser UserVO userVO,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @CurrentUser UserVO userVO,
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitAssignService
                 .getAllHabitAssignsByUserIdAndStatusNotCancelled(userVO.getId(), locale.getLanguage()));
@@ -181,8 +181,8 @@ public class HabitAssignController {
     @GetMapping("{habitAssignId}/allUserAndCustomList")
     public ResponseEntity<UserShoppingAndCustomShoppingListsDto> getUserShoppingAndCustomShoppingLists(
         @PathVariable Long habitAssignId,
-        @Parameter(hidden=true) @CurrentUser UserVO userVO,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @CurrentUser UserVO userVO,
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitAssignService
                 .getUserShoppingAndCustomShoppingLists(userVO.getId(), habitAssignId, locale.getLanguage()));
@@ -213,8 +213,8 @@ public class HabitAssignController {
     @PutMapping("{habitAssignId}/allUserAndCustomList")
     public ResponseEntity<ResponseEntity.BodyBuilder> updateUserAndCustomShoppingLists(
         @PathVariable Long habitAssignId,
-        @Parameter(hidden=true) @CurrentUser UserVO userVO,
-        @Parameter(hidden=true) @ValidLanguage Locale locale,
+        @Parameter(hidden = true) @CurrentUser UserVO userVO,
+        @Parameter(hidden = true) @ValidLanguage Locale locale,
         @Valid @RequestBody UserShoppingAndCustomShoppingListsDto listsDto) {
         habitAssignService.fullUpdateUserAndCustomShoppingLists(userVO.getId(), habitAssignId, listsDto,
             locale.getLanguage());
@@ -241,7 +241,7 @@ public class HabitAssignController {
     @ApiLocale
     @GetMapping("/allUserAndCustomShoppingListsInprogress")
     public ResponseEntity<List<UserShoppingAndCustomShoppingListsDto>> getListOfUserAndCustomShoppingListsInprogress(
-        @Parameter(hidden=true) @CurrentUser UserVO userVO, @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @CurrentUser UserVO userVO, @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitAssignService
                 .getListOfUserAndCustomShoppingListsWithStatusInprogress(userVO.getId(), locale.getLanguage()));
@@ -265,7 +265,7 @@ public class HabitAssignController {
     @ApiLocale
     @GetMapping("/{habitId}/all")
     public ResponseEntity<List<HabitAssignDto>> getAllHabitAssignsByHabitIdAndAcquired(@PathVariable Long habitId,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitAssignService.getAllHabitAssignsByHabitIdAndStatusNotCancelled(habitId,
                 locale.getLanguage()));
@@ -290,9 +290,9 @@ public class HabitAssignController {
     @ApiLocale
     @GetMapping("/{habitId}/active")
     public ResponseEntity<HabitAssignDto> getHabitAssignByHabitId(
-        @Parameter(hidden=true) @CurrentUser UserVO userVO,
+        @Parameter(hidden = true) @CurrentUser UserVO userVO,
         @PathVariable Long habitId,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitAssignService
                 .findHabitAssignByUserIdAndHabitId(userVO.getId(), habitId, locale.getLanguage()));
@@ -318,9 +318,9 @@ public class HabitAssignController {
     @ApiLocale
     @GetMapping("/{habitAssignId}/more")
     public ResponseEntity<HabitDto> getUsersHabitByHabitAssignId(
-        @Parameter(hidden=true) @CurrentUser UserVO userVO,
+        @Parameter(hidden = true) @CurrentUser UserVO userVO,
         @PathVariable Long habitAssignId,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitAssignService
                 .findHabitByUserIdAndHabitAssignId(userVO.getId(), habitAssignId, locale.getLanguage()));
@@ -370,9 +370,9 @@ public class HabitAssignController {
     @ApiLocale
     @PostMapping("/{habitAssignId}/enroll/{date}")
     public ResponseEntity<HabitAssignDto> enrollHabit(@PathVariable Long habitAssignId,
-        @Parameter(hidden=true) @CurrentUser UserVO userVO,
+        @Parameter(hidden = true) @CurrentUser UserVO userVO,
         @PathVariable(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitAssignService.enrollHabit(habitAssignId, userVO.getId(), date, locale.getLanguage()));
     }
@@ -396,7 +396,7 @@ public class HabitAssignController {
     })
     @PostMapping("/{habitAssignId}/unenroll/{date}")
     public ResponseEntity<HabitAssignDto> unenrollHabit(@PathVariable Long habitAssignId,
-        @Parameter(hidden=true) @CurrentUser UserVO userVO,
+        @Parameter(hidden = true) @CurrentUser UserVO userVO,
         @PathVariable(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitAssignService.unenrollHabit(habitAssignId, userVO.getId(), date));
@@ -421,9 +421,9 @@ public class HabitAssignController {
     @ApiLocale
     @GetMapping("/active/{date}")
     public ResponseEntity<List<HabitAssignDto>> getInprogressHabitAssignOnDate(
-        @Parameter(hidden=true) @CurrentUser UserVO userVO,
+        @Parameter(hidden = true) @CurrentUser UserVO userVO,
         @PathVariable(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitAssignService
                 .findInprogressHabitAssignsOnDate(userVO.getId(), date, locale.getLanguage()));
@@ -449,10 +449,10 @@ public class HabitAssignController {
     @ApiLocale
     @GetMapping("/activity/{from}/to/{to}")
     public ResponseEntity<List<HabitsDateEnrollmentDto>> getHabitAssignBetweenDates(
-        @Parameter(hidden=true) @CurrentUser UserVO userVO,
+        @Parameter(hidden = true) @CurrentUser UserVO userVO,
         @PathVariable(value = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
         @PathVariable(value = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitAssignService
                 .findHabitAssignsBetweenDates(userVO.getId(), from, to, locale.getLanguage()));
@@ -475,7 +475,7 @@ public class HabitAssignController {
     })
     @PatchMapping("/cancel/{habitId}")
     public ResponseEntity<HabitAssignDto> cancelHabitAssign(@PathVariable Long habitId,
-        @Parameter(hidden=true) @CurrentUser UserVO userVO) {
+        @Parameter(hidden = true) @CurrentUser UserVO userVO) {
         return ResponseEntity.status(HttpStatus.OK).body(habitAssignService.cancelHabitAssign(habitId, userVO.getId()));
     }
 
@@ -495,7 +495,7 @@ public class HabitAssignController {
     })
     @DeleteMapping("/delete/{habitAssignId}")
     public ResponseEntity<ResponseEntity.BodyBuilder> deleteHabitAssign(@PathVariable Long habitAssignId,
-        @Parameter(hidden=true) @CurrentUser UserVO userVO) {
+        @Parameter(hidden = true) @CurrentUser UserVO userVO) {
         habitAssignService.deleteHabitAssign(habitAssignId, userVO.getId());
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -536,7 +536,7 @@ public class HabitAssignController {
     @PutMapping("{habitAssignId}/updateProgressNotificationHasDisplayed")
     public ResponseEntity<ResponseEntity.BodyBuilder> updateProgressNotificationHasDisplayed(
         @PathVariable Long habitAssignId,
-        @Parameter(hidden=true) @CurrentUser UserVO userVO) {
+        @Parameter(hidden = true) @CurrentUser UserVO userVO) {
         habitAssignService.updateProgressNotificationHasDisplayed(habitAssignId, userVO.getId());
         return ResponseEntity.status(HttpStatus.OK).build();
     }

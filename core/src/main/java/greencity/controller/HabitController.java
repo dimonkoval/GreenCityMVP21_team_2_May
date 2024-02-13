@@ -59,7 +59,7 @@ public class HabitController {
     @GetMapping("/{id}")
     @ApiLocale
     public ResponseEntity<HabitDto> getHabitById(@PathVariable Long id,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitService.getByIdAndLanguageCode(id, locale.getLanguage()));
     }
@@ -80,9 +80,9 @@ public class HabitController {
     @GetMapping("")
     @ApiPageableWithLocale
     public ResponseEntity<PageableDto<HabitDto>> getAll(
-        @Parameter(hidden=true) @CurrentUser UserVO userVO,
-        @Parameter(hidden=true) @ValidLanguage Locale locale,
-        @Parameter(hidden=true) Pageable pageable) {
+        @Parameter(hidden = true) @CurrentUser UserVO userVO,
+        @Parameter(hidden = true) @ValidLanguage Locale locale,
+        @Parameter(hidden = true) Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(
             habitService.getAllHabitsByLanguageCode(userVO, pageable, locale.getLanguage()));
     }
@@ -103,7 +103,7 @@ public class HabitController {
     @ApiLocale
     public ResponseEntity<List<ShoppingListItemDto>> getShoppingListItems(
         @PathVariable Long id,
-        @Parameter(hidden=true) @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK).body(
             habitService.getShoppingListForHabit(id, locale.getLanguage()));
     }
@@ -124,9 +124,9 @@ public class HabitController {
     @GetMapping("/tags/search")
     @ApiPageableWithLocale
     public ResponseEntity<PageableDto<HabitDto>> getAllByTagsAndLanguageCode(
-        @Parameter(hidden=true) @ValidLanguage Locale locale,
+        @Parameter(hidden = true) @ValidLanguage Locale locale,
         @RequestParam List<String> tags,
-        @Parameter(hidden=true) Pageable pageable) {
+        @Parameter(hidden = true) Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(
             habitService.getAllByTagsAndLanguageCode(pageable, tags, locale.getLanguage()));
     }
@@ -151,12 +151,12 @@ public class HabitController {
     @GetMapping("/search")
     @ApiPageableWithLocale
     public ResponseEntity<PageableDto<HabitDto>> getAllByDifferentParameters(
-        @Parameter(hidden=true) @CurrentUser UserVO userVO,
-        @Parameter(hidden=true) @ValidLanguage Locale locale,
+        @Parameter(hidden = true) @CurrentUser UserVO userVO,
+        @Parameter(hidden = true) @ValidLanguage Locale locale,
         @RequestParam(required = false, name = "tags") Optional<List<String>> tags,
         @RequestParam(required = false, name = "isCustomHabit") Optional<Boolean> isCustomHabit,
         @RequestParam(required = false, name = "complexities") Optional<List<Integer>> complexities,
-        @Parameter(hidden=true) Pageable pageable) throws BadRequestException {
+        @Parameter(hidden = true) Pageable pageable) throws BadRequestException {
         if (isValid(tags, isCustomHabit, complexities)) {
             return ResponseEntity.status(HttpStatus.OK).body(
                 habitService.getAllByDifferentParameters(userVO, pageable, tags,
@@ -195,7 +195,7 @@ public class HabitController {
     })
     @GetMapping("/tags")
     @ApiLocale
-    public ResponseEntity<List<String>> findAllHabitsTags(@Parameter(hidden=true) @ValidLanguage Locale locale) {
+    public ResponseEntity<List<String>> findAllHabitsTags(@Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK).body(tagsService.findAllHabitsTags(locale.getLanguage()));
     }
 
@@ -221,7 +221,7 @@ public class HabitController {
     public ResponseEntity<AddCustomHabitDtoResponse> addCustomHabit(
         @RequestPart @Valid AddCustomHabitDtoRequest request,
         @Parameter(description = "Image of habit") @ImageValidation @RequestPart(required = false) MultipartFile image,
-        @Parameter(hidden=true) Principal principal) {
+        @Parameter(hidden = true) Principal principal) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(habitService.addCustomHabit(request, image, principal.getName()));
@@ -247,7 +247,7 @@ public class HabitController {
     @GetMapping("/{habitId}/friends/profile-pictures")
     public ResponseEntity<List<UserProfilePictureDto>> getFriendsAssignedToHabitProfilePictures(
         @PathVariable Long habitId,
-        @Parameter(hidden=true) @CurrentUser UserVO userVO) {
+        @Parameter(hidden = true) @CurrentUser UserVO userVO) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitService.getFriendsAssignedToHabitProfilePictures(habitId, userVO.getId()));
     }
