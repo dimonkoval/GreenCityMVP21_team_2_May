@@ -212,7 +212,7 @@ public class CustomShoppingListItemServiceImpl implements CustomShoppingListItem
         List<Long> arrayIds = Arrays
             .stream(ids.split(","))
             .map(Long::valueOf)
-            .collect(Collectors.toList());
+            .toList();
 
         List<Long> deleted = new ArrayList<>();
         for (Long id : arrayIds) {
