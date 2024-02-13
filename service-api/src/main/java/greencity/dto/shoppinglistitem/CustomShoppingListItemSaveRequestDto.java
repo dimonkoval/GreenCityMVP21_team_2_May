@@ -2,7 +2,6 @@ package greencity.dto.shoppinglistitem;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
 import jakarta.validation.constraints.NotBlank;
 
 @AllArgsConstructor

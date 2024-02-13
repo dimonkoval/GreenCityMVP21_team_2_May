@@ -2,7 +2,6 @@ package greencity.exception.handler;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Value;
-
 import java.util.Map;
 
 @Value

@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,10 +23,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.Arrays;
 import java.util.Collections;
-
 import static greencity.constant.AppConstant.*;
 import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
@@ -89,9 +86,13 @@ public class SecurityConfig {
                         UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint((req, resp, exc) -> resp
                                 .sendError(SC_UNAUTHORIZED, "Authorize first."))
-                        .accessDeniedHandler((req, resp, exc) -> resp.sendError(SC_FORBIDDEN, "You don't have authorities.")))
+                        .accessDeniedHandler((req, resp, exc) ->
+                                resp.sendError(SC_FORBIDDEN, "You don't have authorities.")))
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/", "/management/", "/management/login").permitAll()
+                        .requestMatchers("/v2/api-docs/**", "/v3/api-docs/**", "/swagger.json",
+                                "/swagger-ui.html").permitAll()
+                        .requestMatchers("/swagger-resources/**", "/webjars/**", "/swagger-ui/**").permitAll()
                         .requestMatchers("/management/**",
                                 "/econews/comments/replies/{parentCommentId}")
                         .hasAnyRole(ADMIN)
@@ -278,24 +279,6 @@ public class SecurityConfig {
                         .deleteCookies("accessToken")
                         .logoutSuccessUrl("/"));
         return http.build();
-    }
-
-    /**
-     * Method for configure matchers that will be ignored in security.
-     *
-     * @return {@link WebSecurityCustomizer}
-     */
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> {
-            web.ignoring().requestMatchers("/v2/api-docs/**");
-            web.ignoring().requestMatchers("/v3/api-docs/**");
-            web.ignoring().requestMatchers("/swagger.json");
-            web.ignoring().requestMatchers("/swagger-ui.html");
-            web.ignoring().requestMatchers("/swagger-resources/**");
-            web.ignoring().requestMatchers("/webjars/**");
-            web.ignoring().requestMatchers("/swagger-ui/**");
-        };
     }
 
     /**

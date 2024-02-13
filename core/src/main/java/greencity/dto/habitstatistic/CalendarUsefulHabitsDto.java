@@ -1,7 +1,6 @@
 package greencity.dto.habitstatistic;
 
 import lombok.*;
-
 import java.time.ZonedDateTime;
 import java.util.List;
 

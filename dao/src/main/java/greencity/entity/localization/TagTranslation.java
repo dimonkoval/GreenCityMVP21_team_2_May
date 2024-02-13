@@ -3,7 +3,6 @@ package greencity.entity.localization;
 import greencity.entity.Language;
 import greencity.entity.Tag;
 import lombok.*;
-
 import jakarta.persistence.*;
 
 @Entity

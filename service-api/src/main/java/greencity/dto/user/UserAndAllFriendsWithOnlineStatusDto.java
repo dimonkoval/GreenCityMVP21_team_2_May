@@ -2,7 +2,6 @@ package greencity.dto.user;
 
 import greencity.dto.PageableDto;
 import lombok.*;
-
 import jakarta.validation.constraints.NotNull;
 
 @AllArgsConstructor

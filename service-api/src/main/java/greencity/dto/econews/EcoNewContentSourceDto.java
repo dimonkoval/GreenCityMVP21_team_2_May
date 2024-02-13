@@ -1,7 +1,6 @@
 package greencity.dto.econews;
 
 import lombok.*;
-
 import jakarta.validation.constraints.NotEmpty;
 
 @NoArgsConstructor

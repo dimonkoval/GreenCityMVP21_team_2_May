@@ -3,7 +3,6 @@ package greencity.dto.shoppinglistitem;
 import greencity.enums.ShoppingListItemStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
 import jakarta.validation.constraints.NotNull;
 
 @NoArgsConstructor

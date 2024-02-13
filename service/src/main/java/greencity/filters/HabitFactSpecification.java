@@ -1,10 +1,8 @@
 package greencity.filters;
 
 import greencity.entity.*;
-
 import jakarta.persistence.criteria.*;
 import java.util.List;
-
 import static greencity.entity.HabitFactTranslation_.content;
 
 public class HabitFactSpecification implements MySpecification<HabitFact> {

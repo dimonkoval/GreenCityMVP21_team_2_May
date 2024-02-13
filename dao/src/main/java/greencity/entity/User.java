@@ -6,11 +6,9 @@ import greencity.enums.EmailNotification;
 import greencity.enums.Role;
 import greencity.enums.UserStatus;
 import lombok.*;
-
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.type.descriptor.jdbc.IntegerJdbcType;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

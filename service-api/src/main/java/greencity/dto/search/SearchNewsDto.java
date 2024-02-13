@@ -2,7 +2,6 @@ package greencity.dto.search;
 
 import greencity.dto.user.EcoNewsAuthorDto;
 import lombok.*;
-
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import java.time.ZonedDateTime;

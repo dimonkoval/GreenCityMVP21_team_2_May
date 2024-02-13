@@ -3,7 +3,6 @@ package greencity.dto.habit;
 import greencity.constant.AppConstant;
 import greencity.enums.HabitAssignStatus;
 import lombok.*;
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;

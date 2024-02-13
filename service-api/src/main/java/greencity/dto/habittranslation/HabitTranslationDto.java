@@ -1,7 +1,6 @@
 package greencity.dto.habittranslation;
 
 import lombok.*;
-
 import java.io.Serializable;
 
 @NoArgsConstructor

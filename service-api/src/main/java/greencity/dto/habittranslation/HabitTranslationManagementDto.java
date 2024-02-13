@@ -1,7 +1,6 @@
 package greencity.dto.habittranslation;
 
 import lombok.*;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;

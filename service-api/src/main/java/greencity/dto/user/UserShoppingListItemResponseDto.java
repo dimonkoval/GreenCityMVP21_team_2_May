@@ -2,7 +2,6 @@ package greencity.dto.user;
 
 import greencity.enums.ShoppingListItemStatus;
 import lombok.*;
-
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

@@ -24,7 +24,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import java.time.format.DateTimeParseException;
@@ -544,7 +543,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
      * @param request the current request
      * @return a {@code ResponseEntity} message
      */
-//    @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(
         HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(getErrorAttributes(request));
@@ -597,12 +595,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
     }
 
-//    @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
-        MethodArgumentNotValidException ex,
-        HttpHeaders headers,
-        HttpStatus status,
-        WebRequest request) {
+        MethodArgumentNotValidException ex) {
         List<ValidationExceptionDto> collect =
             ex.getBindingResult().getFieldErrors().stream()
                 .map(ValidationExceptionDto::new)

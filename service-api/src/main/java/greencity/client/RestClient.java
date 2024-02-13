@@ -19,14 +19,12 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import static greencity.constant.AppConstant.AUTHORIZATION;
 
 @RequiredArgsConstructor

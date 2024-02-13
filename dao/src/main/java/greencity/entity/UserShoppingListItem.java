@@ -3,7 +3,6 @@ package greencity.entity;
 import greencity.enums.ShoppingListItemStatus;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;

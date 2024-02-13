@@ -11,7 +11,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
 import java.lang.annotation.Annotation;
 import java.util.Optional;
 

@@ -2,7 +2,6 @@ package greencity.dto.user;
 
 import greencity.enums.ShoppingListItemStatus;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @NoArgsConstructor

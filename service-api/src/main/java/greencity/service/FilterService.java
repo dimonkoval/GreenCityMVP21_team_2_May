@@ -2,7 +2,6 @@ package greencity.service;
 
 import greencity.dto.user.UserFilterDtoRequest;
 import greencity.dto.user.UserFilterDtoResponse;
-
 import java.util.List;
 
 public interface FilterService {

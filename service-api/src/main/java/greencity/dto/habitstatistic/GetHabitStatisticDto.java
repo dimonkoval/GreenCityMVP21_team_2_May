@@ -1,7 +1,6 @@
 package greencity.dto.habitstatistic;
 
 import lombok.*;
-
 import java.util.List;
 
 @NoArgsConstructor

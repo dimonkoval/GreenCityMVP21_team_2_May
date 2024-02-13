@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.type.descriptor.jdbc.IntegerJdbcType;

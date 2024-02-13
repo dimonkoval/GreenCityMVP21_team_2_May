@@ -2,7 +2,6 @@ package greencity.dto.habit;
 
 import greencity.constant.ServiceValidationConstants;
 import lombok.*;
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 

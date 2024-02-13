@@ -8,7 +8,6 @@ import greencity.dto.ratingstatistics.RatingStatisticsVO;
 import greencity.dto.ratingstatistics.RatingStatisticsViewDto;
 import greencity.filters.SearchCriteria;
 import org.springframework.data.domain.Pageable;
-
 import java.util.List;
 
 /**

@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import java.io.Serializable;

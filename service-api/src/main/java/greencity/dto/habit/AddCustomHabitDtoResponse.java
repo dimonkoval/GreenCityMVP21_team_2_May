@@ -4,7 +4,6 @@ import greencity.constant.ServiceValidationConstants;
 import greencity.dto.habittranslation.HabitTranslationDto;
 import greencity.dto.shoppinglistitem.CustomShoppingListItemResponseDto;
 import lombok.*;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

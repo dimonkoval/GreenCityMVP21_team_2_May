@@ -3,7 +3,6 @@ package greencity.security.dto.ownsecurity;
 import greencity.constant.ServiceValidationConstants;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

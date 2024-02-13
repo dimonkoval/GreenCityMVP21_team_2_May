@@ -25,7 +25,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -110,11 +109,12 @@ public class UserServiceImpl implements UserService {
     /**
      * Update {@code ROLE} of user.
      *
-     * @deprecated updates like this on User entity should be handled in
-     *             GreenCityUser via RestClient.
      * @param id   {@link UserVO} id.
      * @param role {@link Role} for user.
+     * @param email Email of the user.
      * @return {@link UserRoleDto}
+     * @deprecated updates like this on User entity should be handled in
+     *             GreenCityUser via RestClient.
      */
     @Deprecated
     @Override

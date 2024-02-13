@@ -8,7 +8,6 @@ import greencity.dto.user.UserVO;
 import greencity.enums.Role;
 import greencity.enums.UserStatus;
 import org.springframework.data.domain.Pageable;
-
 import java.util.Date;
 import java.util.Optional;
 
@@ -68,10 +67,9 @@ public interface UserService {
     /**
      * Update {@code ROLE} of user.
      *
-     * @deprecated updates like this on User entity should be handled in
-     *             GreenCityUser via RestClient.
-     * @param id   {@link UserVO} id.
-     * @param role {@link Role} for user.
+     * @param id    {@link UserVO} id.
+     * @param role  {@link Role} for user.
+     * @param email Email of the user.
      * @return {@link UserRoleDto}
      */
     @Deprecated

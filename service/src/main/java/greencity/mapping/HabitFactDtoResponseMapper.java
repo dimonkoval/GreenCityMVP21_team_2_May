@@ -5,7 +5,6 @@ import greencity.dto.habitfact.HabitFactTranslationDto;
 import greencity.dto.habitfact.HabitFactVO;
 import greencity.dto.language.LanguageDTO;
 import org.modelmapper.AbstractConverter;
-
 import java.util.stream.Collectors;
 
 public class HabitFactDtoResponseMapper extends AbstractConverter<HabitFactVO, HabitFactDtoResponse> {

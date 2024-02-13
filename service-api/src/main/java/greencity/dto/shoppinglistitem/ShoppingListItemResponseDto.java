@@ -1,7 +1,6 @@
 package greencity.dto.shoppinglistitem;
 
 import lombok.*;
-
 import java.util.List;
 
 @EqualsAndHashCode

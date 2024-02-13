@@ -2,7 +2,6 @@ package greencity.exception.handler;
 
 import lombok.Data;
 import org.springframework.validation.FieldError;
-
 import java.io.Serializable;
 
 /**

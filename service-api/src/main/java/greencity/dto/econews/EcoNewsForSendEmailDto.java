@@ -2,7 +2,6 @@ package greencity.dto.econews;
 
 import greencity.dto.user.PlaceAuthorDto;
 import lombok.*;
-
 import java.time.ZonedDateTime;
 
 @AllArgsConstructor

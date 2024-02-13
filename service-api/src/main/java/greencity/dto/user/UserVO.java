@@ -10,7 +10,6 @@ import greencity.enums.EmailNotification;
 import greencity.enums.Role;
 import greencity.enums.UserStatus;
 import lombok.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

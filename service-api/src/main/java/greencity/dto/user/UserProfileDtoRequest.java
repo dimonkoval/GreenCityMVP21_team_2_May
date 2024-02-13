@@ -2,7 +2,6 @@ package greencity.dto.user;
 
 import greencity.annotations.ValidSocialNetworkLinks;
 import lombok.*;
-
 import java.util.List;
 
 @AllArgsConstructor

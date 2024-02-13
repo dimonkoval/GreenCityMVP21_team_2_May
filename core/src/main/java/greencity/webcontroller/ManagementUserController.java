@@ -21,13 +21,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 import java.util.Map;
-
 import static greencity.dto.genericresponse.GenericResponseDto.buildGenericResponseDto;
 
 @Validated

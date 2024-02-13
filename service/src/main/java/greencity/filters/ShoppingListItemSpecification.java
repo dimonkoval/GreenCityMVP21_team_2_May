@@ -4,13 +4,11 @@ import greencity.entity.ShoppingListItem;
 import greencity.entity.ShoppingListItem_;
 import greencity.entity.localization.ShoppingListItemTranslation;
 import greencity.entity.localization.ShoppingListItemTranslation_;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import java.util.List;
-
 import static greencity.entity.Translation_.content;
 
 public class ShoppingListItemSpecification implements MySpecification<ShoppingListItem> {

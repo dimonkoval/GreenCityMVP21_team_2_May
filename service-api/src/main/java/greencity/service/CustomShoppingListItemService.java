@@ -4,7 +4,6 @@ import greencity.dto.shoppinglistitem.BulkSaveCustomShoppingListItemDto;
 import greencity.dto.shoppinglistitem.CustomShoppingListItemResponseDto;
 import greencity.dto.shoppinglistitem.CustomShoppingListItemVO;
 import greencity.dto.user.UserVO;
-
 import java.util.List;
 
 /**

@@ -3,11 +3,9 @@ package greencity.dto.filter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
-
 import static greencity.constant.ServiceValidationConstants.*;
 
 @Data

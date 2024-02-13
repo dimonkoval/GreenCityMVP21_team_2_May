@@ -1,7 +1,6 @@
 package greencity.dto.shoppinglistitem;
 
 import lombok.*;
-
 import jakarta.validation.Valid;
 import java.util.List;
 
