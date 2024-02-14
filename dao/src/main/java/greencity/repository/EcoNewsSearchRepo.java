@@ -52,7 +52,6 @@ public class EcoNewsSearchRepo {
         return new PageImpl<>(resultList, pageable, total);
     }
 
-
     private long getEcoNewsCount(CriteriaBuilder criteriaBuilder, String searchingText, String languageCode) {
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
         Root<EcoNews> countRoot = countQuery.from(EcoNews.class);
@@ -63,8 +62,6 @@ public class EcoNewsSearchRepo {
         return entityManager.createQuery(countQuery).getSingleResult();
     }
 
-
-
     private List<Predicate> formEcoNewsLikePredicate(CriteriaBuilder criteriaBuilder, String searchingText,
                                                      Root<EcoNews> root) {
         Expression<String> title = root.get("title").as(String.class);
@@ -74,13 +71,14 @@ public class EcoNewsSearchRepo {
         List<Predicate> predicateList = new ArrayList<>();
         Arrays.stream(searchingText.split(" ")).forEach(partOfSearchingText -> predicateList.add(
                 criteriaBuilder.or(
-                        criteriaBuilder.like(criteriaBuilder.lower(title), "%" + partOfSearchingText.toLowerCase() + "%"),
-                        criteriaBuilder.like(criteriaBuilder.lower(text), "%" + partOfSearchingText.toLowerCase() + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(title), "%"
+                                + partOfSearchingText.toLowerCase() + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(text), "%"
+                                + partOfSearchingText.toLowerCase() + "%"),
                         criteriaBuilder.like(criteriaBuilder.lower(shortInfo),
                                 "%" + partOfSearchingText.toLowerCase() + "%"))));
         return predicateList;
     }
-
 
     private Predicate formTagTranslationsPredicate(CriteriaBuilder criteriaBuilder, String searchingText,
                                                    String languageCode, Root<EcoNews> root) {
@@ -102,8 +100,6 @@ public class EcoNewsSearchRepo {
         return criteriaBuilder.in(root.get("id")).value(tagSubquery);
     }
 
-
-
     private Predicate predicateForTags(CriteriaBuilder criteriaBuilder, String searchingText, String languageCode,
                                        Join<TagTranslation, Tag> tagTranslationTagJoin) {
         List<Predicate> predicateList = new ArrayList<>();
@@ -115,13 +111,10 @@ public class EcoNewsSearchRepo {
         return criteriaBuilder.or(predicateList.toArray(new Predicate[0]));
     }
 
-
     private Predicate getPredicate(CriteriaBuilder criteriaBuilder, String searchingText,
                                    String languageCode, Root<EcoNews> root) {
         List<Predicate> predicateList = formEcoNewsLikePredicate(criteriaBuilder, searchingText, root);
         predicateList.add(formTagTranslationsPredicate(criteriaBuilder, searchingText, languageCode, root));
         return criteriaBuilder.or(predicateList.toArray(new Predicate[0]));
     }
-
-
 }

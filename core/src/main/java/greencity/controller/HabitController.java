@@ -216,11 +216,10 @@ public class HabitController {
         @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED),
         @ApiResponse(responseCode = "404", description = HttpStatuses.NOT_FOUND),
     })
-    @PostMapping(value = "/custom",
-        consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(path = "/custom", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<AddCustomHabitDtoResponse> addCustomHabit(
         @RequestPart @Valid AddCustomHabitDtoRequest request,
-        @Parameter(description = "Image of habit") @ImageValidation @RequestPart(required = false) MultipartFile image,
+        @Parameter(description = "Image of habit") @ImageValidation MultipartFile image,
         @Parameter(hidden = true) Principal principal) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
