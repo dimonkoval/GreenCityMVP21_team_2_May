@@ -246,8 +246,12 @@ public class EcoNewsCommentServiceImpl implements EcoNewsCommentService {
      */
     @Override
     public int countOfComments(Long ecoNewsId) {
-        return ecoNewsCommentRepo.countEcoNewsCommentByEcoNews(ecoNewsRepo.findById(ecoNewsId)
-            .orElseThrow(() -> new NotFoundException(ErrorMessage.ECO_NEWS_NOT_FOUND_BY_ID + ecoNewsId)));
+        // Retrieve the EcoNews object by its ID
+        EcoNews ecoNews = ecoNewsRepo.findById(ecoNewsId)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.ECO_NEWS_NOT_FOUND_BY_ID + ecoNewsId));
+
+        // Pass the ID of the EcoNews object to the repository method
+        return ecoNewsCommentRepo.countEcoNewsCommentByEcoNews(ecoNews.getId());
     }
 
     /**
