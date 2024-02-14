@@ -2,9 +2,9 @@ package greencity.webcontroller;
 
 import greencity.constant.HttpStatuses;
 import greencity.security.service.TokenService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,10 +25,10 @@ public class TokenController {
      * @param response    {@link HttpServletResponse}
      * @return html view of management page.
      */
-    @ApiOperation(value = "Pass token to cookies")
+    @Operation(summary = "Pass token to cookies")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = HttpStatuses.OK),
-        @ApiResponse(code = 400, message = HttpStatuses.BAD_REQUEST)
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+        @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST)
     })
     @GetMapping
     public String passTokenToCookies(@RequestParam String accessToken, HttpServletResponse response) {
