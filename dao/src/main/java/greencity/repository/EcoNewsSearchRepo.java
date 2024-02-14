@@ -73,8 +73,8 @@ public class EcoNewsSearchRepo {
     }
 
     private Predicate formTagTranslationsPredicate(CriteriaQuery<EcoNews> criteriaQuery, String searchingText,
-        String languageCode, Root<EcoNews> root) {
-        Subquery<Tag> tagSubquery = criteriaQuery.subquery(Tag.class);
+                                                   String languageCode, Root<EcoNews> root) {
+        Subquery<Long> tagSubquery = criteriaQuery.subquery(Long.class); // Change the type to Long for IDs
         Root<Tag> tagRoot = tagSubquery.from(Tag.class);
         Join<EcoNews, Tag> ecoNewsTagJoin = tagRoot.join("ecoNews");
 
@@ -85,10 +85,11 @@ public class EcoNewsSearchRepo {
 
         Predicate predicate = predicateForTags(searchingText, languageCode, tagTranslationTagJoin);
         tagTranslationSubquery.select(tagTranslationTagJoin.get("name"))
-            .where(predicate);
+                .where(predicate);
 
-        tagSubquery.select(ecoNewsTagJoin).where(criteriaBuilder.exists(tagTranslationSubquery));
-        return criteriaBuilder.in(root.get("id")).value(tagSubquery);
+        tagSubquery.select(ecoNewsTagJoin.get("id")) // Select the IDs of EcoNews entities
+                .where(criteriaBuilder.exists(tagTranslationSubquery));
+        return root.get("id").in(tagSubquery); // Filter EcoNews entities by IDs from the subquery
     }
 
     private Predicate predicateForTags(String searchingText, String languageCode,
