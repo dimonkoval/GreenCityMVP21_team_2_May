@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.annotations.ApiIgnore;
 import java.util.Locale;
 
 @RestController
@@ -64,7 +63,7 @@ public class SearchController {
     @GetMapping("/econews")
     @ApiPageableWithLocale
     public ResponseEntity<PageableDto<SearchNewsDto>> searchEcoNews(
-        @ApiIgnore Pageable pageable,
+        @Parameter(hidden = true) Pageable pageable,
         @Parameter(description = "Query to search") @RequestParam String searchQuery,
         @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
