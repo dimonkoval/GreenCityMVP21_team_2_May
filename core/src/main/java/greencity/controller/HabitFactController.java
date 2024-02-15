@@ -10,6 +10,7 @@ import greencity.dto.habitfact.*;
 import greencity.dto.language.LanguageTranslationDTO;
 import greencity.service.HabitFactService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 import jakarta.validation.Valid;
 import java.util.Locale;
 
@@ -49,7 +49,7 @@ public class HabitFactController {
     @ApiLocale
     public LanguageTranslationDTO getRandomFactByHabitId(
         @PathVariable Long habitId,
-        @ApiIgnore @ValidLanguage Locale locale) {
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return habitFactService.getRandomHabitFactByHabitIdAndLanguage(habitId, locale.getLanguage());
     }
 
@@ -88,8 +88,8 @@ public class HabitFactController {
     })
     @GetMapping
     @ApiPageableWithLocale
-    public ResponseEntity<PageableDto<LanguageTranslationDTO>> getAll(@ApiIgnore Pageable page,
-        @ApiIgnore @ValidLanguage Locale locale) {
+    public ResponseEntity<PageableDto<LanguageTranslationDTO>> getAll(@Parameter(hidden = true) Pageable page,
+        @Parameter(hidden = true) @ValidLanguage Locale locale) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(habitFactService.getAllHabitFacts(page, locale.getLanguage()));
     }
