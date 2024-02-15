@@ -604,9 +604,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         log.trace(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(collect);
     }
-
     private Map<String, Object> getErrorAttributes(WebRequest webRequest) {
         return new HashMap<>(errorAttributes.getErrorAttributes(webRequest,
-                ErrorAttributeOptions.of(ErrorAttributeOptions.Include.STACK_TRACE)));
+                ErrorAttributeOptions.of(ErrorAttributeOptions.Include.MESSAGE)));
     }
 }
