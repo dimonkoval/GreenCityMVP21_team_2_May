@@ -86,7 +86,6 @@ public class SecurityConfig {
     public SecurityFilterChain applicationSecurity(HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .headers(header -> header.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "*")))
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .addFilterBefore(
                         new AccessTokenAuthenticationFilter(jwtTool, authenticationManager(), userService),
@@ -316,7 +315,7 @@ public class SecurityConfig {
             registry.addMapping("/**")
                     .allowedOrigins("*")
                     .allowedMethods("GET","POST", "PUT", "DELETE", "OPTIONS", "HEAD")
-                    .allowedHeaders("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization");
+                    .allowedHeaders("Access-Control-Allow-Headers", "X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization");
         }
 
     }
