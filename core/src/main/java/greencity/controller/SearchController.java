@@ -23,7 +23,6 @@ import java.util.Locale;
 @RestController
 @RequestMapping("/search")
 @AllArgsConstructor
-@CrossOrigin
 public class SearchController {
     private final SearchService searchService;
 

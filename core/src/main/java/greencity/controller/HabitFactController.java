@@ -25,7 +25,6 @@ import java.util.Locale;
 @RestController
 @RequestMapping("/facts")
 @AllArgsConstructor
-@CrossOrigin
 public class HabitFactController {
     private final HabitFactService habitFactService;
     private final ModelMapper mapper;

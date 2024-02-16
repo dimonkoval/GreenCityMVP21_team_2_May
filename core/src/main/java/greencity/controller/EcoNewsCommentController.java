@@ -30,7 +30,6 @@ import jakarta.validation.constraints.NotBlank;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/econews/comments")
-@CrossOrigin
 public class EcoNewsCommentController {
     private final EcoNewsCommentService ecoNewsCommentService;
 

@@ -29,7 +29,6 @@ import java.util.Locale;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/habit/statistic")
-@CrossOrigin
 public class HabitStatisticController {
     private final HabitStatisticService habitStatisticService;
 

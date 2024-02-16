@@ -33,7 +33,6 @@ import java.util.Locale;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/habit/assign")
-@CrossOrigin
 public class HabitAssignController {
     private final HabitAssignService habitAssignService;
 

@@ -38,7 +38,6 @@ import java.util.Optional;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/habit")
-@CrossOrigin
 public class HabitController {
     private final HabitService habitService;
     private final TagsService tagsService;

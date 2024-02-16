@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/files")
-@CrossOrigin
 public class FileServiceController {
     private final FileService fileService;
 

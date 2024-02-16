@@ -22,7 +22,6 @@ import java.util.Locale;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/tags")
-@CrossOrigin
 public class TagsController {
     private final TagsService tagsService;
 

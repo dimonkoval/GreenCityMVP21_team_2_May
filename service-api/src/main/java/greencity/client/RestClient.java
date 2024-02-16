@@ -30,7 +30,6 @@ import static greencity.constant.AppConstant.AUTHORIZATION;
 
 @RequiredArgsConstructor
 @Component
-@CrossOrigin
 public class RestClient {
     private final RestTemplate restTemplate;
     @Setter

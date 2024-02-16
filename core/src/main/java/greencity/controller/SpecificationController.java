@@ -18,7 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/specification")
 @AllArgsConstructor
-@CrossOrigin
 public class SpecificationController {
     private SpecificationService specificationService;
 
