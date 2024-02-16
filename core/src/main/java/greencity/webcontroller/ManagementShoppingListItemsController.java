@@ -25,6 +25,7 @@ import static greencity.dto.genericresponse.GenericResponseDto.buildGenericRespo
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/management/shopping-list-items")
+@CrossOrigin
 public class ManagementShoppingListItemsController {
     private final ShoppingListItemService shoppingListItemService;
     private final LanguageService languageService;

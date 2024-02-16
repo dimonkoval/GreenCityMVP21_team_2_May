@@ -28,6 +28,7 @@ import static greencity.dto.genericresponse.GenericResponseDto.buildGenericRespo
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/management/facts")
+@CrossOrigin
 public class ManagementHabitFactsController {
     @Autowired
     private HabitFactService habitFactService;

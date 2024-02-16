@@ -26,6 +26,7 @@ import static greencity.dto.genericresponse.GenericResponseDto.buildGenericRespo
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/management/tags")
+@CrossOrigin
 public class ManagementTagsController {
     private final TagsService tagsService;
     private final LanguageService languageService;

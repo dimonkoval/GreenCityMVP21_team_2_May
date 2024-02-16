@@ -32,6 +32,7 @@ import java.util.Locale;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/management/habits")
+@CrossOrigin
 public class ManagementHabitController {
     private final ManagementHabitService managementHabitService;
     private final LanguageService languageService;

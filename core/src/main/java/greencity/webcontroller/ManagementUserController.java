@@ -32,6 +32,7 @@ import static greencity.dto.genericresponse.GenericResponseDto.buildGenericRespo
 @Controller
 @AllArgsConstructor
 @RequestMapping("/management/users")
+@CrossOrigin
 public class ManagementUserController {
     private final ModelMapper modelMapper;
     private final RestClient restClient;

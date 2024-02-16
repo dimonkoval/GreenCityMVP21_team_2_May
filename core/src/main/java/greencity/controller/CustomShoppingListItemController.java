@@ -22,6 +22,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/custom/shopping-list-items")
+@CrossOrigin
 public class CustomShoppingListItemController {
     private final CustomShoppingListItemService customShoppingListItemService;
 
