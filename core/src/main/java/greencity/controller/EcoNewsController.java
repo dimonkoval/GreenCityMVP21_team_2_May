@@ -35,6 +35,7 @@ import java.util.Locale;
 @RestController
 @RequestMapping("/econews")
 @RequiredArgsConstructor
+@CrossOrigin
 public class EcoNewsController {
     private final EcoNewsService ecoNewsService;
     private final TagsService tagService;
