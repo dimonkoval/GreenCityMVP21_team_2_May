@@ -84,7 +84,7 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain applicationSecurity(HttpSecurity http) throws Exception {
-        http.cors(Customizer.withDefaults())
+        http.cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .addFilterBefore(
@@ -308,15 +308,18 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Component
-    public class WebConfig implements WebMvcConfigurer {
-        @Override
-        public void addCorsMappings(CorsRegistry registry) {
-            registry.addMapping("/**")
-                    .allowedOrigins("*")
-                    .allowedMethods("GET","POST", "PUT", "DELETE", "OPTIONS", "HEAD")
-                    .allowedHeaders("Access-Control-Allow-Headers", "X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization");
-        }
-
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Collections.singletonList("*"));
+        configuration.setAllowedMethods(
+                Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
+        configuration.setAllowedHeaders(
+                Arrays.asList("Access-Control-Allow-Origin", "Access-Control-Allow-Headers",
+                        "X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
