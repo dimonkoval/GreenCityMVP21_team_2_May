@@ -313,7 +313,8 @@ public class SecurityConfig {
         public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**")
                     .allowedOrigins("*")
-                    .allowedMethods("GET","POST", "PUT", "DELETE", "OPTIONS", "HEAD");
+                    .allowedMethods("GET","POST", "PUT", "DELETE", "OPTIONS", "HEAD")
+                    .allowedHeaders("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization");
         }
 
     }
