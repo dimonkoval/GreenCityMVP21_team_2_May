@@ -17,6 +17,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/management/habit-shopping-list")
+@CrossOrigin
 public class ManagementHabitShoppingListItemController {
     private final ShoppingListItemService shoppingListItemService;
     private final HabitService habitService;

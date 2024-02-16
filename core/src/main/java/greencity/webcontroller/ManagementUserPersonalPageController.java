@@ -22,6 +22,7 @@ import java.util.Locale;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/management/users/{id}")
+@CrossOrigin
 public class ManagementUserPersonalPageController {
     private final HabitAssignService habitAssignService;
     private final EcoNewsService ecoNewsService;

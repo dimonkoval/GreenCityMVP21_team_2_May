@@ -29,6 +29,7 @@ import java.util.Locale;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user/shopping-list-items")
+@CrossOrigin
 public class ShoppingListItemController {
     private final ShoppingListItemService shoppingListItemService;
 
