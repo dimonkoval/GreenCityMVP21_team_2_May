@@ -8,10 +8,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,11 +36,12 @@ class FileServiceControllerTest {
 
     @Test
     void uploadImageTest() throws Exception {
-        MockMultipartFile file =
-            new MockMultipartFile("image", new byte[1]);
+        MockMultipartFile file = new MockMultipartFile("image", "test-image.jpg",
+                MediaType.IMAGE_JPEG_VALUE, "Spring Framework".getBytes());
+
         mockMvc.perform(multipart("/files/image")
-            .file(file))
-            .andExpect(status().isOk());
+                        .file(file))
+                .andExpect(status().isOk());
 
         verify(fileService).upload(file);
     }
