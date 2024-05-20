@@ -668,4 +668,20 @@ public class ModelUtils {
             .status(ShoppingListItemStatus.INPROGRESS)
             .build();
     }
+
+    public static Category getCategory() {
+        return Category.builder()
+                .id(2L)
+                .name("Name")
+                .build();
+    }
+
+    public static Habit getHabit() {
+        return Habit.builder()
+                .image("image")
+                .complexity(1)
+                .defaultDuration(2)
+                .isCustomHabit(true)
+                .build();
+    }
 }
