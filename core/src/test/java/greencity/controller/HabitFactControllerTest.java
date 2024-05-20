@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-public class HabitFactControllerTest {
+class HabitFactControllerTest {
 
     private MockMvc mockMvc;
 
@@ -53,12 +53,12 @@ public class HabitFactControllerTest {
     @Mock
     private ObjectMapper objectMapper;
 
-    private ErrorAttributes errorAttributes = new DefaultErrorAttributes();
+    private final ErrorAttributes errorAttributes = new DefaultErrorAttributes();
 
     private static final String habitFactLink = "/facts";
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         this.mockMvc = MockMvcBuilders
                 .standaloneSetup(habitFactController)
                 .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
