@@ -43,7 +43,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-public class HabitControllerTest {
+class HabitControllerTest {
 
     private MockMvc mockMvc;
 
@@ -72,7 +72,7 @@ public class HabitControllerTest {
     private static final String habitLink = "/habit";
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         this.mockMvc = MockMvcBuilders
                 .standaloneSetup(habitController)
                 .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver(),
