@@ -75,13 +75,13 @@ class HabitStatisticControllerTest {
     }
 
     @Test
-    public void findAllByHabitId_isOk() throws Exception {
+    void findAllByHabitId_isOk() throws Exception {
         mockMvc.perform(get(specificationLink + "/{habitId}", 1)).andExpect(status().isOk());
         verify(habitStatisticService).findAllStatsByHabitId(1L);
     }
 
     @Test
-    public void findAllByHabitId_isNotFound() throws Exception {
+    void findAllByHabitId_isNotFound() throws Exception {
         when(habitStatisticService.findAllStatsByHabitId(-1L)).thenThrow(NotFoundException.class);
         mockMvc.perform(get(specificationLink + "/{habitId}", -1)).andExpect(status().isNotFound());
         verify(habitStatisticService).findAllStatsByHabitId(-1L);
