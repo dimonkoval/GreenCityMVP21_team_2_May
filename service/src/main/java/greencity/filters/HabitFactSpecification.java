@@ -1,6 +1,9 @@
 package greencity.filters;
 
 import greencity.entity.*;
+import greencity.entity.HabitFactTranslation_;
+import greencity.entity.HabitFact_;
+import greencity.entity.Habit_;
 import jakarta.persistence.criteria.*;
 import java.util.List;
 import static greencity.entity.HabitFactTranslation_.content;
