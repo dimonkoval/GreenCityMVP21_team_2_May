@@ -20,6 +20,10 @@ public class ImageValidator implements ConstraintValidator<ImageValidation, Mult
         if (image == null) {
             return true;
         } else {
+            long maxSize = 10 * 1024 * 1024; //10mb
+            if (image.getSize() > maxSize) {
+                return false;
+            }
             return validType.contains(image.getContentType());
         }
     }
