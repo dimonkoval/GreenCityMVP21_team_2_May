@@ -53,4 +53,11 @@ class ImageValidatorTest {
         MockMultipartFile image = new MockMultipartFile("image", "image.txt", "text/plain", new byte[0]);
         assertFalse(imageValidator.isValid(image, constraintValidatorContext));
     }
+
+    @Test
+    void isValid_WithInvalidSize_False() {
+        int invalidSize = (10 * 1024 * 1024) + 1;
+        MockMultipartFile image = new MockMultipartFile("image", "image.jpeg", "image/jpeg", new byte[invalidSize]);
+        assertFalse(imageValidator.isValid(image, constraintValidatorContext));
+    }
 }
