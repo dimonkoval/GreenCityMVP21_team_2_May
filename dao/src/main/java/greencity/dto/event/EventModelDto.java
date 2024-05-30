@@ -1,5 +1,6 @@
 package greencity.dto.event;
 
+import greencity.annotations.ValidEventDateTime;
 import greencity.entity.WebPage;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class EventEntityDto {
+public class EventModelDto {
 
     private Long id;
 
@@ -27,6 +28,7 @@ public class EventEntityDto {
     private List<@FutureOrPresent LocalDate> dates;
 
 //    @OneToMany
+    @ValidEventDateTime
     private List<EventTime> eventTimes;
 
     private List<Boolean> isOnline;
