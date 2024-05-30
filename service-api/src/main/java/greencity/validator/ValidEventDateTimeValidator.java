@@ -9,16 +9,18 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public class ValidEventTimeValidator implements ConstraintValidator<ValidEventDateTime, List<EventDateTime>> {
+public class ValidEventDateTimeValidator implements ConstraintValidator<ValidEventDateTime, List<EventDateTime>> {
     @Override
     public boolean isValid(List<EventDateTime> value, ConstraintValidatorContext context) {
-        if (value == null) {
+        if (value == null) { //event must have at list one dateTime
             return false;
         }
         if (value.get(0) == null) {
             return false;
         }
         LocalDate today = LocalDate.now();
+
+        //first dateTime of event should be at least in one hour after now
         if (!value.get(0).getDate().isAfter(today)) {
             if (value.get(0).getDate().isBefore(today)) {
                 return false;
@@ -28,6 +30,26 @@ public class ValidEventTimeValidator implements ConstraintValidator<ValidEventDa
                 return false;
             }
         }
+
+        //every next event date should be after each other
+        for (int i = 1; i < value.size(); i++) {
+            LocalDate prevDate = value.get(i - 1).getDate();
+            LocalDate currentDate = value.get(i).getDate();
+            if (currentDate == null) {
+                for (int j = i + 1; j < value.size(); j++) {
+                    if (value.get(j) != null) {
+                        return false;
+                    }
+                }
+                break;
+            } else {
+                if (prevDate.isAfter(currentDate) || prevDate.isEqual(currentDate)) {
+                    return false;
+                }
+            }
+        }
+
+        //start time should be before end time, if event for all it should start at 00:00 and end at 23:59
         for(EventDateTime eventDateTime : value) {
             if (eventDateTime.getStartTime().isAfter(eventDateTime.getEndTime())
                     || eventDateTime.getStartTime().equals(eventDateTime.getEndTime())) {
@@ -44,6 +66,7 @@ public class ValidEventTimeValidator implements ConstraintValidator<ValidEventDa
                 }
             }
         }
+
         return true;
     }
 }

@@ -1,6 +1,6 @@
 package greencity.annotations;
 
-import greencity.validator.ValidEventTimeValidator;
+import greencity.validator.ValidEventDateTimeValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -11,9 +11,9 @@ import java.lang.annotation.Target;
 
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidEventTimeValidator.class)
+@Constraint(validatedBy = ValidEventDateTimeValidator.class)
 public @interface ValidEventDateTime {
-    String message() default "Event must start in the future";
+    String message() default "Event date time is incorrect. Event must start in the future";
 
     Class<?>[] groups() default {};
 
