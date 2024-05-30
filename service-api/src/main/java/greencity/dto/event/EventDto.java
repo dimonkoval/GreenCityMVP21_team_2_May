@@ -4,7 +4,6 @@ import greencity.annotations.ValidEventDateTime;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -16,18 +15,19 @@ import java.util.List;
 public class EventDto {
     @NotEmpty
     @Size(max = 70)
-    String title;
+    private String title;
 
     @Max(7)
     @Min(1)
-    int daysDuration;
+    private int daysDuration;
 
     @NotNull
     @ValidEventDateTime
-    List<ZonedDateTime> dateTime;
+    @Size(max = 7, min = 1)
+    private List<EventDateTime> eventDateTimes;
 
     @NotEmpty
-    String location;
+    private String location;
     @NotEmpty
-    String description;
+    private String description;
 }
