@@ -2,12 +2,10 @@ package greencity.dto.event;
 
 import greencity.annotations.ValidEventDateTime;
 import greencity.entity.WebPage;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor
@@ -24,12 +22,10 @@ public class EventModelDto {
     @Size(max = 70)
     private String title;
 
-    @Size(max = 7)
-    private List<@FutureOrPresent LocalDate> dates;
-
 //    @OneToMany
     @ValidEventDateTime
-    private List<EventTime> eventTimes;
+    @Size(max = 7, min = 1)
+    private List<EventDateTime> eventDateTimes;
 
     private List<Boolean> isOnline;
 
