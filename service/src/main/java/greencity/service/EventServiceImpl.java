@@ -1,15 +1,18 @@
 package greencity.service;
 
-import greencity.dto.event.EventSaveDto;
-import greencity.dto.event.EventModelDto;
+import greencity.dto.event.*;
 import greencity.dto.user.UserVO;
+import greencity.entity.User;
 import greencity.repository.EventRepo;
+import greencity.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,17 +20,36 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService{
     private final EventRepo eventRepo;
+    private final ModelMapper modelMapper;
 
     @Override
-    public EventModelDto save(EventSaveDto event, List<MultipartFile> images, UserVO author) {
-        return eventRepo.save(event, images, author);
+    public EventModelDto save(EventRequestSaveDto event, List<MultipartFile> images, UserVO author) {
+        List<EventDayInfo> dayInfos = new ArrayList<>();
+        for (EventSaveDayInfoDto dayInfoDto: event.getDaysInfo()) {
+            dayInfos.add(modelMapper.map(dayInfoDto, EventDayInfo.class));
+        }
+
+        List<EventImage> eventImages = new ArrayList<>();
+        String[] uploadedImages = uploadImages(images.toArray(new MultipartFile[0]));
+
+        eventImages = modelMapper.map(uploadedImages, eventImages.getClass());
+
+        EventModelDto eventModelDto = EventModelDto.builder()
+                .title(event.getTitle())
+                .dayInfos(dayInfos)
+                .isOpen(event.isOpen())
+                .description(event.getDescription())
+                .images(eventImages)
+                .author(author)
+                .build();
+        return eventRepo.save(eventModelDto);
     }
 
     @Override
     public void delete(Long id, UserVO author) {}
 
     @Override
-    public EventModelDto update(EventSaveDto event, List<MultipartFile> images, UserVO author) {
+    public EventModelDto update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author) {
         return null;
     }
 

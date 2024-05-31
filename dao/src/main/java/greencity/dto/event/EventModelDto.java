@@ -1,7 +1,7 @@
 package greencity.dto.event;
 
 import greencity.annotations.ValidEventDateTime;
-import greencity.entity.User;
+import greencity.dto.user.UserVO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -43,5 +43,5 @@ public class EventModelDto {
 
     //@ManyToOne
     @NotNull
-    private User author;
+    private UserVO author;
 }
