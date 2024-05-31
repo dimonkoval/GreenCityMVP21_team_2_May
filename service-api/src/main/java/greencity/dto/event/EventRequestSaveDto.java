@@ -1,12 +1,12 @@
 package greencity.dto.event;
 
+
 import greencity.annotations.ValidEventDateTime;
-import greencity.dto.user.UserVO;
-import greencity.entity.User;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class EventSaveDto {
+public class EventRequestSaveDto {
     @NotBlank
     @Size(max = 70)
     private String title;
@@ -31,8 +31,4 @@ public class EventSaveDto {
     private String description;
 
     private boolean isOpen = true;
-
-    private List<EventImageDto> images;
-
-    private UserVO author;//or User
 }
