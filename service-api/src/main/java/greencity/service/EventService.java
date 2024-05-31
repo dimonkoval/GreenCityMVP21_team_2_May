@@ -16,8 +16,6 @@ public interface EventService {
     //Pageable implements sorted criteria
     List<EventModelDto> findAll(Pageable pageable);
 
-    List<EventModelDto> findAllIncoming(Pageable pageable);
-
     EventModelDto findById(Long id);
 
     String uploadImage(MultipartFile image);

@@ -24,9 +24,7 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public void delete(Long id, UserVO author) {
-
-    }
+    public void delete(Long id, UserVO author) {}
 
     @Override
     public EventModelDto update(EventDto event, List<MultipartFile> images, UserVO author) {
@@ -35,11 +33,6 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public List<EventModelDto> findAll(Pageable pageable) {
-        return List.of();
-    }
-
-    @Override
-    public List<EventModelDto> findAllIncoming(Pageable pageable) {
         return List.of();
     }
 
@@ -60,16 +53,6 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public List<EventModelDto> findAllByAuthor(Pageable pageable, Long userId) {
-        return List.of();
-    }
-
-    @Override
-    public List<EventModelDto> findAllByParticipant(Pageable pageable, Long userId) {
-        return List.of();
-    }
-
-    @Override
-    public List<EventModelDto> findAllEventsBy(Pageable pageable, String query, String searchedField) {
         return List.of();
     }
 }
