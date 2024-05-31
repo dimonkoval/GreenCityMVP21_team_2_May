@@ -1,19 +1,14 @@
 package greencity.mapping;
 
-import greencity.dto.econews.AddEcoNewsDtoRequest;
 import greencity.dto.event.*;
 import greencity.dto.event.model.EventDayInfo;
 import greencity.dto.event.model.EventLocation;
 import greencity.dto.event.model.EventLocationAddress;
 import greencity.dto.event.model.EventLocationLink;
-import greencity.dto.shoppinglistitem.CustomShoppingListItemResponseDto;
-import greencity.entity.CustomShoppingListItem;
-import greencity.entity.EcoNews;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import javax.xml.stream.Location;
 import java.util.List;
 import java.util.stream.Collectors;
 

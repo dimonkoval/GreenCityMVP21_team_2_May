@@ -1,11 +1,10 @@
 package greencity.service;
 
 import greencity.dto.event.*;
-import greencity.dto.event.model.EventDayInfo;
 import greencity.dto.event.model.EventImage;
 import greencity.dto.event.model.EventModelDto;
 import greencity.dto.user.UserVO;
-//import greencity.repository.EventRepo;
+import greencity.repository.EventRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.EnableCaching;
@@ -14,14 +13,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 @EnableCaching
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService{
-    //private final EventRepo eventRepo;
+    private final EventRepo eventRepo;
     private final ModelMapper modelMapper;
+    private final FileService fileService;
 
     @Override
     public EventModelDto save(EventRequestSaveDto event, List<MultipartFile> images, int mainImageNumber, UserVO author) {
@@ -38,7 +39,7 @@ public class EventServiceImpl implements EventService{
         EventModelDto eventModelDto = modelMapper.map(event, EventModelDto.class);
         eventModelDto.setImages(eventImages);
         eventModelDto.setAuthor(author);
-        return null;//eventRepo.save(eventModelDto);
+        return eventRepo.save(eventModelDto);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public List<EventModelDto> findAll(Pageable pageable) {
-        return List.of();
+        return eventRepo.findAll(pageable);
     }
 
     @Override
@@ -61,16 +62,19 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public String uploadImage(MultipartFile image) {
-        return "";
+        if (image != null) {
+            return fileService.upload(image);
+        }
+        return null;
     }
 
     @Override
     public String[] uploadImages(MultipartFile[] images) {
-        return new String[0];
+        return Arrays.stream(images).map(fileService::upload).toArray(String[]::new);
     }
 
     @Override
     public List<EventModelDto> findAllByAuthor(Pageable pageable, Long userId) {
-        return List.of();
+        return eventRepo.findAllByAuthorId(pageable, userId);
     }
 }

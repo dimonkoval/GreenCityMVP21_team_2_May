@@ -1,7 +1,5 @@
 package greencity.mapping;
 
-import greencity.dto.event.EventSaveDayInfoDto;
-import greencity.dto.event.model.EventDayInfo;
 import greencity.dto.event.model.EventModelDto;
 import greencity.dto.event.EventRequestSaveDto;
 import org.modelmapper.AbstractConverter;
