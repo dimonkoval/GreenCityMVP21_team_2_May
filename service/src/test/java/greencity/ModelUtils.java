@@ -5,7 +5,9 @@ import greencity.dto.PageableAdvancedDto;
 import greencity.dto.econews.*;
 import greencity.dto.econewscomment.*;
 //import greencity.dto.event.EventDayInfo;
+import greencity.dto.event.EventImageDto;
 import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.model.EventImage;
 import greencity.dto.event.model.EventLocationLink;
 import greencity.dto.event.model.EventModelDto;
 import greencity.dto.habit.*;
@@ -116,6 +118,14 @@ public class ModelUtils {
                 .isOpen(true)
                 .images(new ArrayList<>())
                 .author(getUserVO())
+                .build();
+    }
+
+    public static EventImage getEventImage() {
+        return EventImage.builder()
+                .id(1L)
+                .imagePath("/image/path/")
+                .isMain(true)
                 .build();
     }
 
