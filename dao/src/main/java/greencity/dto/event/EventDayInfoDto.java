@@ -16,7 +16,7 @@ public class EventDayInfoDto {
 
     private boolean isAllDay;
 
-    private boolean isEventOpen = true;
+    private boolean isOnline;
 
     private LocalTime startTime;
 

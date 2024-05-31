@@ -31,12 +31,11 @@ public class EventModelDto {
     @Size(max = 7, min = 1)
     private List<EventDayInfo> eventDateTimes;
 
-    @NotNull
-    private List<Boolean> isOnline;
-
     @NotBlank
     @Size(min = 20, max = 63206)
     private String description;
+
+    private boolean isEventOpen = true;
 
 //    @OneToMany
     private List<EventImage> eventImages = new ArrayList<>();

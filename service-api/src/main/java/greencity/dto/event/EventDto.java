@@ -31,6 +31,8 @@ public class EventDto {
     @Size(min = 20, max = 63206)
     private String description;
 
+    private boolean isEventOpen = true;
+
     private List<EventImageDto> eventImages = new ArrayList<>();
 
     @NotNull
