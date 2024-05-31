@@ -11,9 +11,7 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class EventDayInfoDto {
-    private Long id;
-
+public class EventSaveDayInfoDto {
     private boolean isAllDay;
 
     private boolean isOnline;
@@ -26,5 +24,5 @@ public class EventDayInfoDto {
 
     private LocalDate date;
 
-    private EventLocationDto location;
+    private String location;
 }

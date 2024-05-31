@@ -14,24 +14,20 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class EventDto {
+public class EventSaveDto {
     @NotBlank
     @Size(max = 70)
     private String title;
 
     @NotNull
     @ValidEventDateTime
+    //@ValidLocation
     @Size(max = 7, min = 1)
-    private List<EventDayInfoDto> eventDateTimes;
+    private List<EventSaveDayInfoDto> daysInfo;
 
     @NotBlank
     @Size(min = 20, max = 63206)
     private String description;
 
-    private boolean isEventOpen = true;
-
-    private List<EventImageDto> eventImages = new ArrayList<>();
-
-    @NotNull
-    private User author;
+    private boolean isOpen = true;
 }

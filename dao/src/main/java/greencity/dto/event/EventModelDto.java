@@ -28,17 +28,18 @@ public class EventModelDto {
 //    @OneToMany
     @NotNull
     @ValidEventDateTime
+    //@ValidLocation
     @Size(max = 7, min = 1)
-    private List<EventDayInfo> eventDateTimes;
+    private List<EventDayInfo> dayInfos;
 
     @NotBlank
     @Size(min = 20, max = 63206)
     private String description;
 
-    private boolean isEventOpen = true;
+    private boolean isOpen = true;
 
 //    @OneToMany
-    private List<EventImage> eventImages = new ArrayList<>();
+    private List<EventImage> images = new ArrayList<>();
 
     //@ManyToOne
     @NotNull

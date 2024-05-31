@@ -1,6 +1,6 @@
 package greencity.service;
 
-import greencity.dto.event.EventDto;
+import greencity.dto.event.EventSaveDto;
 import greencity.dto.event.EventModelDto;
 import greencity.dto.user.UserVO;
 import greencity.repository.EventRepo;
@@ -19,7 +19,7 @@ public class EventServiceImpl implements EventService{
     private final EventRepo eventRepo;
 
     @Override
-    public EventModelDto save(EventDto event, List<MultipartFile> images, UserVO author) {
+    public EventModelDto save(EventSaveDto event, List<MultipartFile> images, UserVO author) {
         return eventRepo.save(event, images, author);
     }
 
@@ -27,7 +27,7 @@ public class EventServiceImpl implements EventService{
     public void delete(Long id, UserVO author) {}
 
     @Override
-    public EventModelDto update(EventDto event, List<MultipartFile> images, UserVO author) {
+    public EventModelDto update(EventSaveDto event, List<MultipartFile> images, UserVO author) {
         return null;
     }
 

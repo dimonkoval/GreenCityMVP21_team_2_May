@@ -6,27 +6,11 @@ import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Getter
 @Setter
 @EqualsAndHashCode
-public class EventLocation {
-
-    private Long id;
+public abstract class EventLocation {
 
     @Column
-    @Nullable
-    private String location;
-
-    @Column
-    @Nullable
-    private String description;
-
-    @Column
-    @Nullable
-    private String onlineLink;
-
-//    @ManyToMany
-    private EventModelDto event;
-
+    protected String location;
 }

@@ -8,9 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class EventLocationDto {
-
-    private String location;
-
-    private String description;
+public class EventAuthorDto {
+    Long id;
+    String name;
 }

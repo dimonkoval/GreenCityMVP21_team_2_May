@@ -1,7 +1,6 @@
 package greencity.repository;
 
-import greencity.dto.event.EventDto;
-import greencity.dto.event.EventModelDto;
+import greencity.dto.event.*;
 import greencity.dto.user.UserVO;
 import greencity.entity.User;
 import org.modelmapper.ModelMapper;
@@ -19,22 +18,19 @@ public class EventRepo {
     private ModelMapper modelMapper = new ModelMapper();
     private AtomicLong eventId = new AtomicLong();
 
-    public EventModelDto save(EventDto event, List<MultipartFile> images, UserVO author) {
-
+    public EventModelDto save(EventSaveDto event, List<MultipartFile> images, UserVO author) {
+        List<EventDayInfo> dayInfos = new ArrayList<>();
+        for (EventSaveDayInfoDto dayInfoDto: event.getDaysInfo()) {
+            dayInfos.add(modelMapper.map(dayInfoDto, EventDayInfo.class));
+        }
         EventModelDto eventModelDto = EventModelDto.builder()
                 .id(eventId.incrementAndGet())
                 .title(event.getTitle())
-                .eventDateTimes(event.getEventDateTimes())
-                .isOnline(event.getIsOnline())
+                .dayInfos(dayInfos)
+                .isOpen(event.isOpen())
                 .description(event.getDescription())
-                .isEventOpen(event.isEventOpen())
-                .eventLocations(event.getEventLocations())
-                .webPages(event.setWebPages())
-                .eventImages(
-
-                )
+                //.eventImages(             )
                 .author(modelMapper.map(author, User.class))
-                .participants()
                 .build();
 
         events.add(eventModelDto);

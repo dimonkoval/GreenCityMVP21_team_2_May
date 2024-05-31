@@ -23,11 +23,12 @@ public class EventDayInfo {
 
     private LocalTime endTime;
 
-    private Integer dayCount;
+    private int dayNumber;
 
     private LocalDate date;
 
-    private EventLocation eventLocations;
+    //@Embedded
+    private EventLocation location;
 
 //    @ManyToOne
     private EventModelDto event;
