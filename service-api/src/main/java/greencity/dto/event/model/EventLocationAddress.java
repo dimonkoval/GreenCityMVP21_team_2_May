@@ -1,4 +1,4 @@
-package greencity.dto.event;
+package greencity.dto.event.model;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package greencity.dto.event;
+package greencity.dto.event.model;
 
 import lombok.*;
 
@@ -11,8 +11,7 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class EventDayInfo {
-
+public class EventDayInfoDto {
     private Long id;
 
     private boolean isAllDay;
@@ -27,9 +26,5 @@ public class EventDayInfo {
 
     private LocalDate date;
 
-    //@Embedded
-    private EventLocation location;
-
-//    @ManyToOne
-    private EventModelDto event;
+    private EventLocationDto location;
 }

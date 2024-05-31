@@ -1,10 +1,11 @@
 package greencity.service;
 
 import greencity.dto.event.*;
+import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.model.EventImage;
+import greencity.dto.event.model.EventModelDto;
 import greencity.dto.user.UserVO;
-import greencity.entity.User;
-import greencity.repository.EventRepo;
-import greencity.repository.UserRepo;
+//import greencity.repository.EventRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.EnableCaching;
@@ -19,7 +20,7 @@ import java.util.List;
 @EnableCaching
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService{
-    private final EventRepo eventRepo;
+    //private final EventRepo eventRepo;
     private final ModelMapper modelMapper;
 
     @Override
@@ -42,7 +43,7 @@ public class EventServiceImpl implements EventService{
                 .images(eventImages)
                 .author(author)
                 .build();
-        return eventRepo.save(eventModelDto);
+        return null;//eventRepo.save(eventModelDto);
     }
 
     @Override

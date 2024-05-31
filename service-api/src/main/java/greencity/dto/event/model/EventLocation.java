@@ -1,7 +1,5 @@
-package greencity.dto.event;
+package greencity.dto.event.model;
 
-import jakarta.annotation.Nullable;
-import jakarta.persistence.Column;
 import lombok.*;
 
 @NoArgsConstructor
@@ -11,6 +9,6 @@ import lombok.*;
 @EqualsAndHashCode
 public abstract class EventLocation {
 
-    @Column
+    //@Column
     protected String location;
 }
