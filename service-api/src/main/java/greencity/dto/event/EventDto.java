@@ -24,9 +24,6 @@ public class EventDto {
     @Size(max = 7, min = 1)
     private List<EventDayInfoDto> eventDateTimes;
 
-    @NotNull
-    private List<Boolean> isOnline;
-
     @NotBlank
     @Size(min = 20, max = 63206)
     private String description;
