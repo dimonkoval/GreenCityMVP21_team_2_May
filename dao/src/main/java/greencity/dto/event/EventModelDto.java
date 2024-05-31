@@ -2,7 +2,6 @@ package greencity.dto.event;
 
 import greencity.annotations.ValidEventDateTime;
 import greencity.entity.User;
-import greencity.entity.WebPage;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -30,7 +29,7 @@ public class EventModelDto {
     @NotNull
     @ValidEventDateTime
     @Size(max = 7, min = 1)
-    private List<EventDateTime> eventDateTimes;
+    private List<EventDayInfo> eventDateTimes;
 
     @NotNull
     private List<Boolean> isOnline;
@@ -38,11 +37,6 @@ public class EventModelDto {
     @NotBlank
     @Size(min = 20, max = 63206)
     private String description;
-
-    private boolean isEventOpen = true;
-
-//    @ManyToMany
-    private List<EventLocation> eventLocations = new ArrayList<>();
 
 //    @OneToMany
     private List<EventImage> eventImages = new ArrayList<>();

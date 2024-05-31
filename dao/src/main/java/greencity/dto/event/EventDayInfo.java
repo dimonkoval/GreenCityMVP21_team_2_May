@@ -11,11 +11,13 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class EventDateTime {
+public class EventDayInfo {
 
     private Long id;
 
     private boolean isAllDay;
+
+    private boolean isEventOpen = true;
 
     private LocalTime startTime;
 
@@ -24,6 +26,8 @@ public class EventDateTime {
     private Integer dayCount;
 
     private LocalDate date;
+
+    private EventLocation eventLocations;
 
 //    @ManyToOne
     private EventModelDto event;

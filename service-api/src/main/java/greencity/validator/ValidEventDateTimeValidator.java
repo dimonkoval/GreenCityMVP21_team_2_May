@@ -1,7 +1,7 @@
 package greencity.validator;
 
 import greencity.annotations.ValidEventDateTime;
-import greencity.dto.event.EventDateTime;
+import greencity.dto.event.EventDayInfo;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -9,9 +9,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public class ValidEventDateTimeValidator implements ConstraintValidator<ValidEventDateTime, List<EventDateTime>> {
+public class ValidEventDateTimeValidator implements ConstraintValidator<ValidEventDateTime, List<EventDayInfo>> {
     @Override
-    public boolean isValid(List<EventDateTime> value, ConstraintValidatorContext context) {
+    public boolean isValid(List<EventDayInfo> value, ConstraintValidatorContext context) {
         if (value == null) { //event must have at list one dateTime
             return false;
         }
@@ -50,7 +50,7 @@ public class ValidEventDateTimeValidator implements ConstraintValidator<ValidEve
         }
 
         //start time should be before end time, if event for all it should start at 00:00 and end at 23:59
-        for(EventDateTime eventDateTime : value) {
+        for(EventDayInfo eventDateTime : value) {
             if (eventDateTime.getStartTime().isAfter(eventDateTime.getEndTime())
                     || eventDateTime.getStartTime().equals(eventDateTime.getEndTime())) {
                 return false;
