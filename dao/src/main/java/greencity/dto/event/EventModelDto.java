@@ -19,7 +19,7 @@ import java.util.List;
 @EqualsAndHashCode
 public class EventModelDto {
     //TODO need to be modified due to requirements and implementations
-//@Id
+//    @Id
     private Long id;
 
     @NotBlank
@@ -44,16 +44,10 @@ public class EventModelDto {
 //    @ManyToMany
     private List<EventLocation> eventLocations = new ArrayList<>();
 
-//    @ManyToMany
-    private List<WebPage> webPages = new ArrayList<>();
-
 //    @OneToMany
     private List<EventImage> eventImages = new ArrayList<>();
 
     //@ManyToOne
     @NotNull
     private User author;
-
-    //@ManyToMany
-    private List<User> participants = new ArrayList<>();
 }
