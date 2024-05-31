@@ -4,6 +4,10 @@ import greencity.constant.AppConstant;
 import greencity.dto.PageableAdvancedDto;
 import greencity.dto.econews.*;
 import greencity.dto.econewscomment.*;
+//import greencity.dto.event.EventDayInfo;
+import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.model.EventLocationLink;
+import greencity.dto.event.model.EventModelDto;
 import greencity.dto.habit.*;
 import greencity.dto.habitfact.*;
 import greencity.dto.language.LanguageDTO;
@@ -88,6 +92,31 @@ public class ModelUtils {
 
     public static List<Tag> getHabitsTags() {
         return Collections.singletonList(getHabitTag());
+    }
+
+    public static EventDayInfo getEventDayInfo() {
+        return EventDayInfo.builder()
+                .id(1L)
+                .isAllDay(false)
+                .isOnline(true)
+                .startTime(LocalTime.of(12, 00))
+                .endTime(LocalTime.of(14, 00))
+                .dayNumber(1)
+                .date(LocalDate.of(2025, 11, 24))
+                .location(new EventLocationLink("some link"))
+                .build();
+    }
+
+    public static EventModelDto getEventModelDto() {
+        return EventModelDto.builder()
+                .id(1L)
+                .title("title")
+                .dayInfos(List.of(getEventDayInfo()))
+                .description("description123456789012345678901234567890")
+                .isOpen(true)
+                .images(new ArrayList<>())
+                .author(getUserVO())
+                .build();
     }
 
     public static User getUser() {

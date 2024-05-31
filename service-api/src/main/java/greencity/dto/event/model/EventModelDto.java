@@ -39,6 +39,7 @@ public class EventModelDto {
     private boolean isOpen = true;
 
 //    @OneToMany
+    @Size(max = 5)
     private List<EventImage> images = new ArrayList<>();
 
     //@ManyToOne

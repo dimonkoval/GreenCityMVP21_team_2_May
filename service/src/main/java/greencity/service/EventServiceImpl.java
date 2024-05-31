@@ -24,25 +24,20 @@ public class EventServiceImpl implements EventService{
     private final ModelMapper modelMapper;
 
     @Override
-    public EventModelDto save(EventRequestSaveDto event, List<MultipartFile> images, UserVO author) {
-        List<EventDayInfo> dayInfos = new ArrayList<>();
-        for (EventSaveDayInfoDto dayInfoDto: event.getDaysInfo()) {
-            dayInfos.add(modelMapper.map(dayInfoDto, EventDayInfo.class));
-        }
-
-        List<EventImage> eventImages = new ArrayList<>();
+    public EventModelDto save(EventRequestSaveDto event, List<MultipartFile> images, int mainImageNumber, UserVO author) {
         String[] uploadedImages = uploadImages(images.toArray(new MultipartFile[0]));
 
-        eventImages = modelMapper.map(uploadedImages, eventImages.getClass());
+        List<EventImage> eventImages = new ArrayList<>();
+        eventImages =  modelMapper.map(uploadedImages, eventImages.getClass());
+        if (mainImageNumber == 0) {
+            eventImages.get(0).setMain(true);
+        } else {
+            eventImages.get(mainImageNumber).setMain(true);
+        }
 
-        EventModelDto eventModelDto = EventModelDto.builder()
-                .title(event.getTitle())
-                .dayInfos(dayInfos)
-                .isOpen(event.isOpen())
-                .description(event.getDescription())
-                .images(eventImages)
-                .author(author)
-                .build();
+        EventModelDto eventModelDto = modelMapper.map(event, EventModelDto.class);
+        eventModelDto.setImages(eventImages);
+        eventModelDto.setAuthor(author);
         return null;//eventRepo.save(eventModelDto);
     }
 

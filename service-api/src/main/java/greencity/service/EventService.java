@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface EventService {
-    EventModelDto save(EventRequestSaveDto event, List<MultipartFile> images, UserVO author);
+    EventModelDto save(EventRequestSaveDto event, List<MultipartFile> images, int mainImageNumber, UserVO author);
     void delete(Long id, UserVO author);
     EventModelDto update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author);
 
