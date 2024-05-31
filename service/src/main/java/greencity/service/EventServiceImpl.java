@@ -3,6 +3,7 @@ package greencity.service;
 import greencity.dto.event.EventDto;
 import greencity.dto.event.EventModelDto;
 import greencity.dto.user.UserVO;
+import greencity.repository.EventRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Pageable;
@@ -14,11 +15,12 @@ import java.util.List;
 @Service
 @EnableCaching
 @RequiredArgsConstructor
-public class EventServiceEmpl implements EventService{
+public class EventServiceImpl implements EventService{
+    private final EventRepo eventRepo;
 
     @Override
     public EventModelDto save(EventDto event, List<MultipartFile> images, UserVO author) {
-        return null;
+        return eventRepo.save(event, images, author);
     }
 
     @Override

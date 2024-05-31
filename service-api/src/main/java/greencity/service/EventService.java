@@ -26,9 +26,4 @@ public interface EventService {
     String[] uploadImages(MultipartFile[] images);
 
     List<EventModelDto> findAllByAuthor(Pageable pageable, Long userId);
-
-    List<EventModelDto> findAllByParticipant(Pageable pageable, Long userId);
-
-    //may be refactored to a group of methods(by date, online/offline, title/description etc
-    List<EventModelDto> findAllEventsBy(Pageable pageable, String query, String searchedField);
 }
