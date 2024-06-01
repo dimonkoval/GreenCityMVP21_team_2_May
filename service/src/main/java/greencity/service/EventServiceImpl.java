@@ -52,13 +52,14 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public List<EventModelDto> findAll(Pageable pageable) {
-        return eventRepo.findAll(pageable);
+    public List<EventResponseDto> findAll(Pageable pageable) {
+        List<EventModelDto> eventModelDtos = eventRepo.findAll(pageable);
+        return eventModelDtos.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
     }
 
     @Override
-    public EventModelDto findById(Long id) {
-        return null;
+    public EventResponseDto findById(Long id) {
+        return modelMapper.map(eventRepo.findById(id), EventResponseDto.class);
     }
 
     @Override
