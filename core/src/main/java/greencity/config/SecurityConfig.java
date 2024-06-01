@@ -155,7 +155,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,
                                 "/ownSecurity/signUp",
                                 "/ownSecurity/signIn",
-                                "/ownSecurity/changePassword")
+                                "/ownSecurity/changePassword",
+                                "/events")
                         .permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/achievements",
@@ -204,6 +205,7 @@ public class SecurityConfig {
                                 "/econews/dislike",
                                 "/econews/comments/{econewsId}",
                                 "/econews/comments/like",
+//                                "/events",
                                 CUSTOM_SHOPPING_LIST_ITEMS,
                                 "/files/image",
                                 "/files/convert",
