@@ -5,7 +5,6 @@ import greencity.annotations.CurrentUser;
 import greencity.annotations.ImageValidation;
 import greencity.constant.HttpStatuses;
 import greencity.constant.SwaggerExampleModel;
-import greencity.dto.econews.EcoNewsDto;
 import greencity.dto.event.EventRequestSaveDto;
 import greencity.dto.event.EventResponseDto;
 import greencity.dto.event.model.EventModelDto;
@@ -111,7 +110,7 @@ public class EventsController {
     })
     @ApiPageable
     @GetMapping("/author/{userId}")
-    public ResponseEntity<List<EventResponseDto>> getEcoNewsByUser(@PathVariable Long userId,
+    public ResponseEntity<List<EventResponseDto>> getEventByAuthorId(@PathVariable Long userId,
                                                                    @Parameter(hidden = true) Pageable page ) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(eventService.findAllByAuthor(page, userId));
