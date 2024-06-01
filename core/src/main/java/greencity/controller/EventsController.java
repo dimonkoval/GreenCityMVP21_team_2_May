@@ -38,10 +38,10 @@ public class EventsController {
     /**
      * Method for creating {@link EventModelDto}
      *
-     * @param eventRequestSaveDto - dto for {@link EventModelDto} entity.
+     * @param eventRequestSaveDto - dto for {@link EventRequestSaveDto} entity.
      * @param images - array of {@link MultipartFile} images.
      * @param user - current user {@link UserVO}.
-     * @return dto {@link EventModelDto} instance.
+     * @return dto {@link EventResponseDto} instance.
      */
     @Operation(summary = "Create Event.")
     @ResponseStatus(HttpStatus.CREATED)
