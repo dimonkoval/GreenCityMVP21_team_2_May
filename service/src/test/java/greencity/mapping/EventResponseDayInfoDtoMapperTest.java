@@ -23,10 +23,9 @@ class EventResponseDayInfoDtoMapperTest {
         EventResponseDayInfoDto expected = EventResponseDayInfoDto.builder()
                 .isAllDay(eventDayInfo.isAllDay())
                 .isOnline(eventDayInfo.isOnline())
-                .startTime(eventDayInfo.getStartTime())
-                .endTime(eventDayInfo.getEndTime())
+                .startDateTime(eventDayInfo.getStartDateTime())
+                .endDateTime(eventDayInfo.getEndDateTime())
                 .dayNumber(eventDayInfo.getDayNumber())
-                .date(eventDayInfo.getDate())
                 .location(eventDayInfo.getLocation().toString())
                 .build();
 

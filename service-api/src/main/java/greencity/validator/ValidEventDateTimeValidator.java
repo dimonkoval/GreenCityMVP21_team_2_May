@@ -21,20 +21,20 @@ public class ValidEventDateTimeValidator implements ConstraintValidator<ValidEve
         LocalDate today = LocalDate.now();
 
         //first dateTime of event should be at least in one hour after now
-        if (!value.get(0).getDate().isAfter(today)) {
-            if (value.get(0).getDate().isBefore(today)) {
+        if (!value.get(0).getStartDateTime().toLocalDate().isAfter(today)) {
+            if (value.get(0).getStartDateTime().toLocalDate().isBefore(today)) {
                 return false;
             }
             int currentHour = LocalTime.now().getHour();
-            if (currentHour >= value.get(0).getStartTime().getHour()) {
+            if (currentHour >= value.get(0).getStartDateTime().toLocalTime().getHour()) {
                 return false;
             }
         }
 
         //every next event date should be after each other
         for (int i = 1; i < value.size(); i++) {
-            LocalDate prevDate = value.get(i - 1).getDate();
-            LocalDate currentDate = value.get(i).getDate();
+            LocalDate prevDate = value.get(i - 1).getStartDateTime().toLocalDate();
+            LocalDate currentDate = value.get(i).getStartDateTime().toLocalDate();
             if (currentDate == null) {
                 for (int j = i + 1; j < value.size(); j++) {
                     if (value.get(j) != null) {
@@ -49,21 +49,25 @@ public class ValidEventDateTimeValidator implements ConstraintValidator<ValidEve
             }
         }
 
-        //start time should be before end time, if event for all it should start at 00:00 and end at 23:59
+        //start time should be before end time, if event for all it should start at 00:00 and end at 23:59,
+        // start and end date should be in one day
         for(EventDayInfo eventDateTime : value) {
-            if (eventDateTime.getStartTime().isAfter(eventDateTime.getEndTime())
-                    || eventDateTime.getStartTime().equals(eventDateTime.getEndTime())) {
+            if (eventDateTime.getStartDateTime().isAfter(eventDateTime.getEndDateTime())
+                    || eventDateTime.getStartDateTime().equals(eventDateTime.getEndDateTime())) {
                 return false;
             }
             if (eventDateTime.isAllDay()) {
-                if (eventDateTime.getDate().isAfter(today)) {
-                    if (eventDateTime.getStartTime().isAfter(LocalTime.of(0, 0, 0))) {
+                if (eventDateTime.getStartDateTime().toLocalDate().isAfter(today)) {
+                    if (eventDateTime.getStartDateTime().toLocalTime().isAfter(LocalTime.of(0, 0, 0))) {
                         return false;
                     }
-                    if (eventDateTime.getEndTime().isBefore(LocalTime.of(23, 59))) {
+                    if (eventDateTime.getEndDateTime().toLocalTime().isBefore(LocalTime.of(23, 59))) {
                         return false;
                     }
                 }
+            }
+            if (!eventDateTime.getStartDateTime().toLocalDate().equals(eventDateTime.getEndDateTime().toLocalDate())) {
+                return false;
             }
         }
 

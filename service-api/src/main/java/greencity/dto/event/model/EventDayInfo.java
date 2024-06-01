@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,13 +20,11 @@ public class EventDayInfo {
 
     private boolean isOnline;
 
-    private LocalTime startTime;
+    private ZonedDateTime startDateTime;
 
-    private LocalTime endTime;
+    private ZonedDateTime endDateTime;
 
     private int dayNumber;
-
-    private LocalDate date;
 
     //@Embedded
     private EventLocation location;

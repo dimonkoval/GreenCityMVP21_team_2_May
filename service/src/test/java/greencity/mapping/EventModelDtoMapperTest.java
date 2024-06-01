@@ -31,9 +31,8 @@ public class EventModelDtoMapperTest {
         dayInfoDto.setAllDay(expected.getDayInfos().get(0).isAllDay());
         dayInfoDto.setOnline(expected.getDayInfos().get(0).isOnline());
         dayInfoDto.setDayNumber(expected.getDayInfos().get(0).getDayNumber());
-        dayInfoDto.setStartTime(expected.getDayInfos().get(0).getStartTime());
-        dayInfoDto.setEndTime(expected.getDayInfos().get(0).getEndTime());
-        dayInfoDto.setDate(expected.getDayInfos().get(0).getDate());
+        dayInfoDto.setStartDateTime(expected.getDayInfos().get(0).getStartDateTime());
+        dayInfoDto.setEndDateTime(expected.getDayInfos().get(0).getEndDateTime());
         dayInfoDto.setLocation(expected.getDayInfos().get(0).getLocation().getLocation());
         EventRequestSaveDto dtoToConvert = new EventRequestSaveDto();
         dtoToConvert.setTitle(expected.getTitle());

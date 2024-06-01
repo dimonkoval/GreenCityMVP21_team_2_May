@@ -101,10 +101,9 @@ public class ModelUtils {
                 .id(1L)
                 .isAllDay(false)
                 .isOnline(true)
-                .startTime(LocalTime.of(12, 00))
-                .endTime(LocalTime.of(14, 00))
+                .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 12, 0), ZoneId.systemDefault()))
+                .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 14, 0), ZoneId.systemDefault()))
                 .dayNumber(1)
-                .date(LocalDate.of(2025, 11, 24))
                 .location(new EventLocationLink("some link"))
                 .build();
     }

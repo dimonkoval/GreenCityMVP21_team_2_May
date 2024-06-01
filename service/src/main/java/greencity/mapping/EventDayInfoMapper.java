@@ -31,10 +31,9 @@ public class EventDayInfoMapper extends AbstractConverter<EventSaveDayInfoDto, E
         return EventDayInfo.builder()
                 .isAllDay(saveDayInfoDto.isAllDay())
                 .isOnline(saveDayInfoDto.isOnline())
-                .startTime(saveDayInfoDto.getStartTime())
-                .endTime(saveDayInfoDto.getEndTime())
+                .startDateTime(saveDayInfoDto.getStartDateTime())
+                .endDateTime(saveDayInfoDto.getEndDateTime())
                 .dayNumber(saveDayInfoDto.getDayNumber())
-                .date(saveDayInfoDto.getDate())
                 .location(getLocation(saveDayInfoDto.isOnline(), saveDayInfoDto.getLocation()))
                 .build();
     }
