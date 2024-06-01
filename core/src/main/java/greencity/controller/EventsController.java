@@ -74,7 +74,7 @@ public class EventsController {
             @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
             @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED)
     })
-    @GetMapping("/all")
+    @GetMapping()
     @ApiPageable
     public ResponseEntity<List<EventResponseDto>> findAll(@Parameter(hidden = true) Pageable page) {
         return ResponseEntity.status(HttpStatus.OK).body(eventService.findAll(page));
