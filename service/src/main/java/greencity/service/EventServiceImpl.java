@@ -25,8 +25,8 @@ public class EventServiceImpl implements EventService{
     private final FileService fileService;
 
     @Override
-    public EventResponseDto save(EventRequestSaveDto event, List<MultipartFile> images, int mainImageNumber, UserVO author) {
-        String[] uploadedImages = uploadImages(images.toArray(new MultipartFile[0]));
+    public EventResponseDto save(EventRequestSaveDto event, MultipartFile[] images, int mainImageNumber, UserVO author) {
+        String[] uploadedImages = uploadImages(images);
 
         List<EventImage> eventImages = new ArrayList<>();
         eventImages =  modelMapper.map(uploadedImages, eventImages.getClass());

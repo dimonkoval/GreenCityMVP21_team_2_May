@@ -23,8 +23,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @Validated
 @RestController
 @RequestMapping("/events")
@@ -37,7 +35,7 @@ public class EventsController {
      * Method for creating {@link EventModelDto}
      *
      * @param eventRequestSaveDto - dto for {@link EventModelDto} entity.
-     * @param images - list of {@link MultipartFile} images.
+     * @param images - array of {@link MultipartFile} images.
      * @param user - current user {@link UserVO}.
      * @return dto {@link EventModelDto} instance.
      */
@@ -54,7 +52,7 @@ public class EventsController {
     public ResponseEntity<EventResponseDto> save(
             @Parameter(description = SwaggerExampleModel.ADD_EVENT, required = true)
             @RequestPart EventRequestSaveDto eventRequestSaveDto,                       // add @ValidationClass
-            @Parameter(description = "Event Images", required = false) @RequestParam(required = false) List<MultipartFile> images,
+            @Parameter(description = "Upload array of images for event.") MultipartFile[] images,
             @Parameter(hidden = true) @CurrentUser UserVO user
             ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
