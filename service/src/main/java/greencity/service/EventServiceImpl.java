@@ -76,7 +76,8 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public List<EventModelDto> findAllByAuthor(Pageable pageable, Long userId) {
-        return eventRepo.findAllByAuthorId(pageable, userId);
+    public List<EventResponseDto> findAllByAuthor(Pageable pageable, Long userId) {
+        List<EventModelDto> eventModelDtos = eventRepo.findAllByAuthorId(pageable, userId);
+        return eventModelDtos.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
     }
 }

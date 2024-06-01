@@ -24,5 +24,5 @@ public interface EventService {
     //need consider if we need both below and above
     String[] uploadImages(MultipartFile[] images);
 
-    List<EventModelDto> findAllByAuthor(Pageable pageable, Long userId);
+    List<EventResponseDto> findAllByAuthor(Pageable pageable, Long userId);
 }

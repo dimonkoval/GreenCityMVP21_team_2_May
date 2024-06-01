@@ -5,6 +5,7 @@ import greencity.annotations.CurrentUser;
 import greencity.annotations.ImageValidation;
 import greencity.constant.HttpStatuses;
 import greencity.constant.SwaggerExampleModel;
+import greencity.dto.econews.EcoNewsDto;
 import greencity.dto.event.EventRequestSaveDto;
 import greencity.dto.event.EventResponseDto;
 import greencity.dto.event.model.EventModelDto;
@@ -96,5 +97,23 @@ public class EventsController {
     public ResponseEntity<EventResponseDto> getEventById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(eventService.findById(id));
+    }
+
+    /**
+     * Method for getting eco news by authorised user.
+     *
+     * @return list of {@link EventResponseDto} instances.
+     */
+    @Operation(summary = "Get events by user id.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+            @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED)
+    })
+    @ApiPageable
+    @GetMapping("/author/{userId}")
+    public ResponseEntity<List<EventResponseDto>> getEcoNewsByUser(@PathVariable Long userId,
+                                                                   @Parameter(hidden = true) Pageable page ) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(eventService.findAllByAuthor(page, userId));
     }
 }
