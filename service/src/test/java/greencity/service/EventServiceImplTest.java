@@ -200,6 +200,13 @@ class EventServiceImplTest {
     }
 
     @Test
+    void uploadImages_ReturnEmptyArray() {
+        String[] actual = eventService.uploadImages(null);
+        assertEquals(0, actual.length);
+    }
+
+
+    @Test
     void findAllByAuthor() {
         List<EventResponseDto> expected = List.of(eventResponseDto);
         long authorId = 1;
