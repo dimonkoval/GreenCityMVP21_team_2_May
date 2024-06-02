@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -169,7 +170,7 @@ class EventServiceImplTest {
 
     @Test
     void findById() {
-        when(eventRepo.findById(1L)).thenReturn(eventModelDtoForResponse);
+        when(eventRepo.findById(1L)).thenReturn(Optional.of(eventModelDtoForResponse));
         when(modelMapper.map(eventModelDtoForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
         assertEquals(eventResponseDto, eventService.findById(1L));
     }
@@ -202,7 +203,7 @@ class EventServiceImplTest {
     void findAllByAuthor() {
         List<EventResponseDto> expected = List.of(eventResponseDto);
         long authorId = 1;
-        when(eventRepo.findAllByAuthorId(pageable, authorId)).thenReturn(List.of(eventModelDtoForResponse));
+        when(eventRepo.findAllByAuthorId(pageable, authorId)).thenReturn(Optional.of(List.of(eventModelDtoForResponse)));
         when(modelMapper.map(eventModelDtoForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
         assertEquals(expected, eventService.findAllByAuthor(pageable, authorId));
     }

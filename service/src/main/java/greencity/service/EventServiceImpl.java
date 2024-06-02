@@ -1,9 +1,11 @@
 package greencity.service;
 
+import greencity.constant.ErrorMessage;
 import greencity.dto.event.*;
 import greencity.dto.event.model.EventImage;
 import greencity.dto.event.model.EventModelDto;
 import greencity.dto.user.UserVO;
+import greencity.exception.exceptions.WrongIdException;
 import greencity.repository.EventRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -63,7 +65,10 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public EventResponseDto findById(Long id) {
-        return modelMapper.map(eventRepo.findById(id), EventResponseDto.class);
+        EventModelDto event = eventRepo
+                .findById(id)
+                .orElseThrow(() -> new WrongIdException(ErrorMessage.EVENT_NOT_FOUND_BY_ID + id));
+        return modelMapper.map(event, EventResponseDto.class);
     }
 
     @Override
@@ -81,7 +86,9 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public List<EventResponseDto> findAllByAuthor(Pageable pageable, Long userId) {
-        List<EventModelDto> eventModelDtos = eventRepo.findAllByAuthorId(pageable, userId);
+        List<EventModelDto> eventModelDtos = eventRepo
+                .findAllByAuthorId(pageable, userId)
+                .orElseThrow(() -> new WrongIdException(ErrorMessage.EVENT_NOT_FOUND_BY_AUTHOR_ID + userId));
         return eventModelDtos.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
     }
 }
