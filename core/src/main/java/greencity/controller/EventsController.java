@@ -60,7 +60,7 @@ public class EventsController {
             @Parameter(hidden = true) @CurrentUser UserVO user
             ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                eventService.save(eventRequestSaveDto, images, 0, user));
+                eventService.save(eventRequestSaveDto, images, user));
     }
 
     /**
@@ -71,8 +71,7 @@ public class EventsController {
     @Operation(summary = "Find all events by page.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
-            @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
-            @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED)
+            @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST)
     })
     @GetMapping()
     @ApiPageable
@@ -88,8 +87,6 @@ public class EventsController {
     @Operation(summary = "Get event by id.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
-            @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
-            @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED),
             @ApiResponse(responseCode = "404", description = HttpStatuses.NOT_FOUND)
     })
     @GetMapping("/{id}")
@@ -106,7 +103,7 @@ public class EventsController {
     @Operation(summary = "Get events by user id.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
-            @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED)
+            @ApiResponse(responseCode = "404", description = HttpStatuses.NOT_FOUND)
     })
     @ApiPageable
     @GetMapping("/author/{userId}")

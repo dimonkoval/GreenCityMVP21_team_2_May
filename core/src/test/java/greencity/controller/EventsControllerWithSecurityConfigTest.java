@@ -152,7 +152,7 @@ class EventsControllerWithSecurityConfigTest {
         mapper.registerModule(new JavaTimeModule());
         EventRequestSaveDto eventRequestSaveDto = mapper.readValue(json, EventRequestSaveDto.class);
 
-        verify(eventService).save(eq(eventRequestSaveDto), any(MultipartFile[].class), eq(0), any(UserVO.class));
+        verify(eventService).save(eq(eventRequestSaveDto), any(MultipartFile[].class), any(UserVO.class));
     }
 
     @ParameterizedTest

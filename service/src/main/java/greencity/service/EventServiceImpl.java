@@ -25,15 +25,19 @@ public class EventServiceImpl implements EventService{
     private final FileService fileService;
 
     @Override
-    public EventResponseDto save(EventRequestSaveDto event, MultipartFile[] images, int mainImageNumber, UserVO author) {
+    public EventResponseDto save(EventRequestSaveDto event, MultipartFile[] images, UserVO author) {
         String[] uploadedImages = uploadImages(images);
 
         List<EventImage> eventImages = new ArrayList<>();
-        eventImages =  modelMapper.map(uploadedImages, eventImages.getClass());
-        if (mainImageNumber == 0) {
-            eventImages.get(0).setMain(true);
-        } else {
-            eventImages.get(mainImageNumber - 1).setMain(true);
+        if (event.getMainImageNumber() == 0) {
+            event.setMainImageNumber(1);
+        }
+        if (images.length > 0) {
+            for (int i = 0; i < uploadedImages.length; i++) {
+                eventImages.add(EventImage.builder().imagePath(uploadedImages[i]).isMain(false).build());
+
+            }
+            eventImages.get(event.getMainImageNumber() - 1).setMain(true);
         }
 
         EventModelDto eventModelDto = modelMapper.map(event, EventModelDto.class);

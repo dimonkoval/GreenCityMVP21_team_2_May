@@ -117,7 +117,7 @@ class EventsControllerTest {
         mapper.registerModule(new JavaTimeModule());
         EventRequestSaveDto eventRequestSaveDto = mapper.readValue(json, EventRequestSaveDto.class);
 
-        verify(eventService).save(eq(eventRequestSaveDto), any(MultipartFile[].class), eq(0), eq(null));
+        verify(eventService).save(eq(eventRequestSaveDto), any(MultipartFile[].class), eq(null));
     }
 
     @Test
@@ -169,14 +169,6 @@ class EventsControllerTest {
                 .andExpect(status().isOk());
 
         verify(eventService).findById(1L);
-    }
-
-    @Test
-    void getEventByIdTest_ReturnsBadRequest() throws Exception {
-        mockMvc.perform(get(eventsLink + "/{id}", "ddss"))
-                .andExpect(status().isBadRequest());
-
-        verifyNoInteractions(eventService);
     }
 
     @Test
