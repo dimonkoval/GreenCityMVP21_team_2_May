@@ -1,9 +1,14 @@
 package greencity.service;
 
+import greencity.ModelUtils;
 import greencity.dto.event.*;
 import greencity.dto.event.model.*;
 import greencity.dto.user.UserVO;
+import greencity.entity.User;
+import greencity.exception.exceptions.NotFoundException;
+import greencity.exception.exceptions.WrongIdException;
 import greencity.repository.EventRepo;
+import greencity.repository.UserRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,6 +39,9 @@ class EventServiceImplTest {
 
     @Mock
     FileService fileService;
+
+    @Mock
+    UserRepo userRepo;
 
     @InjectMocks
     EventServiceImpl eventService;
@@ -176,6 +184,13 @@ class EventServiceImplTest {
     }
 
     @Test
+    void findById_ThrowsNotFound() {
+        Optional<EventModelDto> notFound = Optional.empty();
+        when(eventRepo.findById(2L)).thenReturn(notFound);
+        assertThrows(WrongIdException.class, () -> eventService.findById(2L));
+    }
+
+    @Test
     void uploadImage() {
         String expected = "string";
         when(fileService.upload(file1)).thenReturn(expected);
@@ -210,8 +225,17 @@ class EventServiceImplTest {
     void findAllByAuthor() {
         List<EventResponseDto> expected = List.of(eventResponseDto);
         long authorId = 1;
-        when(eventRepo.findAllByAuthorId(pageable, authorId)).thenReturn(Optional.of(List.of(eventModelDtoForResponse)));
+        when(userRepo.findById(authorId)).thenReturn(Optional.of(ModelUtils.getUser()));
+        when(eventRepo.findAllByAuthorId(pageable, authorId)).thenReturn(List.of(eventModelDtoForResponse));
         when(modelMapper.map(eventModelDtoForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
         assertEquals(expected, eventService.findAllByAuthor(pageable, authorId));
+    }
+
+    @Test
+    void findAllByAuthor_ThrowsNotFound() {
+        long authorId = 2;
+        Optional<User> notExist = Optional.empty();
+        when(userRepo.findById(authorId)).thenReturn(notExist);
+        assertThrows(WrongIdException.class, () -> eventService.findAllByAuthor(pageable, authorId));
     }
 }

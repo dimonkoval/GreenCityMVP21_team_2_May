@@ -5,8 +5,10 @@ import greencity.dto.event.*;
 import greencity.dto.event.model.EventImage;
 import greencity.dto.event.model.EventModelDto;
 import greencity.dto.user.UserVO;
+import greencity.entity.User;
 import greencity.exception.exceptions.WrongIdException;
 import greencity.repository.EventRepo;
+import greencity.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.EnableCaching;
@@ -25,6 +27,7 @@ public class EventServiceImpl implements EventService{
     private final EventRepo eventRepo;
     private final ModelMapper modelMapper;
     private final FileService fileService;
+    private final UserRepo userRepo;
 
     @Override
     public EventResponseDto save(EventRequestSaveDto event, MultipartFile[] images, UserVO author) {
@@ -89,9 +92,8 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public List<EventResponseDto> findAllByAuthor(Pageable pageable, Long userId) {
-        List<EventModelDto> eventModelDtos = eventRepo
-                .findAllByAuthorId(pageable, userId)
-                .orElseThrow(() -> new WrongIdException(ErrorMessage.EVENT_NOT_FOUND_BY_AUTHOR_ID + userId));
+        User user = userRepo.findById(userId).orElseThrow(() -> new WrongIdException(ErrorMessage.USER_NOT_FOUND_BY_ID + userId));
+        List<EventModelDto> eventModelDtos = eventRepo.findAllByAuthorId(pageable, userId);
         return eventModelDtos.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
     }
 }

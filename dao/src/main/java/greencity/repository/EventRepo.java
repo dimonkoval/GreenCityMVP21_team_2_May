@@ -31,7 +31,7 @@ public class EventRepo {
         return Optional.ofNullable(events.stream().filter(e -> e.getId().equals(id)).toList().get(0));
     }
 
-    public Optional<List<EventModelDto>> findAllByAuthorId(Pageable pageable, Long userId) {
-        return Optional.of(events.stream().filter(e -> e.getAuthor().getId().equals(userId)).toList());
+    public List<EventModelDto> findAllByAuthorId(Pageable pageable, Long userId) {
+        return events.stream().filter(e -> e.getAuthor().getId().equals(userId)).toList();
     }
 }
