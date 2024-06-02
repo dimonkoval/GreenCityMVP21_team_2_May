@@ -150,13 +150,16 @@ public class SecurityConfig {
                                 "/user/emailNotifications",
                                 "/user/activatedUsersAmount",
                                 "/user/{userId}/habit/assign",
+                                "/events",
+                                "/events/{id}",
+                                "/events/author/{userId}",
                                 "/token")
                         .permitAll()
                         .requestMatchers(HttpMethod.POST,
                                 "/ownSecurity/signUp",
                                 "/ownSecurity/signIn",
-                                "/ownSecurity/changePassword",
-                                "/events")
+                                "/ownSecurity/changePassword"
+                        )
                         .permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/achievements",
@@ -205,7 +208,7 @@ public class SecurityConfig {
                                 "/econews/dislike",
                                 "/econews/comments/{econewsId}",
                                 "/econews/comments/like",
-//                                "/events",
+                                "/events",
                                 CUSTOM_SHOPPING_LIST_ITEMS,
                                 "/files/image",
                                 "/files/convert",
