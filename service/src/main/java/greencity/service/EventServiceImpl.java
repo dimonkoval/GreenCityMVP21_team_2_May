@@ -76,7 +76,10 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public String[] uploadImages(MultipartFile[] images) {
-        return Arrays.stream(images).map(fileService::upload).toArray(String[]::new);
+        if (images != null) {
+            return Arrays.stream(images).map(fileService::upload).toArray(String[]::new);
+        }
+        return new String[0];
     }
 
     @Override
