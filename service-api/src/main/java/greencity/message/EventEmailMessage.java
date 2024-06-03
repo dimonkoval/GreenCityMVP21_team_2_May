@@ -1,5 +1,7 @@
 package greencity.message;
 
+import greencity.dto.event.model.EventAddress;
+import greencity.dto.event.model.EventStatus;
 import lombok.*;
 
 import java.time.ZonedDateTime;
@@ -13,11 +15,12 @@ public class EventEmailMessage {
     private String email;
     private String subject;
     private String author;
-    private String message;
+    private String eventTitle;
     private String description;
     private boolean isOpen;
-    private boolean isOnline;
+    private EventStatus status;
+    private String link;
     private ZonedDateTime startDateTime;
     private ZonedDateTime endDateTime;
-    private String location;
+    private EventAddress address;
 }
