@@ -1,5 +1,7 @@
 package greencity.service;
 
+import greencity.client.RestClient;
+import greencity.constant.EmailNotificationMessagesConstants;
 import greencity.constant.ErrorMessage;
 import greencity.dto.event.*;
 import greencity.dto.event.model.EventImage;
@@ -7,6 +9,7 @@ import greencity.dto.event.model.EventModelDto;
 import greencity.dto.user.UserVO;
 import greencity.entity.User;
 import greencity.exception.exceptions.WrongIdException;
+import greencity.message.EventEmailMessage;
 import greencity.repository.EventRepo;
 import greencity.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +17,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @Service
 @EnableCaching
@@ -28,6 +35,8 @@ public class EventServiceImpl implements EventService{
     private final ModelMapper modelMapper;
     private final FileService fileService;
     private final UserRepo userRepo;
+    private final RestClient restClient;
+    private final ThreadPoolExecutor emailThreadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
 
     @Override
     public EventResponseDto save(EventRequestSaveDto event, MultipartFile[] images, UserVO author) {
@@ -49,6 +58,22 @@ public class EventServiceImpl implements EventService{
         eventModelDto.setImages(eventImages);
         eventModelDto.setAuthor(author);
         eventModelDto = eventRepo.save(eventModelDto);
+
+        sendEmailNotification(EventEmailMessage.builder()
+                .email(author.getEmail())
+                .subject(EmailNotificationMessagesConstants.EVENT_CREATION_SUBJECT)
+                .author(author.getName())
+                .message(String.format(
+                        EmailNotificationMessagesConstants.EVENT_CREATION_MESSAGE, eventModelDto.getTitle()
+                ))
+                .description(eventModelDto.getDescription())
+                .isOpen(eventModelDto.isOpen())
+                .isOnline(eventModelDto.getDayInfos().getFirst().isOnline())
+                .startDateTime(eventModelDto.getDayInfos().getFirst().getStartDateTime())
+                .endDateTime(eventModelDto.getDayInfos().getFirst().getEndDateTime())
+                .location(eventModelDto.getDayInfos().getFirst().getLocation().getLocation())
+                .build());
+
         return modelMapper.map(eventModelDto, EventResponseDto.class);
     }
 
@@ -95,5 +120,18 @@ public class EventServiceImpl implements EventService{
         User user = userRepo.findById(userId).orElseThrow(() -> new WrongIdException(ErrorMessage.USER_NOT_FOUND_BY_ID + userId));
         List<EventModelDto> eventModelDtos = eventRepo.findAllByAuthorId(pageable, userId);
         return eventModelDtos.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
+    }
+
+
+    public void sendEmailNotification(EventEmailMessage generalEmailMessage) {
+        RequestAttributes originalRequestAttributes = RequestContextHolder.getRequestAttributes();
+        emailThreadPool.submit(() -> {
+            try {
+                RequestContextHolder.setRequestAttributes(originalRequestAttributes);
+                restClient.sendEmailNotification(generalEmailMessage);
+            } finally {
+                RequestContextHolder.resetRequestAttributes();
+            }
+        });
     }
 }
