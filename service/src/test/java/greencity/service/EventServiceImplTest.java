@@ -5,7 +5,6 @@ import greencity.dto.event.*;
 import greencity.dto.event.model.*;
 import greencity.dto.user.UserVO;
 import greencity.entity.User;
-import greencity.exception.exceptions.NotFoundException;
 import greencity.exception.exceptions.WrongIdException;
 import greencity.repository.EventRepo;
 import greencity.repository.UserRepo;
@@ -19,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -70,18 +70,23 @@ class EventServiceImplTest {
         dayInfoRequest1 = EventSaveDayInfoDto.builder()
                 .dayNumber(1)
                 .isAllDay(true)
-                .isOnline(false)
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 23, 59), ZoneId.systemDefault()))
-                .location("location address")
+                .status(EventStatus.OFFLINE)
+                .address(EventAddressDto.builder()
+                        .latitude(BigDecimal.TEN)
+                        .longitude(BigDecimal.TWO)
+                        .addressEn("location address")
+                        .addressUa("адреса місця")
+                        .build())
                 .build();
         dayInfoRequest2 = EventSaveDayInfoDto.builder()
                 .dayNumber(2)
                 .isAllDay(true)
-                .isOnline(true)
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 23, 59), ZoneId.systemDefault()))
-                .location("location link")
+                .status(EventStatus.ONLINE)
+                .link("location link")
                 .build();
         eventRequestSaveDto = EventRequestSaveDto.builder()
                 .title("Event title")
@@ -94,18 +99,23 @@ class EventServiceImplTest {
         dayInfoResponse1 = EventResponseDayInfoDto.builder()
                 .dayNumber(1)
                 .isAllDay(true)
-                .isOnline(false)
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 23, 59), ZoneId.systemDefault()))
-                .location("location address")
+                .status(EventStatus.OFFLINE)
+                .address(EventAddressDto.builder()
+                        .latitude(BigDecimal.TEN)
+                        .longitude(BigDecimal.TWO)
+                        .addressEn("location address")
+                        .addressUa("адреса місця")
+                        .build())
                 .build();
         dayInfoResponse2 = EventResponseDayInfoDto.builder()
                 .dayNumber(2)
                 .isAllDay(true)
-                .isOnline(true)
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 23, 59), ZoneId.systemDefault()))
-                .location("location link")
+                .status(EventStatus.ONLINE)
+                .link("location link")
                 .build();
         eventResponseDto = EventResponseDto.builder()
                 .id(1L)
@@ -123,18 +133,23 @@ class EventServiceImplTest {
         dayInfo1 = EventDayInfo.builder()
                 .dayNumber(1)
                 .isAllDay(true)
-                .isOnline(false)
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 23, 59), ZoneId.systemDefault()))
-                .location(EventLocationAddress.builder().build().setLocation("location address"))
+                .status(EventStatus.OFFLINE)
+                .address(EventAddress.builder()
+                        .latitude(BigDecimal.TEN)
+                        .longitude(BigDecimal.TWO)
+                        .addressEn("location address")
+                        .addressUa("адреса місця")
+                        .build())
                 .build();
         dayInfo2 = EventDayInfo.builder()
                 .dayNumber(2)
                 .isAllDay(true)
-                .isOnline(true)
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 23, 59), ZoneId.systemDefault()))
-                .location(EventLocationLink.builder().build().setLocation("location link"))
+                .status(EventStatus.ONLINE)
+                .link("location link")
                 .build();
         image1 = EventImage.builder().imagePath("imagePath").isMain(true).build();
         image2 = EventImage.builder().imagePath("another path").isMain(false).build();

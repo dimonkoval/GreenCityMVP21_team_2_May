@@ -2,9 +2,6 @@ package greencity.mapping;
 
 import greencity.dto.event.*;
 import greencity.dto.event.model.EventDayInfo;
-import greencity.dto.event.model.EventLocation;
-import greencity.dto.event.model.EventLocationAddress;
-import greencity.dto.event.model.EventLocationLink;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -19,6 +16,7 @@ import java.util.stream.Collectors;
  */
 @Component
 public class EventDayInfoMapper extends AbstractConverter<EventSaveDayInfoDto, EventDayInfo> {
+    private EventAddressMapper mapper = new EventAddressMapper();
     /**
      * Method for converting {@link EventSaveDayInfoDto} into {@link EventDayInfo}.
      *
@@ -30,19 +28,13 @@ public class EventDayInfoMapper extends AbstractConverter<EventSaveDayInfoDto, E
     protected EventDayInfo convert(EventSaveDayInfoDto saveDayInfoDto) {
         return EventDayInfo.builder()
                 .isAllDay(saveDayInfoDto.isAllDay())
-                .isOnline(saveDayInfoDto.isOnline())
                 .startDateTime(saveDayInfoDto.getStartDateTime())
                 .endDateTime(saveDayInfoDto.getEndDateTime())
                 .dayNumber(saveDayInfoDto.getDayNumber())
-                .location(getLocation(saveDayInfoDto.isOnline(), saveDayInfoDto.getLocation()))
+                .status(saveDayInfoDto.getStatus())
+                .link(saveDayInfoDto.getLink())
+                .address(mapper.convert(saveDayInfoDto.getAddress()))
                 .build();
-    }
-
-    private EventLocation getLocation(boolean isOnline, String location) {
-        if (isOnline) {
-            return new EventLocationLink(location);
-        }
-        return new EventLocationAddress(location);
     }
 
     /**

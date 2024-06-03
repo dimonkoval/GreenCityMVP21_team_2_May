@@ -1,5 +1,6 @@
 package greencity.mapping;
 
+import greencity.dto.event.EventAddressDto;
 import greencity.dto.event.EventRequestSaveDto;
 import greencity.dto.event.EventSaveDayInfoDto;
 import greencity.dto.event.model.EventModelDto;
@@ -29,11 +30,21 @@ public class EventModelDtoMapperTest {
 
         EventSaveDayInfoDto dayInfoDto = new EventSaveDayInfoDto();
         dayInfoDto.setAllDay(expected.getDayInfos().get(0).isAllDay());
-        dayInfoDto.setOnline(expected.getDayInfos().get(0).isOnline());
         dayInfoDto.setDayNumber(expected.getDayInfos().get(0).getDayNumber());
         dayInfoDto.setStartDateTime(expected.getDayInfos().get(0).getStartDateTime());
         dayInfoDto.setEndDateTime(expected.getDayInfos().get(0).getEndDateTime());
-        dayInfoDto.setLocation(expected.getDayInfos().get(0).getLocation().getLocation());
+        dayInfoDto.setStatus(expected.getDayInfos().get(0).getStatus());
+        if (expected.getDayInfos().get(0).getAddress() == null) {
+            dayInfoDto.setAddress(null);
+        } else {
+            dayInfoDto.setAddress(EventAddressDto.builder()
+                    .latitude(expected.getDayInfos().get(0).getAddress().getLatitude())
+                    .longitude(expected.getDayInfos().get(0).getAddress().getLongitude())
+                    .addressEn(expected.getDayInfos().get(0).getAddress().getAddressEn())
+                    .addressUa(expected.getDayInfos().get(0).getAddress().getAddressUa())
+                    .build());
+        }
+        dayInfoDto.setLink(expected.getDayInfos().get(0).getLink());
         EventRequestSaveDto dtoToConvert = new EventRequestSaveDto();
         dtoToConvert.setTitle(expected.getTitle());
         dtoToConvert.setDaysInfo(List.of(dayInfoDto));

@@ -4,12 +4,10 @@ import greencity.constant.AppConstant;
 import greencity.dto.PageableAdvancedDto;
 import greencity.dto.econews.*;
 import greencity.dto.econewscomment.*;
-//import greencity.dto.event.EventDayInfo;
-import greencity.dto.event.EventImageDto;
 import greencity.dto.event.model.EventDayInfo;
 import greencity.dto.event.model.EventImage;
-import greencity.dto.event.model.EventLocationLink;
 import greencity.dto.event.model.EventModelDto;
+import greencity.dto.event.model.EventStatus;
 import greencity.dto.habit.*;
 import greencity.dto.habitfact.*;
 import greencity.dto.language.LanguageDTO;
@@ -100,11 +98,11 @@ public class ModelUtils {
         return EventDayInfo.builder()
                 .id(1L)
                 .isAllDay(false)
-                .isOnline(true)
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 12, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 14, 0), ZoneId.systemDefault()))
                 .dayNumber(1)
-                .location(new EventLocationLink("some link"))
+                .status(EventStatus.ONLINE)
+                .link("some link")
                 .build();
     }
 

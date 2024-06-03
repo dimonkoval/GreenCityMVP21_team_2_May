@@ -46,7 +46,7 @@ public class EventServiceImpl implements EventService{
         if (event.getMainImageNumber() == 0) {
             event.setMainImageNumber(1);
         }
-        if (images.length > 0) {
+        if (images != null && images.length > 0) {
             for (int i = 0; i < uploadedImages.length; i++) {
                 eventImages.add(EventImage.builder().imagePath(uploadedImages[i]).isMain(false).build());
 

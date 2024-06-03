@@ -1,5 +1,7 @@
 package greencity.dto.event;
 
+import greencity.dto.event.model.EventAddress;
+import greencity.dto.event.model.EventStatus;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -15,13 +17,15 @@ import java.time.ZonedDateTime;
 public class EventResponseDayInfoDto {
     private boolean isAllDay;
 
-    private boolean isOnline;
-
     private ZonedDateTime startDateTime;
 
     private ZonedDateTime endDateTime;
 
     private int dayNumber;
 
-    private String location;
+    private EventStatus status;
+
+    private String link;
+
+    private EventAddressDto address;
 }

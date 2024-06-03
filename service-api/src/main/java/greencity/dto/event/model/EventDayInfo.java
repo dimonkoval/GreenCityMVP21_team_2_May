@@ -18,16 +18,18 @@ public class EventDayInfo {
 
     private boolean isAllDay;
 
-    private boolean isOnline;
-
     private ZonedDateTime startDateTime;
 
     private ZonedDateTime endDateTime;
 
     private int dayNumber;
 
-    //@Embedded
-    private EventLocation location;
+    private EventStatus status;//online, offline or both
+
+    private String link;
+
+//@Embedded
+    private EventAddress address;
 
 //    @ManyToOne
     private EventModelDto event;

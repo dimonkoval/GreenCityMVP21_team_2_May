@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class EventResponseDayInfoDtoMapper extends AbstractConverter<EventDayInfo, EventResponseDayInfoDto> {
+    EventAddressDtoMapper mapper = new EventAddressDtoMapper();
     /**
      * Method for converting {@link EventDayInfo} into {@link EventResponseDayInfoDto}.
      *
@@ -22,11 +23,12 @@ public class EventResponseDayInfoDtoMapper extends AbstractConverter<EventDayInf
     protected EventResponseDayInfoDto convert(EventDayInfo eventDayInfo) {
         return EventResponseDayInfoDto.builder()
                 .isAllDay(eventDayInfo.isAllDay())
-                .isOnline(eventDayInfo.isOnline())
                 .startDateTime(eventDayInfo.getStartDateTime())
                 .endDateTime(eventDayInfo.getEndDateTime())
                 .dayNumber(eventDayInfo.getDayNumber())
-                .location(eventDayInfo.getLocation().toString())
+                .status(eventDayInfo.getStatus())
+                .link(eventDayInfo.getLink())
+                .address(mapper.convert(eventDayInfo.getAddress()))
                 .build();
     }
 }
