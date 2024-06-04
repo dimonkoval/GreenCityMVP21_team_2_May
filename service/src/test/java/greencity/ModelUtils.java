@@ -1,13 +1,11 @@
 package greencity;
 
 import greencity.constant.AppConstant;
+import greencity.constant.EmailNotificationMessagesConstants;
 import greencity.dto.PageableAdvancedDto;
 import greencity.dto.econews.*;
 import greencity.dto.econewscomment.*;
-import greencity.dto.event.model.EventDayInfo;
-import greencity.dto.event.model.EventImage;
-import greencity.dto.event.model.EventModelDto;
-import greencity.dto.event.model.EventStatus;
+import greencity.dto.event.model.*;
 import greencity.dto.habit.*;
 import greencity.dto.habitfact.*;
 import greencity.dto.language.LanguageDTO;
@@ -24,9 +22,11 @@ import greencity.entity.*;
 import greencity.entity.localization.ShoppingListItemTranslation;
 import greencity.entity.localization.TagTranslation;
 import greencity.enums.*;
+import greencity.message.EventEmailMessage;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -123,6 +123,32 @@ public class ModelUtils {
                 .id(1L)
                 .imagePath("/image/path/")
                 .isMain(true)
+                .build();
+    }
+
+    public static EventAddress getEventAddress() {
+        return EventAddress.builder()
+                .latitude(BigDecimal.ONE)
+                .longitude(BigDecimal.ZERO)
+                .addressEn("english address")
+                .addressUa("адреса укроїнською")
+                .build();
+    }
+
+    public static EventEmailMessage getEventEmailMessage() {
+        return EventEmailMessage.builder()
+                .email(getUserVO().getEmail())
+                .subject("You have created an event")
+                .author(getUserVO().getName())
+                .eventTitle("Title")
+                .description("Description")
+                .isOpen(true)
+                .status(EventStatus.ONLINE)
+                .link("some link")
+                .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 12, 0), ZoneId.systemDefault()))
+                .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 14, 0), ZoneId.systemDefault()))
+                .address(getEventAddress())
+                .linkToEvent("http://localhost:8080/events/1")
                 .build();
     }
 
