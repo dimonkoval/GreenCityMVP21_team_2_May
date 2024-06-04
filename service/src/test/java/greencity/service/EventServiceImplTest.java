@@ -1,22 +1,27 @@
 package greencity.service;
 
 import greencity.ModelUtils;
+import greencity.client.RestClient;
 import greencity.dto.event.*;
 import greencity.dto.event.model.*;
 import greencity.dto.user.UserVO;
 import greencity.entity.User;
 import greencity.exception.exceptions.WrongIdException;
+import greencity.message.EventEmailMessage;
 import greencity.repository.EventRepo;
 import greencity.repository.UserRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -24,9 +29,10 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 class EventServiceImplTest {
@@ -48,6 +54,12 @@ class EventServiceImplTest {
 
     @Mock
     Pageable pageable;
+
+    @Mock
+    ExecutorService emailThreadPool;
+
+    @Mock
+    RestClient restClient;
 
     EventRequestSaveDto eventRequestSaveDto;
     EventSaveDayInfoDto dayInfoRequest1;
@@ -252,5 +264,17 @@ class EventServiceImplTest {
         Optional<User> notExist = Optional.empty();
         when(userRepo.findById(authorId)).thenReturn(notExist);
         assertThrows(WrongIdException.class, () -> eventService.findAllByAuthor(pageable, authorId));
+    }
+
+    @Test
+    void testSendEmailNotification() {
+        EventEmailMessage eventEmailMessage = ModelUtils.getEventEmailMessage();
+        RequestAttributes requestAttributes = mock(RequestAttributes.class);
+        RequestContextHolder.setRequestAttributes(requestAttributes);
+
+        eventService.sendEmailNotification(eventEmailMessage);
+
+        verify(restClient).sendEmailNotification(eventEmailMessage);
+        assertEquals(requestAttributes, RequestContextHolder.getRequestAttributes());
     }
 }

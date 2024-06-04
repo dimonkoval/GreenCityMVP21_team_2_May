@@ -111,12 +111,12 @@ public class EventServiceImpl implements EventService{
     }
 
 
-    public void sendEmailNotification(EventEmailMessage generalEmailMessage) {
+    public void sendEmailNotification(EventEmailMessage eventEmailMessage) {
         RequestAttributes originalRequestAttributes = RequestContextHolder.getRequestAttributes();
         emailThreadPool.submit(() -> {
             try {
                 RequestContextHolder.setRequestAttributes(originalRequestAttributes);
-                restClient.sendEmailNotification(generalEmailMessage);
+                restClient.sendEmailNotification(eventEmailMessage);
             } finally {
                 RequestContextHolder.resetRequestAttributes();
             }
