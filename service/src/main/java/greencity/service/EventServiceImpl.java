@@ -41,6 +41,10 @@ public class EventServiceImpl implements EventService{
     private final RestClient restClient;
     private final ThreadPoolExecutor emailThreadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
 
+    @Setter
+    @Value("${greencitymvp.server.address}")
+    private String greenCityMvpServerAddress;
+
     @Override
     public EventResponseDto save(EventRequestSaveDto event, MultipartFile[] images, UserVO author) {
         String[] uploadedImages = uploadImages(images);
@@ -76,6 +80,7 @@ public class EventServiceImpl implements EventService{
                 .startDateTime(eventModelDto.getDayInfos().getFirst().getStartDateTime())
                 .endDateTime(eventModelDto.getDayInfos().getFirst().getEndDateTime())
                 .address(firstDayInfo.getAddress())
+                .linkToEvent(greenCityMvpServerAddress + "/events/" + eventModelDto.getId())
                 .build());
 
         return modelMapper.map(eventModelDto, EventResponseDto.class);

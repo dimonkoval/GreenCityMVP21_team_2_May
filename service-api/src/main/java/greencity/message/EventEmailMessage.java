@@ -9,6 +9,7 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 @ToString
 public class EventEmailMessage {
@@ -23,4 +24,5 @@ public class EventEmailMessage {
     private ZonedDateTime startDateTime;
     private ZonedDateTime endDateTime;
     private EventAddress address;
+    private String linkToEvent;
 }
