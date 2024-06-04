@@ -1,10 +1,8 @@
 package greencity.service;
 
 import greencity.client.RestClient;
-import greencity.constant.EmailNotificationMessagesConstants;
 import greencity.constant.ErrorMessage;
 import greencity.dto.event.*;
-import greencity.dto.event.model.EventDayInfo;
 import greencity.dto.event.model.EventImage;
 import greencity.dto.event.model.EventModelDto;
 import greencity.dto.user.UserVO;
@@ -14,9 +12,7 @@ import greencity.message.EventEmailMessage;
 import greencity.repository.EventRepo;
 import greencity.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -41,9 +37,6 @@ public class EventServiceImpl implements EventService{
     private final RestClient restClient;
     private final ThreadPoolExecutor emailThreadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
 
-    @Setter
-    @Value("${greencitymvp.server.address}")
-    private String greenCityMvpServerAddress;
 
     @Override
     public EventResponseDto save(EventRequestSaveDto event, MultipartFile[] images, UserVO author) {
@@ -66,22 +59,8 @@ public class EventServiceImpl implements EventService{
         eventModelDto.setAuthor(author);
         eventModelDto = eventRepo.save(eventModelDto);
 
-        EventDayInfo firstDayInfo = eventModelDto.getDayInfos().getFirst();
-
-        sendEmailNotification(EventEmailMessage.builder()
-                .email(author.getEmail())
-                .subject(EmailNotificationMessagesConstants.EVENT_CREATION_SUBJECT)
-                .author(author.getName())
-                .eventTitle(eventModelDto.getTitle())
-                .description(eventModelDto.getDescription())
-                .isOpen(eventModelDto.isOpen())
-                .status(firstDayInfo.getStatus())
-                .link(firstDayInfo.getLink())
-                .startDateTime(eventModelDto.getDayInfos().getFirst().getStartDateTime())
-                .endDateTime(eventModelDto.getDayInfos().getFirst().getEndDateTime())
-                .address(firstDayInfo.getAddress())
-                .linkToEvent(greenCityMvpServerAddress + "/events/" + eventModelDto.getId())
-                .build());
+        EventEmailMessage eventEmailMessage = modelMapper.map(eventModelDto, EventEmailMessage.class);
+        sendEmailNotification(eventEmailMessage);
 
         return modelMapper.map(eventModelDto, EventResponseDto.class);
     }
