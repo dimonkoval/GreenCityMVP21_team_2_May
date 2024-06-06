@@ -5,14 +5,19 @@ import greencity.constant.ErrorMessage;
 import greencity.dto.event.*;
 import greencity.dto.event.model.EventImage;
 import greencity.dto.event.model.EventModelDto;
+import greencity.dto.tag.TagVO;
 import greencity.dto.user.UserVO;
+import greencity.entity.Tag;
 import greencity.entity.User;
+import greencity.enums.TagType;
+import greencity.exception.exceptions.NotSavedException;
 import greencity.exception.exceptions.WrongIdException;
 import greencity.message.EventEmailMessage;
 import greencity.repository.EventRepo;
 import greencity.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,9 +25,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -35,6 +38,7 @@ public class EventServiceImpl implements EventService{
     private final FileService fileService;
     private final UserRepo userRepo;
     private final RestClient restClient;
+    private final TagsService tagsService;
     private final ThreadPoolExecutor emailThreadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
 
 
@@ -57,6 +61,15 @@ public class EventServiceImpl implements EventService{
         EventModelDto eventModelDto = modelMapper.map(event, EventModelDto.class);
         eventModelDto.setImages(eventImages);
         eventModelDto.setAuthor(author);
+
+
+        if (new HashSet<>(event.getTags()).size() < event.getTags().size()) {
+            throw new NotSavedException(ErrorMessage.ECO_NEWS_NOT_SAVED);
+        }
+        List<TagVO> tagVOS = tagsService.findTagsByNamesAndType(
+                event.getTags(), TagType.EVENT);
+        eventModelDto.setTags(tagVOS);
+
         eventModelDto = eventRepo.save(eventModelDto);
 
         EventEmailMessage eventEmailMessage = modelMapper.map(eventModelDto, EventEmailMessage.class);

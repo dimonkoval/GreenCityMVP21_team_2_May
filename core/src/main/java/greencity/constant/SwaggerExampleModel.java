@@ -71,7 +71,7 @@ public final class SwaggerExampleModel {
         + "\t\"mainImageNumber\":1,\n"
         + "\t\"daysInfo\":[\n"
         + "\t\t{\n"
-        + "\t\t\t\"allDay\":\"false\",\n"
+        + "\t\t\t\"allDay\":false,\n"
         + "\t\t\t\"dayNumber\":1,\n"
         + "\t\t\t\"status\":\"ONLINE_OFFLINE\",\n"
         + "\t\t\t\"startDateTime\": \"2025-06-27T00:00:00Z\",\n"
@@ -80,11 +80,16 @@ public final class SwaggerExampleModel {
         + "\t\t\t\"address\": {\n"
         + "\t\t\t\t\"latitude\":0,\n"
         + "\t\t\t\t\"longitude\":0,\n"
-        + "\t\t\t\t\"addressEn\":\"Konovaltsia street, 1, Kyiv, Ukraine,\n"
-        + "\t\t\t\t\"addressUa\":\"Коновальця вулиця, 1, Київ, Україна,\n"
+        + "\t\t\t\t\"addressEn\":\"Konovaltsia street, 1, Kyiv, Ukraine\",\n"
+        + "\t\t\t\t\"addressUa\":\"Коновальця вулиця, 1, Київ, Україна\"\n"
         + "\t\t\t}\n"
         + "\t\t}\n"
         + "\t],\n"
+        + "\t\"tags\": [\n"
+        + "\t\t\"Social\",\n"
+        + "\t\t\"Environmental\",\n"
+        + "\t\t\"Economic\"\n"
+        + "\t]\n"
         + "}" + AFTER_EXAMPLE;
 
     public static final String UPDATE_EVENT = BEFORE_EXAMPLE

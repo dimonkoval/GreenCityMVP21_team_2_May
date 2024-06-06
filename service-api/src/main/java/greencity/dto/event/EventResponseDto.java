@@ -24,4 +24,8 @@ public class EventResponseDto {
     private List<EventImageDto> images;
 
     private EventAuthorDto author;
+
+    private List<String> tagsUa;
+
+    private List<String> tagsEn;
 }

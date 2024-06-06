@@ -1,6 +1,7 @@
 package greencity.dto.event.model;
 
 import greencity.annotations.ValidEventDateTime;
+import greencity.dto.tag.TagVO;
 import greencity.dto.user.UserVO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -45,4 +46,8 @@ public class EventModelDto {
     //@ManyToOne
     @NotNull
     private UserVO author;
+
+    //@ManyToMany
+    //private List<Tag> tags;
+    private List<TagVO> tags;
 }

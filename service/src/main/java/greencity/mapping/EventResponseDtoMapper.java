@@ -1,7 +1,10 @@
 package greencity.mapping;
 
+import greencity.constant.AppConstant;
 import greencity.dto.event.EventResponseDto;
 import greencity.dto.event.model.EventModelDto;
+import greencity.dto.tag.TagTranslationVO;
+import greencity.entity.localization.TagTranslation;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +49,14 @@ public class EventResponseDtoMapper extends AbstractConverter<EventModelDto, Eve
                         .map(eventImageDtoMapperMapper::convert)
                         .collect(Collectors.toList()))
                 .author(eventAuthorDtoMapper.convert(eventModelDto.getAuthor()))
+                .tagsEn(eventModelDto.getTags().stream()
+                        .flatMap(t -> t.getTagTranslations().stream())
+                        .filter(t -> t.getLanguageVO().getCode().equals(AppConstant.DEFAULT_LANGUAGE_CODE))
+                        .map(TagTranslationVO::getName).collect(Collectors.toList()))
+                .tagsUa(eventModelDto.getTags().stream()
+                        .flatMap(t -> t.getTagTranslations().stream())
+                        .filter(t -> t.getLanguageVO().getCode().equals("ua"))
+                        .map(TagTranslationVO::getName).collect(Collectors.toList()))
                 .build();
     }
 

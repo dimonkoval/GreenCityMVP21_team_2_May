@@ -33,4 +33,6 @@ public class EventRequestSaveDto {
     private boolean isOpen = true;
 
     private int mainImageNumber = 0;
+
+    private List<String> tags;
 }
