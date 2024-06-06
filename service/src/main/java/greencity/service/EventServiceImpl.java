@@ -63,12 +63,14 @@ public class EventServiceImpl implements EventService{
         eventModelDto.setAuthor(author);
 
 
-        if (new HashSet<>(event.getTags()).size() < event.getTags().size()) {
-            throw new NotSavedException(ErrorMessage.EVENT_NOT_SAVED);
+        if (event.getTags() != null && event.getTags().size() > 0) {
+            if (new HashSet<>(event.getTags()).size() < event.getTags().size()) {
+                throw new NotSavedException(ErrorMessage.EVENT_NOT_SAVED);
+            }
+            List<TagVO> tagVOS = tagsService.findTagsByNamesAndType(
+                    event.getTags(), TagType.EVENT);
+            eventModelDto.setTags(tagVOS);
         }
-        List<TagVO> tagVOS = tagsService.findTagsByNamesAndType(
-                event.getTags(), TagType.EVENT);
-        eventModelDto.setTags(tagVOS);
 
         eventModelDto = eventRepo.save(eventModelDto);
 
