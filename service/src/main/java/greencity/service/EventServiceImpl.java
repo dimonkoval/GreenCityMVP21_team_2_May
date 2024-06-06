@@ -64,7 +64,7 @@ public class EventServiceImpl implements EventService{
 
 
         if (new HashSet<>(event.getTags()).size() < event.getTags().size()) {
-            throw new NotSavedException(ErrorMessage.ECO_NEWS_NOT_SAVED);
+            throw new NotSavedException(ErrorMessage.EVENT_NOT_SAVED);
         }
         List<TagVO> tagVOS = tagsService.findTagsByNamesAndType(
                 event.getTags(), TagType.EVENT);
