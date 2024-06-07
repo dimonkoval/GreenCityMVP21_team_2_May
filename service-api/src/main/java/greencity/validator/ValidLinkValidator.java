@@ -9,6 +9,11 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.util.List;
 
 public class ValidLinkValidator implements ConstraintValidator<ValidLink, List<EventSaveDayInfoDto>> {
+    /**
+     * Method that checks if all links included in received list of event day info is valid
+     * (link cannot be null and should start with "http(s)://",
+     * if status of day is offline link can not be set).
+     */
     @Override
     public boolean isValid(List<EventSaveDayInfoDto> value, ConstraintValidatorContext context) {
         for (EventSaveDayInfoDto day: value) {

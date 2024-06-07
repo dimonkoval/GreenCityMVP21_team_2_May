@@ -4,7 +4,6 @@ import greencity.dto.event.EventAddressDto;
 import greencity.dto.event.EventSaveDayInfoDto;
 import greencity.dto.event.model.EventStatus;
 import jakarta.validation.ConstraintValidatorContext;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

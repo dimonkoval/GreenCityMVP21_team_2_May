@@ -10,6 +10,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class ValidAddressValidator implements ConstraintValidator<ValidAddress, List<EventSaveDayInfoDto>> {
+    /**
+     * Method that checks if all EventAddress included in received list of event day info is valid
+     * (latitude and longitude can not be null and should be in valid range,
+     * at list one English or Ukrainian address should be present
+     * if status of day is online address can not be set).
+     */
     @Override
     public boolean isValid(List<EventSaveDayInfoDto> value, ConstraintValidatorContext context) {
         for(EventSaveDayInfoDto day: value) {
