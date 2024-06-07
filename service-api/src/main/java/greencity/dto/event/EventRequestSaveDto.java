@@ -1,7 +1,9 @@
 package greencity.dto.event;
 
 
+import greencity.annotations.ValidAddress;
 import greencity.annotations.ValidEventDateTime;
+import greencity.annotations.ValidLink;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -22,7 +24,8 @@ public class EventRequestSaveDto {
 
     @NotNull
     @ValidEventDateTime
-    //@ValidLocation
+    @ValidAddress(message = "Please add address to the event.")
+    @ValidLink(message = "Please add a link to the event. The link must start with http(s)://")
     @Size(max = 7, min = 1)
     private List<EventSaveDayInfoDto> daysInfo;
 
