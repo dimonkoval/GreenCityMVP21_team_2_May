@@ -19,14 +19,12 @@ public class EventRequestSaveDto {
     @Size(max = 70)
     private String title;
 
-    @NotNull
-    @ValidEventDateTime
-    //@ValidLocation
     @NotEmptyEventDateTime
     @EventDateAfterOneHour
     @ValidSequenceEventDates
     @StartBeforeEndTime
     @ValidAllDayEvent
+    @UniqueEventDates
     @Size(max = 7, min = 1)
     private List<EventSaveDayInfoDto> daysInfo;
 
