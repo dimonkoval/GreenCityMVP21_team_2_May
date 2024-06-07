@@ -1,10 +1,6 @@
 package greencity.dto.event;
 
-
-import greencity.annotations.EventDateAfterOneHour;
-import greencity.annotations.NotEmptyEventDateTime;
-import greencity.annotations.ValidEventDateTime;
-import greencity.annotations.ValidSequenceEventDates;
+import greencity.annotations.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -29,6 +25,8 @@ public class EventRequestSaveDto {
     @NotEmptyEventDateTime
     @EventDateAfterOneHour
     @ValidSequenceEventDates
+    @StartBeforeEndTime
+    @ValidAllDayEvent
     @Size(max = 7, min = 1)
     private List<EventSaveDayInfoDto> daysInfo;
 
