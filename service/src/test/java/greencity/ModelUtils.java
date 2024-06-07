@@ -1,9 +1,11 @@
 package greencity;
 
 import greencity.constant.AppConstant;
+import greencity.constant.EmailNotificationMessagesConstants;
 import greencity.dto.PageableAdvancedDto;
 import greencity.dto.econews.*;
 import greencity.dto.econewscomment.*;
+import greencity.dto.event.model.*;
 import greencity.dto.habit.*;
 import greencity.dto.habitfact.*;
 import greencity.dto.language.LanguageDTO;
@@ -20,9 +22,11 @@ import greencity.entity.*;
 import greencity.entity.localization.ShoppingListItemTranslation;
 import greencity.entity.localization.TagTranslation;
 import greencity.enums.*;
+import greencity.message.EventEmailMessage;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -88,6 +92,64 @@ public class ModelUtils {
 
     public static List<Tag> getHabitsTags() {
         return Collections.singletonList(getHabitTag());
+    }
+
+    public static EventDayInfo getEventDayInfo() {
+        return EventDayInfo.builder()
+                .id(1L)
+                .isAllDay(false)
+                .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 12, 0), ZoneId.systemDefault()))
+                .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 14, 0), ZoneId.systemDefault()))
+                .dayNumber(1)
+                .status(EventStatus.ONLINE)
+                .link("some link")
+                .build();
+    }
+
+    public static EventModelDto getEventModelDto() {
+        return EventModelDto.builder()
+                .id(1L)
+                .title("title")
+                .dayInfos(List.of(getEventDayInfo()))
+                .description("description123456789012345678901234567890")
+                .isOpen(true)
+                .images(new ArrayList<>())
+                .author(getUserVO())
+                .build();
+    }
+
+    public static EventImage getEventImage() {
+        return EventImage.builder()
+                .id(1L)
+                .imagePath("/image/path/")
+                .isMain(true)
+                .build();
+    }
+
+    public static EventAddress getEventAddress() {
+        return EventAddress.builder()
+                .latitude(BigDecimal.ONE)
+                .longitude(BigDecimal.ZERO)
+                .addressEn("english address")
+                .addressUa("адреса укроїнською")
+                .build();
+    }
+
+    public static EventEmailMessage getEventEmailMessage() {
+        return EventEmailMessage.builder()
+                .email(getUserVO().getEmail())
+                .subject("You have created an event")
+                .author(getUserVO().getName())
+                .eventTitle("Title")
+                .description("Description")
+                .isOpen(true)
+                .status(EventStatus.ONLINE)
+                .link("some link")
+                .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 12, 0), ZoneId.systemDefault()))
+                .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 14, 0), ZoneId.systemDefault()))
+                .address(getEventAddress())
+                .linkToEvent("http://localhost:8080/events/1")
+                .build();
     }
 
     public static User getUser() {

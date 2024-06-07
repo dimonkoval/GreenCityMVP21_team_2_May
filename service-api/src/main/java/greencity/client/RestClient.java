@@ -7,6 +7,7 @@ import greencity.dto.econews.EcoNewsForSendEmailDto;
 import greencity.dto.user.*;
 import greencity.enums.EmailNotification;
 import greencity.enums.Role;
+import greencity.message.EventEmailMessage;
 import greencity.message.SendHabitNotification;
 import greencity.message.SendReportEmailMessage;
 import lombok.RequiredArgsConstructor;
@@ -451,6 +452,19 @@ public class RestClient {
             HttpMethod.POST, entity,
             new ParameterizedTypeReference<PageableAdvancedDto<UserManagementVO>>() {
             }).getBody();
+    }
+
+    /**
+     *
+     *
+     * @param message
+     */
+    public void sendEmailNotification(EventEmailMessage message) {
+        HttpHeaders headers = setHeader();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<EventEmailMessage> entity = new HttpEntity<>(message, headers);
+        restTemplate.exchange(greenCityUserServerAddress +
+                RestTemplateLinks.SEND_EVENT_CREATION_NOTIFICATION, HttpMethod.POST, entity, Object.class).getBody();
     }
 
     /**
