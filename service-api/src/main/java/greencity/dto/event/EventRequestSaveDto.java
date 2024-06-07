@@ -1,6 +1,7 @@
 package greencity.dto.event;
 
 
+import greencity.annotations.EventDateAfterOneHour;
 import greencity.annotations.NotEmptyEventDateTime;
 import greencity.annotations.ValidEventDateTime;
 import jakarta.validation.constraints.NotBlank;
@@ -25,6 +26,7 @@ public class EventRequestSaveDto {
     @ValidEventDateTime
     //@ValidLocation
     @NotEmptyEventDateTime
+    @EventDateAfterOneHour
     @Size(max = 7, min = 1)
     private List<EventSaveDayInfoDto> daysInfo;
 
