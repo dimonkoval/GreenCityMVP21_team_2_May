@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="2024-06-07-1" author="Dimon">
+        <insert tableName="users">
+            <column name = "date_of_registration" value="1990-01-01 00:00:00.000000"/>
+            <column name="email" value="test@gmail.com"/>
+            <column name="email_notification" value="0"/>
+            <column name="name" value="Test"/>
+            <column name="role" value="ROLE_USER"/>
+            <column name="user_status" value="2"/>
+            <column name="refresh_token_key" value="123e4567-e89b-12d3-a456-426614174000"/>
+            <column name="rating" value="5"/>
+            <column name="first_name" value="TEST"/>
+            <column name="city" value="Kyiv"/>
+            <column name="show_location" value="true"/>
+            <column name="show_eco_place" value="true"/>
+            <column name="show_shopping_list" value="true"/>
+            <column name="language_id" value="2"/>
+            <column name="uuid" value="f47ac10b-58cc-4372-a567-0e02b2c3d479"/>
+            <column name="phone_number" value="+380675554444"/>
+        </insert>
+        <insert tableName="users">
+            <column name = "date_of_registration" value="2020-01-01 00:00:00.000000"/>
+            <column name="email" value="test2@gmail.com"/>
+            <column name="email_notification" value="0"/>
+            <column name="name" value="Test2"/>
+            <column name="role" value="ROLE_USER"/>
+            <column name="user_status" value="2"/>
+            <column name="refresh_token_key" value="987f6bcd-4321-5eca-b098-7654321fede0"/>
+            <column name="rating" value="5.1"/>
+            <column name="first_name" value="TEST"/>
+            <column name="city" value="Kyiv"/>
+            <column name="show_location" value="true"/>
+            <column name="show_eco_place" value="true"/>
+            <column name="show_shopping_list" value="true"/>
+            <column name="language_id" value="2"/>
+            <column name="uuid" value="123e4567-e89b-12d3-a456-426614174000"/>
+            <column name="phone_number" value="+380675555555"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
