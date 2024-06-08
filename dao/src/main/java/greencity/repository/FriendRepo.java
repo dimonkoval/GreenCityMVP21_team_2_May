@@ -12,7 +12,6 @@ import java.util.List;
 
 @Repository
 public interface FriendRepo  extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
-
     @Query(nativeQuery = true, value = "SELECT DISTINCT u.* "
             + "FROM users_friends uf "
             + "JOIN habit_assign ha ON uf.friend_id = ha.user_id "
