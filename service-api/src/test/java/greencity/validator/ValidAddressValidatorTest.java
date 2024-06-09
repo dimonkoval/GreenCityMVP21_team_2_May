@@ -152,7 +152,15 @@ class ValidAddressValidatorTest {
                                 .latitude(BigDecimal.valueOf(2))
                                 .longitude(BigDecimal.valueOf(179))
                                 .addressEn(null)
-                                .addressUa("   ")
+                                .addressUa("валідна адреса")
+                                .build(),
+                        "link",
+                        EventStatus.ONLINE_OFFLINE),
+                Arguments.of(EventAddressDto.builder()
+                                .latitude(BigDecimal.valueOf(2))
+                                .longitude(BigDecimal.valueOf(179))
+                                .addressEn("valid address")
+                                .addressUa(null)
                                 .build(),
                         "link",
                         EventStatus.ONLINE_OFFLINE),
@@ -160,6 +168,14 @@ class ValidAddressValidatorTest {
                                 .latitude(BigDecimal.valueOf(27.56))
                                 .longitude(BigDecimal.valueOf(37.9))
                                 .addressEn("  ")
+                                .addressUa("валідна адреса")
+                                .build(),
+                        null,
+                        EventStatus.OFFLINE),
+                Arguments.of(EventAddressDto.builder()
+                                .latitude(BigDecimal.valueOf(27.56))
+                                .longitude(BigDecimal.valueOf(37.9))
+                                .addressEn("valid address")
                                 .addressUa("")
                                 .build(),
                         null,

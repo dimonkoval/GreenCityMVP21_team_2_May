@@ -13,7 +13,7 @@ public class ValidAddressValidator implements ConstraintValidator<ValidAddress, 
     /**
      * Method that checks if all EventAddress included in received list of event day info is valid
      * (latitude and longitude can not be null and should be in valid range,
-     * at list one English or Ukrainian address should be present
+     * both English or Ukrainian address should be present
      * if status of day is online address can not be set).
      */
     @Override
@@ -34,8 +34,10 @@ public class ValidAddressValidator implements ConstraintValidator<ValidAddress, 
                         day.getAddress().getLongitude().compareTo(BigDecimal.valueOf(-180)) < 0 ) {
                     return false;
                 }
-                if ((day.getAddress().getAddressEn() == null || day.getAddress().getAddressEn().isBlank()) &&
-                        (day.getAddress().getAddressUa() == null || day.getAddress().getAddressUa().isBlank())) {
+                if (day.getAddress().getAddressEn() == null || day.getAddress().getAddressEn().isBlank()) {
+                    return false;
+                }
+                if (day.getAddress().getAddressUa() == null || day.getAddress().getAddressUa().isBlank()) {
                     return false;
                 }
             } else if (day.getAddress() != null) {
