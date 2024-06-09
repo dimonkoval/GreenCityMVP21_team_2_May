@@ -1,14 +1,14 @@
 package greencity.validator;
 
 import greencity.annotations.EventDateAfterOneHour;
-import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.EventSaveDayInfoDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 
-public class EventDateAfterOneHourValidator implements ConstraintValidator<EventDateAfterOneHour, List<EventDayInfo>> {
+public class EventDateAfterOneHourValidator implements ConstraintValidator<EventDateAfterOneHour, List<EventSaveDayInfoDto>> {
     /**
      * Validates a list of EventDayInfo objects to ensure the first event's start time is at least one hour
      * from the current time.
@@ -24,7 +24,7 @@ public class EventDateAfterOneHourValidator implements ConstraintValidator<Event
      * @return true if the start time of the first event is at least one hour from now; false otherwise
      */
     @Override
-    public boolean isValid(List<EventDayInfo> value, ConstraintValidatorContext context) {
+    public boolean isValid(List<EventSaveDayInfoDto> value, ConstraintValidatorContext context) {
         //first dateTime of event should be at least in one hour after now
         ZonedDateTime nowPlusOneHour = ZonedDateTime.now().plusHours(1);
         if (value.get(0).getStartDateTime().isBefore(nowPlusOneHour)) {

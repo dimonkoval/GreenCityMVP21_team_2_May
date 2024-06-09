@@ -1,6 +1,6 @@
 package greencity.validator;
 
-import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.EventSaveDayInfoDto;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,12 +26,12 @@ class ValidSequenceEventDatesValidatorTest {
 
     @Test
     void testValidSequenceEventDates() {
-        List<EventDayInfo> eventDays = Arrays.asList(
-                EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = Arrays.asList(
+                EventSaveDayInfoDto.builder()
                         .startDateTime(ZonedDateTime.now().plusDays(1))
                         .endDateTime(ZonedDateTime.now().plusDays(1).plusHours(2))
                         .build(),
-                EventDayInfo.builder()
+                EventSaveDayInfoDto.builder()
                         .startDateTime(ZonedDateTime.now().plusDays(2))
                         .endDateTime(ZonedDateTime.now().plusDays(2).plusHours(2))
                         .build()
@@ -41,12 +41,12 @@ class ValidSequenceEventDatesValidatorTest {
 
     @Test
     void testInvalidSequenceEventDates() {
-        List<EventDayInfo> eventDays = Arrays.asList(
-                EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = Arrays.asList(
+                EventSaveDayInfoDto.builder()
                         .startDateTime(ZonedDateTime.now().plusDays(2))
                         .endDateTime(ZonedDateTime.now().plusDays(2).plusHours(2))
                         .build(),
-                EventDayInfo.builder()
+                EventSaveDayInfoDto.builder()
                         .startDateTime(ZonedDateTime.now().plusDays(1))
                         .endDateTime(ZonedDateTime.now().plusDays(1).plusHours(2))
                         .build()
@@ -56,12 +56,12 @@ class ValidSequenceEventDatesValidatorTest {
 
     @Test
     void testEqualsSequenceEventDates() {
-        List<EventDayInfo> eventDays = Arrays.asList(
-                EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = Arrays.asList(
+                EventSaveDayInfoDto.builder()
                         .startDateTime(ZonedDateTime.now().plusDays(3))
                         .endDateTime(ZonedDateTime.now().plusDays(3).plusHours(3))
                         .build(),
-                EventDayInfo.builder()
+                EventSaveDayInfoDto.builder()
                         .startDateTime(ZonedDateTime.now().plusDays(3))
                         .endDateTime(ZonedDateTime.now().plusDays(3).plusHours(3))
                         .build()

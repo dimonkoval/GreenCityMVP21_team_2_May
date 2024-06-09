@@ -1,13 +1,13 @@
 package greencity.validator;
 
 import greencity.annotations.NotEmptyEventDateTime;
-import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.EventSaveDayInfoDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.List;
 
-public class NotEmptyEventDateTimeValidator implements ConstraintValidator<NotEmptyEventDateTime, List<EventDayInfo>> {
+public class NotEmptyEventDateTimeValidator implements ConstraintValidator<NotEmptyEventDateTime, List<EventSaveDayInfoDto>> {
     /**
      * Validates a list of EventDayInfo objects.
      *
@@ -21,7 +21,7 @@ public class NotEmptyEventDateTimeValidator implements ConstraintValidator<NotEm
      * @return true if the list is valid according to the above criteria; false otherwise
      */
     @Override
-    public boolean isValid(List<EventDayInfo> value, ConstraintValidatorContext context) {
+    public boolean isValid(List<EventSaveDayInfoDto> value, ConstraintValidatorContext context) {
         return value != null && !value.isEmpty() && value.getFirst() != null;
     }
 }

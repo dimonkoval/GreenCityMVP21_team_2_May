@@ -1,14 +1,14 @@
 package greencity.validator;
 
 import greencity.annotations.ValidSequenceEventDates;
-import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.EventSaveDayInfoDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class ValidSequenceEventDatesValidator implements ConstraintValidator<ValidSequenceEventDates, List<EventDayInfo>> {
+public class ValidSequenceEventDatesValidator implements ConstraintValidator<ValidSequenceEventDates, List<EventSaveDayInfoDto>> {
     /**
      * Validates a list of EventDayInfo objects to ensure that the start dates are in strictly ascending order.
      *
@@ -24,7 +24,7 @@ public class ValidSequenceEventDatesValidator implements ConstraintValidator<Val
      * @return true if the start dates of all events are in strictly ascending order; false otherwise
      */
     @Override
-    public boolean isValid(List<EventDayInfo> value, ConstraintValidatorContext context) {
+    public boolean isValid(List<EventSaveDayInfoDto> value, ConstraintValidatorContext context) {
         LocalDate prevDate = value.get(0).getStartDateTime().toLocalDate();
         for (int i = 1; i < value.size(); i++) {
             LocalDate currentDate = value.get(i).getStartDateTime().toLocalDate();

@@ -1,6 +1,6 @@
 package greencity.validator;
 
-import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.EventSaveDayInfoDto;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,8 +26,8 @@ class StartBeforeEndTimeTest {
 
     @Test
     void testValidStartBeforeEndTime() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
-        eventDays.add(EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now())
                 .endDateTime(ZonedDateTime.now().plusHours(1))
                 .isAllDay(false)
@@ -37,8 +37,8 @@ class StartBeforeEndTimeTest {
 
     @Test
     void testInvalidStartAfterEndTime() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
-        eventDays.add(EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now().plusHours(2))
                 .endDateTime(ZonedDateTime.now())
                 .isAllDay(false)
@@ -48,8 +48,8 @@ class StartBeforeEndTimeTest {
 
     @Test
     void testInvalidStartEqualEndTime() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
-        eventDays.add(EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now())
                 .endDateTime(ZonedDateTime.now())
                 .isAllDay(false)

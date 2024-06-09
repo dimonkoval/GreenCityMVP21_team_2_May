@@ -1,6 +1,6 @@
 package greencity.validator;
 
-import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.EventSaveDayInfoDto;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,8 +26,8 @@ class EventDateAfterOneHourValidatorTest {
 
     @Test
     void testFirstDateTimeInPast() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
-        eventDays.add(EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now().minusDays(1))
                 .endDateTime(ZonedDateTime.now().minusDays(1).plusHours(1))
                 .isAllDay(false)
@@ -37,8 +37,8 @@ class EventDateAfterOneHourValidatorTest {
 
     @Test
     void testFirstDateTimeLessThanAnHourAhead() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
-        eventDays.add(EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now().plusMinutes(30))
                 .endDateTime(ZonedDateTime.now().plusHours(3))
                 .isAllDay(false)
@@ -48,8 +48,8 @@ class EventDateAfterOneHourValidatorTest {
 
     @Test
     void testFirstDateTimeExactlyAnHourAhead() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
-        eventDays.add(EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now().plusHours(1))
                 .endDateTime(ZonedDateTime.now().plusHours(2))
                 .isAllDay(false)
@@ -59,8 +59,8 @@ class EventDateAfterOneHourValidatorTest {
 
     @Test
     void testFirstDateTimeMoreThanAnHourAhead() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
-        eventDays.add(EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now().plusHours(1))
                 .endDateTime(ZonedDateTime.now().plusHours(3))
                 .isAllDay(false)
@@ -70,8 +70,8 @@ class EventDateAfterOneHourValidatorTest {
 
     @Test
     void testFirstDateTimeTodayButPastCurrentHour() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
-        eventDays.add(EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now().minusHours(1))
                 .endDateTime(ZonedDateTime.now().plusHours(1))
                 .isAllDay(false)
@@ -81,8 +81,8 @@ class EventDateAfterOneHourValidatorTest {
 
     @Test
     void testFirstDateTimeTodayButWithinNextHour() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
-        eventDays.add(EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now().plusMinutes(10))
                 .endDateTime(ZonedDateTime.now().plusHours(1))
                 .isAllDay(false)
@@ -92,8 +92,8 @@ class EventDateAfterOneHourValidatorTest {
 
     @Test
     void testFirstDateTimeTomorrow() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
-        eventDays.add(EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now().plusDays(1).withHour(10))
                 .endDateTime(ZonedDateTime.now().plusHours(1).withHour(15))
                 .isAllDay(false)
@@ -103,13 +103,13 @@ class EventDateAfterOneHourValidatorTest {
 
     @Test
     void testMultipleValidEventDays() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
-        eventDays.add(EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now().plusHours(2))
                 .endDateTime(ZonedDateTime.now().plusHours(3))
                 .isAllDay(false)
                 .build());
-        eventDays.add(EventDayInfo.builder()
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now().plusDays(1).withHour(10))
                 .endDateTime(ZonedDateTime.now().plusDays(1).withHour(18))
                 .isAllDay(false)
@@ -119,13 +119,13 @@ class EventDateAfterOneHourValidatorTest {
 
     @Test
     void testMultipleEventDaysWithFirstInvalid() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
-        eventDays.add(EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now().plusMinutes(10))
                 .endDateTime(ZonedDateTime.now().plusHours(3))
                 .isAllDay(false)
                 .build());
-        eventDays.add(EventDayInfo.builder()
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now().plusDays(1).withHour(10))
                 .endDateTime(ZonedDateTime.now().plusDays(1).withHour(18))
                 .isAllDay(false)

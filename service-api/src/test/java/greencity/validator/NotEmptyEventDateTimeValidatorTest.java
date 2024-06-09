@@ -1,6 +1,6 @@
 package greencity.validator;
 
-import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.EventSaveDayInfoDto;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,21 +31,21 @@ class NotEmptyEventDateTimeValidatorTest {
 
     @Test
     void testEmptyList() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
         assertFalse(validator.isValid(eventDays, context));
     }
 
     @Test
     void testFirstElemIsNull() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
         eventDays.add(null);
         assertFalse(validator.isValid(eventDays, context));
     }
 
     @Test
     void testValid() {
-        List<EventDayInfo> eventDays = new ArrayList<>();
-        eventDays.add(EventDayInfo.builder()
+        List<EventSaveDayInfoDto> eventDays = new ArrayList<>();
+        eventDays.add(EventSaveDayInfoDto.builder()
                 .startDateTime(ZonedDateTime.now().plusDays(1))
                 .endDateTime(ZonedDateTime.now().plusDays(1).plusHours(2))
                 .isAllDay(false)

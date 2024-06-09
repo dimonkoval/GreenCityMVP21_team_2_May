@@ -1,13 +1,13 @@
 package greencity.validator;
 
 import greencity.annotations.StartBeforeEndTime;
-import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.EventSaveDayInfoDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.List;
 
-public class StartBeforeEndTimeValidator implements ConstraintValidator<StartBeforeEndTime, List<EventDayInfo>> {
+public class StartBeforeEndTimeValidator implements ConstraintValidator<StartBeforeEndTime, List<EventSaveDayInfoDto>> {
     /**
      * Validates a list of EventDayInfo objects to ensure that each event's start time is before its end time.
      *
@@ -22,8 +22,8 @@ public class StartBeforeEndTimeValidator implements ConstraintValidator<StartBef
      * @return true if each event's start time is before its end time; false otherwise
      */
     @Override
-    public boolean isValid(List<EventDayInfo> value, ConstraintValidatorContext context) {
-        for(EventDayInfo eventDateTime : value) {
+    public boolean isValid(List<EventSaveDayInfoDto> value, ConstraintValidatorContext context) {
+        for(EventSaveDayInfoDto eventDateTime : value) {
             if (eventDateTime.getStartDateTime().isAfter(eventDateTime.getEndDateTime())
                     || eventDateTime.getStartDateTime().equals(eventDateTime.getEndDateTime())) {
                 return false;

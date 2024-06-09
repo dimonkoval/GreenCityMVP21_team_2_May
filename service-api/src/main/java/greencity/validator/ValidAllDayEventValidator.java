@@ -1,14 +1,14 @@
 package greencity.validator;
 
 import greencity.annotations.ValidAllDayEvent;
-import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.EventSaveDayInfoDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.time.LocalTime;
 import java.util.List;
 
-public class ValidAllDayEventValidator implements ConstraintValidator<ValidAllDayEvent, List<EventDayInfo>> {
+public class ValidAllDayEventValidator implements ConstraintValidator<ValidAllDayEvent, List<EventSaveDayInfoDto>> {
     /**
      * Validates a list of EventDayInfo objects to ensure that all-day events start at the beginning of the day and end at the end of the day.
      *
@@ -25,8 +25,8 @@ public class ValidAllDayEventValidator implements ConstraintValidator<ValidAllDa
      * @return true if all all-day events start at 00:00 and end at 23:59; false otherwise
      */
     @Override
-    public boolean isValid(List<EventDayInfo> value, ConstraintValidatorContext context) {
-        for (EventDayInfo eventDateTime : value) {
+    public boolean isValid(List<EventSaveDayInfoDto> value, ConstraintValidatorContext context) {
+        for (EventSaveDayInfoDto eventDateTime : value) {
             if (eventDateTime.isAllDay()) {
                 if (eventDateTime.getStartDateTime().toLocalTime().isAfter(LocalTime.of(0, 0))) {
                     return false;

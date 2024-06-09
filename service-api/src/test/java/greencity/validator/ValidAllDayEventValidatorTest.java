@@ -1,6 +1,6 @@
 package greencity.validator;
 
-import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.EventSaveDayInfoDto;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,8 +28,8 @@ class ValidAllDayEventValidatorTest {
 
     @Test
     void testValidAllDayEvent() {
-        List<EventDayInfo> dates = Arrays.asList(
-                EventDayInfo.builder()
+        List<EventSaveDayInfoDto> dates = Arrays.asList(
+                EventSaveDayInfoDto.builder()
                         .startDateTime(ZonedDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT, ZonedDateTime.now().getZone()))
                         .endDateTime(ZonedDateTime.of(LocalDate.now(), LocalTime.of(23, 59), ZonedDateTime.now().getZone()))
                         .isAllDay(true)
@@ -40,8 +40,8 @@ class ValidAllDayEventValidatorTest {
 
     @Test
     void testInvalidAllDayEvent() {
-        List<EventDayInfo> dates = Arrays.asList(
-                EventDayInfo.builder()
+        List<EventSaveDayInfoDto> dates = Arrays.asList(
+                EventSaveDayInfoDto.builder()
                         .startDateTime(ZonedDateTime.of(LocalDate.now(), LocalTime.NOON, ZonedDateTime.now().getZone()))
                         .endDateTime(ZonedDateTime.of(LocalDate.now(), LocalTime.of(23, 59), ZonedDateTime.now().getZone()))
                         .isAllDay(true)
@@ -52,8 +52,8 @@ class ValidAllDayEventValidatorTest {
 
     @Test
     void testInvalidAllDayEventWithCustomHour() {
-        List<EventDayInfo> dates = Arrays.asList(
-                EventDayInfo.builder()
+        List<EventSaveDayInfoDto> dates = Arrays.asList(
+                EventSaveDayInfoDto.builder()
                         .startDateTime(ZonedDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT, ZonedDateTime.now().getZone()))
                         .endDateTime(ZonedDateTime.of(LocalDate.now(), LocalTime.NOON, ZonedDateTime.now().getZone()))
                         .isAllDay(true)
@@ -64,8 +64,8 @@ class ValidAllDayEventValidatorTest {
 
     @Test
     void testInvalidAllDayEventWithCustomHourss() {
-        List<EventDayInfo> dates = Arrays.asList(
-                EventDayInfo.builder()
+        List<EventSaveDayInfoDto> dates = Arrays.asList(
+                EventSaveDayInfoDto.builder()
                         .startDateTime(ZonedDateTime.of(LocalDate.now(), LocalTime.of(0, 10), ZonedDateTime.now().getZone()))
                         .endDateTime(ZonedDateTime.of(LocalDate.now(), LocalTime.of(15, 30), ZonedDateTime.now().getZone()))
                         .isAllDay(false)
