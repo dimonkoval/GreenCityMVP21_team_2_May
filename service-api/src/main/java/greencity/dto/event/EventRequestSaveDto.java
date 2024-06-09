@@ -15,16 +15,16 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 public class EventRequestSaveDto {
-    @NotBlank
-    @Size(max = 70)
+    @NotBlank(message = "Title cannot be blank")
+    @Size(message = "Title must be a maximum of 70 characters", max = 70)
     private String title;
 
-    @NotEmptyEventDateTime
-    @EventDateAfterOneHour
-    @ValidSequenceEventDates
-    @StartBeforeEndTime
-    @ValidAllDayEvent
-    @UniqueEventDates
+//    @NotEmptyEventDateTime
+//    @EventDateAfterOneHour
+//    @ValidSequenceEventDates
+//    @StartBeforeEndTime
+//    @ValidAllDayEvent
+//    @UniqueEventDates
     @Size(max = 7, min = 1)
     private List<EventSaveDayInfoDto> daysInfo;
 

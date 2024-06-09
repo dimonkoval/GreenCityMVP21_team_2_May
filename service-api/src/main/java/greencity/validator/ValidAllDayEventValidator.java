@@ -9,6 +9,21 @@ import java.time.LocalTime;
 import java.util.List;
 
 public class ValidAllDayEventValidator implements ConstraintValidator<ValidAllDayEvent, List<EventDayInfo>> {
+    /**
+     * Validates a list of EventDayInfo objects to ensure that all-day events start at the beginning of the day and end at the end of the day.
+     *
+     * This method performs the following validation for each event in the list:
+     * 1. Checks if the event is marked as an all-day event.
+     * 2. If the event is an all-day event, it verifies:
+     *    2.1. The start time is exactly at the beginning of the day (00:00).
+     *    2.2. The end time is exactly at the end of the day (23:59).
+     * 3. If either condition is violated for any all-day event, the method returns false.
+     * 4. If all all-day events meet the criteria, the method returns true.
+     *
+     * @param value   the list of EventDayInfo objects to be validated
+     * @param context the context in which the constraint is evaluated
+     * @return true if all all-day events start at 00:00 and end at 23:59; false otherwise
+     */
     @Override
     public boolean isValid(List<EventDayInfo> value, ConstraintValidatorContext context) {
         for (EventDayInfo eventDateTime : value) {
