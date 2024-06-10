@@ -35,16 +35,4 @@ public @interface UniqueEventDates {
      * @return payload
      */
     Class<? extends Payload>[] payload() default {};
-
-    /**
-     * Specifies the priority of the validation.
-     *
-     * The priority value is an integer where a higher number indicates a higher priority.
-     * This can be particularly useful in complex validation scenarios where the order
-     * of validation checks matters. For example, setting a higher priority (higher number)
-     * for critical validations can ensure they are executed first.
-     *
-     * @return priority
-     */
-    int priority() default 0;
 }

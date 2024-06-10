@@ -20,10 +20,10 @@ public class EventRequestSaveDto {
 
     @NotEmptyEventDateTime(message = "Please, enter at least one dateTime for Event")
     @EventDateAfterOneHour(message = "First Event should be at least one hour after now")
-    @ValidSequenceEventDates(message = "Each event date must follow the previous one", priority = 0)
+    @UniqueEventDates(message = "You cannot use the same date for multiple days")
+    @ValidSequenceEventDates(message = "Each event date must follow the previous one")
     @StartBeforeEndTime(message = "End time cannot be before Start time")
     @ValidAllDayEvent(message = "An all-day event should begin at 00:00 and conclude at 23:59")
-    @UniqueEventDates(message = "You cannot use the same date for multiple days", priority = 1)
     @Size(max = 7, min = 1)
     private List<EventSaveDayInfoDto> daysInfo;
 
