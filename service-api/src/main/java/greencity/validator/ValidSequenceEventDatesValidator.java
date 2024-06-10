@@ -28,7 +28,7 @@ public class ValidSequenceEventDatesValidator implements ConstraintValidator<Val
         LocalDate prevDate = value.get(0).getStartDateTime().toLocalDate();
         for (int i = 1; i < value.size(); i++) {
             LocalDate currentDate = value.get(i).getStartDateTime().toLocalDate();
-            if (prevDate.isAfter(currentDate) || prevDate.isEqual(currentDate)) {
+            if (prevDate.isAfter(currentDate)) {
                 return false;
             }
             prevDate = currentDate;

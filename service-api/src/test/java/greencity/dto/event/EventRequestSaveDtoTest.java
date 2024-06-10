@@ -106,10 +106,10 @@ class EventRequestSaveDtoTest {
     private static Stream<Arguments> provideInvalidDaysInfo() {
         return Stream.of(
                 Arguments.of(createInvalidEventSaveDayInfoDto("StartBeforeEndTime"), "End time cannot be before Start time"),
-                Arguments.of(createInvalidEventSaveDayInfoDto("UniqueEventDates"), "You cannot use the same date for multiple days"),
                 Arguments.of(createInvalidEventSaveDayInfoDto("EventDateAfterOneHour"), "First Event should be at least one hour after now"),
                 Arguments.of(createInvalidEventSaveDayInfoDto("ValidAllDayEvent"), "An all-day event should begin at 00:00 and conclude at 23:59"),
-                Arguments.of(createInvalidEventSaveDayInfoDto("ValidSequenceEventDates"), "Each event date must follow the previous one")
+                Arguments.of(createInvalidEventSaveDayInfoDto("ValidSequenceEventDates"), "Each event date must follow the previous one"),
+                Arguments.of(createInvalidEventSaveDayInfoDto("UniqueEventDates"), "You can't enter the same date for two days")
                 );
     }
 
