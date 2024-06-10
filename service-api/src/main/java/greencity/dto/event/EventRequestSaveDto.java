@@ -23,7 +23,6 @@ public class EventRequestSaveDto {
     private String title;
 
     @NotNull
-    @ValidEventDateTime
     @ValidAddress(message = "Please add address to the event.")
     @ValidLink(message = "Please add a link to the event. The link must start with http(s)://")
     @Size(max = 7, min = 1)
