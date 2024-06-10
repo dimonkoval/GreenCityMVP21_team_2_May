@@ -86,7 +86,11 @@ class EventRequestSaveDtoTest {
 
     private static Stream<Arguments> provideValidDaysInfo() {
         return Stream.of(
-                Arguments.of(List.of(createValidEventSaveDayInfoDto()))
+                Arguments.of(List.of(createValidEventSaveDayInfoDto(),
+                        createValidEventSaveDayInfoDto()
+                                .setStartDateTime(ZonedDateTime.of(LocalDate.now().plusDays(5), LocalTime.of(0, 0), ZoneId.systemDefault()))
+                                .setEndDateTime(ZonedDateTime.of(LocalDate.now().plusDays(5), LocalTime.of(3, 0), ZoneId.systemDefault()))
+                ))
         );
     }
 
