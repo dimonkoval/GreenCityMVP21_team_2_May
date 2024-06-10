@@ -73,81 +73,6 @@ class ValidAddressValidatorTest {
                         .build(),
                         null,
                         EventStatus.OFFLINE),
-                Arguments.of(null,
-                        "link",
-                        EventStatus.ONLINE)
-        );
-    }
-
-    private static Stream<Arguments> provideInvalidData() {
-        return Stream.of(
-                Arguments.of(null,
-                        null,
-                        EventStatus.OFFLINE),
-                Arguments.of(EventAddressDto.builder()
-                                .latitude(null)
-                                .longitude(BigDecimal.valueOf(89.54))
-                                .addressEn("valid address")
-                                .addressUa("валідна адреса")
-                                .build(),
-                        "link",
-                        EventStatus.ONLINE_OFFLINE),
-                Arguments.of(EventAddressDto.builder()
-                                .latitude(BigDecimal.valueOf(27.56))
-                                .longitude(null)
-                                .addressEn("valid address")
-                                .addressUa("валідна адреса")
-                                .build(),
-                        null,
-                        EventStatus.OFFLINE),
-                Arguments.of(EventAddressDto.builder()
-                                .latitude(null)
-                                .longitude(null)
-                                .addressEn("valid address")
-                                .addressUa("валідна адреса")
-                                .build(),
-                        "link",
-                        EventStatus.ONLINE_OFFLINE),
-                Arguments.of(EventAddressDto.builder()
-                                .latitude(BigDecimal.valueOf(91))
-                                .longitude(BigDecimal.valueOf(11.83))
-                                .addressEn("valid address")
-                                .addressUa("валідна адреса")
-                                .build(),
-                        null,
-                        EventStatus.OFFLINE),
-                Arguments.of(EventAddressDto.builder()
-                                .latitude(BigDecimal.valueOf(-100))
-                                .longitude(BigDecimal.valueOf(11.83))
-                                .addressEn("valid address")
-                                .addressUa("валідна адреса")
-                                .build(),
-                        "link",
-                        EventStatus.ONLINE_OFFLINE),
-                Arguments.of(EventAddressDto.builder()
-                                .latitude(BigDecimal.valueOf(32))
-                                .longitude(BigDecimal.valueOf(-180.1))
-                                .addressEn("valid address")
-                                .addressUa("валідна адреса")
-                                .build(),
-                        null,
-                        EventStatus.OFFLINE),
-                Arguments.of(EventAddressDto.builder()
-                                .latitude(BigDecimal.valueOf(2))
-                                .longitude(BigDecimal.valueOf(189))
-                                .addressEn("valid address")
-                                .addressUa("валідна адреса")
-                                .build(),
-                        "link",
-                        EventStatus.ONLINE_OFFLINE),
-                Arguments.of(EventAddressDto.builder()
-                                .latitude(BigDecimal.valueOf(27.56))
-                                .longitude(null)
-                                .addressEn("valid address")
-                                .addressUa("валідна адреса")
-                                .build(),
-                        null,
-                        EventStatus.OFFLINE),
                 Arguments.of(EventAddressDto.builder()
                                 .latitude(BigDecimal.valueOf(2))
                                 .longitude(BigDecimal.valueOf(179))
@@ -167,7 +92,7 @@ class ValidAddressValidatorTest {
                 Arguments.of(EventAddressDto.builder()
                                 .latitude(BigDecimal.valueOf(27.56))
                                 .longitude(BigDecimal.valueOf(37.9))
-                                .addressEn("  ")
+                                .addressEn("")
                                 .addressUa("валідна адреса")
                                 .build(),
                         null,
@@ -191,16 +116,83 @@ class ValidAddressValidatorTest {
                 Arguments.of(EventAddressDto.builder()
                                 .latitude(BigDecimal.valueOf(27.56))
                                 .longitude(BigDecimal.valueOf(37.9))
-                                .addressEn("  ")
-                                .addressUa(null)
+                                .addressEn("")
+                                .addressUa("")
+                                .build(),
+                        null,
+                        EventStatus.OFFLINE),
+                Arguments.of(null,
+                        "link",
+                        EventStatus.ONLINE)
+        );
+    }
+
+    private static Stream<Arguments> provideInvalidData() {
+        return Stream.of(
+                Arguments.of(null,
+                        null,
+                        EventStatus.OFFLINE),
+                Arguments.of(EventAddressDto.builder()
+                                .latitude(null)
+                                .longitude(BigDecimal.valueOf(89.54))
+                                .addressEn("invalid address")
+                                .addressUa("не валідна адреса")
+                                .build(),
+                        "link",
+                        EventStatus.ONLINE_OFFLINE),
+                Arguments.of(EventAddressDto.builder()
+                                .latitude(BigDecimal.valueOf(27.56))
+                                .longitude(null)
+                                .addressEn("invalid address")
+                                .addressUa("не валідна адреса")
                                 .build(),
                         null,
                         EventStatus.OFFLINE),
                 Arguments.of(EventAddressDto.builder()
+                                .latitude(null)
+                                .longitude(null)
+                                .addressEn("invalid address")
+                                .addressUa("не валідна адреса")
+                                .build(),
+                        "link",
+                        EventStatus.ONLINE_OFFLINE),
+                Arguments.of(EventAddressDto.builder()
+                                .latitude(BigDecimal.valueOf(91))
+                                .longitude(BigDecimal.valueOf(11.83))
+                                .addressEn("invalid address")
+                                .addressUa("не валідна адреса")
+                                .build(),
+                        null,
+                        EventStatus.OFFLINE),
+                Arguments.of(EventAddressDto.builder()
+                                .latitude(BigDecimal.valueOf(-100))
+                                .longitude(BigDecimal.valueOf(11.83))
+                                .addressEn("invalid address")
+                                .addressUa("не валідна адреса")
+                                .build(),
+                        "link",
+                        EventStatus.ONLINE_OFFLINE),
+                Arguments.of(EventAddressDto.builder()
+                                .latitude(BigDecimal.valueOf(32))
+                                .longitude(BigDecimal.valueOf(-180.1))
+                                .addressEn("invalid address")
+                                .addressUa("не валідна адреса")
+                                .build(),
+                        null,
+                        EventStatus.OFFLINE),
+                Arguments.of(EventAddressDto.builder()
+                                .latitude(BigDecimal.valueOf(2))
+                                .longitude(BigDecimal.valueOf(189))
+                                .addressEn("invalid address")
+                                .addressUa("не валідна адреса")
+                                .build(),
+                        "link",
+                        EventStatus.ONLINE_OFFLINE),
+                Arguments.of(EventAddressDto.builder()
                                 .latitude(BigDecimal.valueOf(26.75))
                                 .longitude(BigDecimal.valueOf(89.54))
-                                .addressEn("valid address")
-                                .addressUa("валідна адреса")
+                                .addressEn("invalid address")
+                                .addressUa("не валідна адреса")
                                 .build(),
                         "link",
                         EventStatus.ONLINE)

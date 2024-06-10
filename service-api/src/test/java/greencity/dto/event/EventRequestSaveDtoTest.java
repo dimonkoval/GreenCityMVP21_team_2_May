@@ -88,6 +88,36 @@ class EventRequestSaveDtoTest {
                         .longitude(BigDecimal.valueOf(-180))
                         .addressEn("valid address")
                         .addressUa("валідна адреса")
+                        .build()),
+                Arguments.of(EventAddressDto.builder()
+                        .latitude(BigDecimal.valueOf(26.75))
+                        .longitude(BigDecimal.valueOf(89.54))
+                        .addressEn(null)
+                        .addressUa("валідна адреса")
+                        .build()),
+                Arguments.of(EventAddressDto.builder()
+                        .latitude(BigDecimal.valueOf(26.75))
+                        .longitude(BigDecimal.valueOf(89.54))
+                        .addressEn("valid address")
+                        .addressUa(null)
+                        .build()),
+                Arguments.of(EventAddressDto.builder()
+                        .latitude(BigDecimal.valueOf(26.75))
+                        .longitude(BigDecimal.valueOf(89.54))
+                        .addressEn("  ")
+                        .addressUa("валідна адреса")
+                        .build()),
+                Arguments.of(EventAddressDto.builder()
+                        .latitude(BigDecimal.valueOf(26.75))
+                        .longitude(BigDecimal.valueOf(89.54))
+                        .addressEn("valid address")
+                        .addressUa("")
+                        .build()),
+                Arguments.of(EventAddressDto.builder()
+                        .latitude(BigDecimal.valueOf(26.75))
+                        .longitude(BigDecimal.valueOf(-180))
+                        .addressEn(null)
+                        .addressUa(null)
                         .build())
         );
     }
@@ -122,70 +152,40 @@ class EventRequestSaveDtoTest {
                 Arguments.of(EventAddressDto.builder()
                         .latitude(BigDecimal.valueOf(-95))
                         .longitude(BigDecimal.valueOf(89.54))
-                        .addressEn("valid address")
-                        .addressUa("валідна адреса")
+                        .addressEn("invalid address")
+                        .addressUa("не валідна адреса")
                         .build()),
                 Arguments.of(EventAddressDto.builder()
                         .latitude(BigDecimal.valueOf(100))
                         .longitude(BigDecimal.valueOf(89.54))
-                        .addressEn("valid address")
-                        .addressUa("валідна адреса")
+                        .addressEn("invalid address")
+                        .addressUa("не валідна адреса")
                         .build()),
                 Arguments.of(EventAddressDto.builder()
                         .latitude(BigDecimal.valueOf(100))
                         .longitude(BigDecimal.valueOf(190))
-                        .addressEn("valid address")
-                        .addressUa("валідна адреса")
+                        .addressEn("invalid address")
+                        .addressUa("не валідна адреса")
                         .build()),
                 Arguments.of(EventAddressDto.builder()
                         .latitude(BigDecimal.valueOf(26.75))
                         .longitude(BigDecimal.valueOf(-200))
-                        .addressEn("valid address")
-                        .addressUa("валідна адреса")
-                        .build()),
-                Arguments.of(EventAddressDto.builder()
-                        .latitude(BigDecimal.valueOf(26.75))
-                        .longitude(BigDecimal.valueOf(-180))
-                        .addressEn(null)
-                        .addressUa(null)
+                        .addressEn("invalid address")
+                        .addressUa("не валідна адреса")
                         .build()),
                 Arguments.of(EventAddressDto.builder()
                         .latitude(null)
                         .longitude(BigDecimal.valueOf(89.54))
                         .addressEn(null)
-                        .addressUa("валідна адреса")
+                        .addressUa("не валідна адреса")
                         .build()),
                 Arguments.of(EventAddressDto.builder()
                         .latitude(BigDecimal.valueOf(26.75))
                         .longitude(null)
-                        .addressEn("valid address")
-                        .addressUa(null)
-                        .build()),
-                Arguments.of(nullable),
-                Arguments.of(EventAddressDto.builder()
-                        .latitude(BigDecimal.valueOf(26.75))
-                        .longitude(BigDecimal.valueOf(89.54))
-                        .addressEn(null)
-                        .addressUa("не валідна адреса")
-                        .build()),
-                Arguments.of(EventAddressDto.builder()
-                        .latitude(BigDecimal.valueOf(26.75))
-                        .longitude(BigDecimal.valueOf(89.54))
                         .addressEn("invalid address")
                         .addressUa(null)
                         .build()),
-                Arguments.of(EventAddressDto.builder()
-                        .latitude(BigDecimal.valueOf(26.75))
-                        .longitude(BigDecimal.valueOf(89.54))
-                        .addressEn("  ")
-                        .addressUa("не валідна адреса")
-                        .build()),
-                Arguments.of(EventAddressDto.builder()
-                        .latitude(BigDecimal.valueOf(26.75))
-                        .longitude(BigDecimal.valueOf(89.54))
-                        .addressEn("invalid address")
-                        .addressUa("")
-                        .build())
+                Arguments.of(nullable)
         );
     }
 
@@ -295,20 +295,26 @@ class EventRequestSaveDtoTest {
                 Arguments.of("https://google.com", EventAddressDto.builder()
                         .latitude(BigDecimal.valueOf(-90))
                         .longitude(BigDecimal.valueOf(89.54))
-                        .addressEn("valid address")
-                        .addressUa("валідна адреса")
+                        .addressEn("  ")
+                        .addressUa("")
                         .build()),
                 Arguments.of("http://site.com", EventAddressDto.builder()
                         .latitude(BigDecimal.valueOf(26.75))
                         .longitude(BigDecimal.valueOf(-180))
                         .addressEn("valid address")
-                        .addressUa("валідна адреса")
+                        .addressUa("")
                         .build()),
                 Arguments.of("https://any-other-sitenam3.org", EventAddressDto.builder()
                         .latitude(BigDecimal.valueOf(26.75))
                         .longitude(BigDecimal.valueOf(180))
-                        .addressEn("valid address")
+                        .addressEn(null)
                         .addressUa("валідна адреса")
+                        .build()),
+                Arguments.of("https://link.valid", EventAddressDto.builder()
+                        .latitude(BigDecimal.valueOf(26.75))
+                        .longitude(BigDecimal.valueOf(-180))
+                        .addressEn(null)
+                        .addressUa(null)
                         .build())
         );
     }
@@ -352,8 +358,8 @@ class EventRequestSaveDtoTest {
                 Arguments.of("htps://", EventAddressDto.builder()
                         .latitude(BigDecimal.valueOf(-95))
                         .longitude(BigDecimal.valueOf(89.54))
-                        .addressEn("valid address")
-                        .addressUa("валідна адреса")
+                        .addressEn("invalid address")
+                        .addressUa("не валідна адреса")
                         .build()),
                 Arguments.of("  ", EventAddressDto.builder()
                         .latitude(BigDecimal.valueOf(100))
@@ -372,12 +378,6 @@ class EventRequestSaveDtoTest {
                         .latitude(BigDecimal.valueOf(26.75))
                         .longitude(null)
                         .addressEn("valid address")
-                        .addressUa(null)
-                        .build()),
-                Arguments.of("invalid", EventAddressDto.builder()
-                        .latitude(BigDecimal.valueOf(26.75))
-                        .longitude(BigDecimal.valueOf(-180))
-                        .addressEn(null)
                         .addressUa(null)
                         .build())
         );
