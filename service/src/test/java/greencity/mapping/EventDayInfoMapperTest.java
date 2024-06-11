@@ -2,9 +2,9 @@ package greencity.mapping;
 
 import greencity.dto.event.EventAddressDto;
 import greencity.dto.event.EventSaveDayInfoDto;
-import greencity.dto.event.model.EventAddress;
-import greencity.dto.event.model.EventDayInfo;
-import greencity.dto.event.model.EventStatus;
+import greencity.entity.event.EventAddress;
+import greencity.entity.event.EventDayInfo;
+import greencity.enums.EventStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

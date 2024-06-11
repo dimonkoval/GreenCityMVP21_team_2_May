@@ -1,10 +1,9 @@
 package greencity.mapping;
 
 import greencity.ModelUtils;
-import greencity.dto.event.model.EventAddress;
-import greencity.dto.event.model.EventDayInfo;
-import greencity.dto.event.model.EventModelDto;
-import greencity.dto.event.model.EventStatus;
+import greencity.entity.event.EventAddress;
+import greencity.entity.event.EventDayInfo;
+import greencity.entity.event.Event;
 import greencity.dto.user.UserVO;
 import greencity.message.EventEmailMessage;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,7 +50,7 @@ class EventEmailMessageMapperTest {
         List<EventDayInfo> dayInfos = new LinkedList<>();
         dayInfos.add(eventDayInfo);
 
-        EventModelDto eventModelDto = EventModelDto.builder()
+        Event event = Event.builder()
                 .id(1L)
                 .title("Title")
                 .dayInfos(dayInfos)
@@ -63,7 +62,7 @@ class EventEmailMessageMapperTest {
 
         EventEmailMessage expected = ModelUtils.getEventEmailMessage();
 
-        EventEmailMessage emailMessage = eventEmailMessageMapper.convert(eventModelDto);
+        EventEmailMessage emailMessage = eventEmailMessageMapper.convert(event);
 
         assertEquals(expected.getEmail(), emailMessage.getEmail());
         assertEquals(expected.getSubject(), emailMessage.getSubject());

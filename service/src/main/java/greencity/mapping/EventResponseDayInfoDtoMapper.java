@@ -1,8 +1,8 @@
 package greencity.mapping;
 
 import greencity.dto.event.EventResponseDayInfoDto;
-import greencity.dto.event.model.EventDayInfo;
-import greencity.dto.event.model.EventStatus;
+import greencity.entity.event.EventDayInfo;
+import greencity.enums.EventStatus;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
 package greencity.mapping;
 
 import greencity.dto.event.EventAddressDto;
-import greencity.dto.event.model.EventAddress;
+import greencity.entity.event.EventAddress;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

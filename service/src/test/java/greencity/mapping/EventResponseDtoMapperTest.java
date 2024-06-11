@@ -5,9 +5,9 @@ import greencity.dto.event.EventAuthorDto;
 import greencity.dto.event.EventImageDto;
 import greencity.dto.event.EventResponseDayInfoDto;
 import greencity.dto.event.EventResponseDto;
-import greencity.dto.event.model.EventDayInfo;
-import greencity.dto.event.model.EventImage;
-import greencity.dto.event.model.EventModelDto;
+import greencity.entity.event.EventDayInfo;
+import greencity.entity.event.EventImage;
+import greencity.entity.event.Event;
 import greencity.dto.user.UserVO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,7 +39,7 @@ class EventResponseDtoMapperTest {
 
     @Test
     void convert() {
-        EventModelDto eventModelDto = ModelUtils.getEventModelDto();
+        Event event = ModelUtils.getEventModelDto();
 
         when(eventResponseDayInfoDtoMapper.convert(Mockito.any(EventDayInfo.class)))
                 .thenReturn(new EventResponseDayInfoDto());
@@ -48,20 +48,20 @@ class EventResponseDtoMapperTest {
         when(eventAuthorDtoMapper.convert(Mockito.any(UserVO.class)))
                 .thenReturn(new EventAuthorDto());
 
-        EventResponseDto eventResponseDto = mapper.convert(eventModelDto);
+        EventResponseDto eventResponseDto = mapper.convert(event);
 
-        assertEquals(eventModelDto.getId(), eventResponseDto.getId());
-        assertEquals(eventModelDto.getTitle(), eventResponseDto.getTitle());
-        assertEquals(eventModelDto.getDescription(), eventResponseDto.getDescription());
-        assertEquals(eventModelDto.isOpen(), eventResponseDto.isOpen());
-        assertEquals(eventModelDto.getDayInfos().size(), eventResponseDto.getDateTimes().size());
-        assertEquals(eventModelDto.getImages().size(), eventResponseDto.getImages().size());
+        assertEquals(event.getId(), eventResponseDto.getId());
+        assertEquals(event.getTitle(), eventResponseDto.getTitle());
+        assertEquals(event.getDescription(), eventResponseDto.getDescription());
+        assertEquals(event.isOpen(), eventResponseDto.isOpen());
+        assertEquals(event.getDayInfos().size(), eventResponseDto.getDateTimes().size());
+        assertEquals(event.getImages().size(), eventResponseDto.getImages().size());
 
     }
 
     @Test
     void testMapAllToList() {
-        List<EventModelDto> dtoList = Collections.singletonList(ModelUtils.getEventModelDto());
+        List<Event> dtoList = Collections.singletonList(ModelUtils.getEventModelDto());
 
         when(eventResponseDayInfoDtoMapper.convert(Mockito.any(EventDayInfo.class)))
                 .thenReturn(new EventResponseDayInfoDto());

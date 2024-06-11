@@ -3,11 +3,10 @@ package greencity.service;
 import greencity.client.RestClient;
 import greencity.constant.ErrorMessage;
 import greencity.dto.event.*;
-import greencity.dto.event.model.EventImage;
-import greencity.dto.event.model.EventModelDto;
+import greencity.entity.event.EventImage;
+import greencity.entity.event.Event;
 import greencity.dto.tag.TagVO;
 import greencity.dto.user.UserVO;
-import greencity.entity.Tag;
 import greencity.entity.User;
 import greencity.enums.TagType;
 import greencity.exception.exceptions.NotSavedException;
@@ -17,7 +16,6 @@ import greencity.repository.EventRepo;
 import greencity.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -58,7 +56,7 @@ public class EventServiceImpl implements EventService{
             eventImages.get(event.getMainImageNumber() - 1).setMain(true);
         }
 
-        EventModelDto eventModelDto = modelMapper.map(event, EventModelDto.class);
+        Event eventModelDto = modelMapper.map(event, Event.class);
         eventModelDto.setImages(eventImages);
         eventModelDto.setAuthor(author);
 
@@ -84,19 +82,19 @@ public class EventServiceImpl implements EventService{
     public void delete(Long id, UserVO author) {}
 
     @Override
-    public EventModelDto update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author) {
+    public Event update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author) {
         return null;
     }
 
     @Override
     public List<EventResponseDto> findAll(Pageable pageable) {
-        List<EventModelDto> eventModelDtos = eventRepo.findAll(pageable);
-        return eventModelDtos.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
+        List<Event> events = eventRepo.findAll(pageable);
+        return events.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
     }
 
     @Override
     public EventResponseDto findById(Long id) {
-        EventModelDto event = eventRepo
+        Event event = eventRepo
                 .findById(id)
                 .orElseThrow(() -> new WrongIdException(ErrorMessage.EVENT_NOT_FOUND_BY_ID + id));
         return modelMapper.map(event, EventResponseDto.class);
@@ -121,8 +119,8 @@ public class EventServiceImpl implements EventService{
     @Override
     public List<EventResponseDto> findAllByAuthor(Pageable pageable, Long userId) {
         User user = userRepo.findById(userId).orElseThrow(() -> new WrongIdException(ErrorMessage.USER_NOT_FOUND_BY_ID + userId));
-        List<EventModelDto> eventModelDtos = eventRepo.findAllByAuthorId(pageable, userId);
-        return eventModelDtos.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
+        List<Event> events = eventRepo.findAllByAuthorId(pageable, userId);
+        return events.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
     }
 
 

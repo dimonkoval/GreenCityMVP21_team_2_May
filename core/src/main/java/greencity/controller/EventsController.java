@@ -2,7 +2,6 @@ package greencity.controller;
 
 import greencity.annotations.ApiPageable;
 import greencity.annotations.CurrentUser;
-import greencity.annotations.ImageValidation;
 import greencity.constant.HttpStatuses;
 import greencity.constant.SwaggerExampleModel;
 import greencity.dto.event.EventRequestSaveDto;

@@ -2,7 +2,7 @@ package greencity.validator;
 
 import greencity.annotations.ValidLink;
 import greencity.dto.event.EventSaveDayInfoDto;
-import greencity.dto.event.model.EventStatus;
+import greencity.enums.EventStatus;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

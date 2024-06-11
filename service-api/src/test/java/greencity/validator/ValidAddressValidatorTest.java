@@ -2,7 +2,7 @@ package greencity.validator;
 
 import greencity.dto.event.EventAddressDto;
 import greencity.dto.event.EventSaveDayInfoDto;
-import greencity.dto.event.model.EventStatus;
+import greencity.enums.EventStatus;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;

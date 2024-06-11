@@ -3,8 +3,8 @@ package greencity.mapping;
 import greencity.dto.event.EventAddressDto;
 import greencity.dto.event.EventRequestSaveDto;
 import greencity.dto.event.EventSaveDayInfoDto;
-import greencity.dto.event.model.EventModelDto;
-import greencity.dto.event.model.EventStatus;
+import greencity.entity.event.Event;
+import greencity.enums.EventStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,11 +16,11 @@ import static greencity.ModelUtils.getEventModelDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
-public class EventModelDtoMapperTest {
+public class EventMapperTest {
     @InjectMocks
     EventModelDtoMapper mapper;
 
-    EventModelDto expected = getEventModelDto();
+    Event expected = getEventModelDto();
 
     @Test
     void convert() {

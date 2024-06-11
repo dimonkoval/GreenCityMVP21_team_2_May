@@ -1,11 +1,8 @@
 package greencity.dto.event;
 
-import greencity.dto.event.model.EventAddress;
-import greencity.dto.event.model.EventStatus;
+import greencity.enums.EventStatus;
 import lombok.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.ZonedDateTime;
 
 @NoArgsConstructor

@@ -1,7 +1,7 @@
 package greencity.message;
 
 import greencity.dto.event.model.EventAddress;
-import greencity.dto.event.model.EventStatus;
+import greencity.enums.EventStatus;
 import lombok.*;
 
 import java.time.ZonedDateTime;

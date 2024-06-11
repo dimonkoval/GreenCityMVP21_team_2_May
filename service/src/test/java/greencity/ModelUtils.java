@@ -1,7 +1,6 @@
 package greencity;
 
 import greencity.constant.AppConstant;
-import greencity.constant.EmailNotificationMessagesConstants;
 import greencity.dto.PageableAdvancedDto;
 import greencity.dto.econews.*;
 import greencity.dto.econewscomment.*;
@@ -21,6 +20,10 @@ import greencity.dto.verifyemail.VerifyEmailVO;
 import greencity.entity.*;
 import greencity.entity.localization.ShoppingListItemTranslation;
 import greencity.entity.localization.TagTranslation;
+import greencity.entity.event.EventAddress;
+import greencity.entity.event.EventDayInfo;
+import greencity.entity.event.EventImage;
+import greencity.entity.event.Event;
 import greencity.enums.*;
 import greencity.message.EventEmailMessage;
 import org.springframework.mock.web.MockMultipartFile;
@@ -105,8 +108,8 @@ public class ModelUtils {
                 .build();
     }
 
-    public static EventModelDto getEventModelDto() {
-        return EventModelDto.builder()
+    public static Event getEventModelDto() {
+        return Event.builder()
                 .id(1L)
                 .title("title")
                 .dayInfos(List.of(getEventDayInfo()))
