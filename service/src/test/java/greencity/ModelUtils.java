@@ -101,7 +101,6 @@ public class ModelUtils {
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 12, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 14, 0), ZoneId.systemDefault()))
                 .dayNumber(1)
-                .status(EventStatus.ONLINE)
                 .link("some link")
                 .build();
     }
@@ -143,7 +142,7 @@ public class ModelUtils {
                 .eventTitle("Title")
                 .description("Description")
                 .isOpen(true)
-                .status(EventStatus.ONLINE)
+                .status(EventStatus.ONLINE_OFFLINE)
                 .link("some link")
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 12, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 14, 0), ZoneId.systemDefault()))

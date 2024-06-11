@@ -2,6 +2,7 @@ package greencity.mapping;
 
 import greencity.dto.event.EventResponseDayInfoDto;
 import greencity.dto.event.model.EventDayInfo;
+import greencity.dto.event.model.EventStatus;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -26,9 +27,23 @@ public class EventResponseDayInfoDtoMapper extends AbstractConverter<EventDayInf
                 .startDateTime(eventDayInfo.getStartDateTime())
                 .endDateTime(eventDayInfo.getEndDateTime())
                 .dayNumber(eventDayInfo.getDayNumber())
-                .status(eventDayInfo.getStatus())
+                .status(setStatusFromEntity(eventDayInfo))
                 .link(eventDayInfo.getLink())
                 .address(mapper.convert(eventDayInfo.getAddress()))
                 .build();
+    }
+
+    private EventStatus setStatusFromEntity(EventDayInfo eventDayInfo) {
+        boolean isOnline = eventDayInfo.getLink() != null && !eventDayInfo.getLink().isBlank();
+        boolean isOffline = eventDayInfo.getAddress() != null &&
+                eventDayInfo.getAddress().getLatitude() != null &&
+                eventDayInfo.getAddress().getLongitude() != null;
+        if (isOnline) {
+            if (isOffline) {
+                return EventStatus.ONLINE_OFFLINE;
+            }
+            return EventStatus.ONLINE;
+        }
+        return EventStatus.OFFLINE;
     }
 }

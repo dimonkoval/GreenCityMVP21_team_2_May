@@ -24,8 +24,6 @@ public class EventDayInfo {
 
     private int dayNumber;
 
-    private EventStatus status;//online, offline or both
-
     private String link;
 
 //@Embedded

@@ -34,7 +34,7 @@ public class EventDayInfoMapperTest {
         dtoToConvert.setDayNumber(expected.getDayNumber());
         dtoToConvert.setStartDateTime(expected.getStartDateTime());
         dtoToConvert.setEndDateTime(expected.getEndDateTime());
-        dtoToConvert.setStatus(expected.getStatus());
+        dtoToConvert.setStatus(EventStatus.ONLINE);
         dtoToConvert.setLink(expected.getLink());
         if (expected.getAddress() == null) {
             dtoToConvert.setAddress(null);
@@ -60,7 +60,6 @@ public class EventDayInfoMapperTest {
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 26, 0,0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 26, 23, 59), ZoneId.systemDefault()))
                 .dayNumber(2)
-                .status(EventStatus.OFFLINE)
                 .address(EventAddress.builder()
                         .latitude(BigDecimal.ONE)
                         .longitude(BigDecimal.TWO)
@@ -73,7 +72,6 @@ public class EventDayInfoMapperTest {
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 30, 13,0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 30, 22, 0), ZoneId.systemDefault()))
                 .dayNumber(3)
-                .status(EventStatus.OFFLINE)
                 .address(EventAddress.builder()
                         .latitude(BigDecimal.ONE)
                         .longitude(BigDecimal.TWO)
@@ -91,14 +89,14 @@ public class EventDayInfoMapperTest {
         toConvert1.setStartDateTime(expected1.getStartDateTime());
         toConvert1.setEndDateTime(expected1.getEndDateTime());
         toConvert1.setDayNumber(expected1.getDayNumber());
-        toConvert1.setStatus(expected1.getStatus());
+        toConvert1.setStatus(EventStatus.ONLINE);
         toConvert1.setLink(expected1.getLink());
         EventSaveDayInfoDto toConvert2 = new EventSaveDayInfoDto();
         toConvert2.setAllDay(expected2.isAllDay());
         toConvert2.setStartDateTime(expected2.getStartDateTime());
         toConvert2.setEndDateTime(expected2.getEndDateTime());
         toConvert2.setDayNumber(expected2.getDayNumber());
-        toConvert2.setStatus(expected2.getStatus());
+        toConvert2.setStatus(EventStatus.OFFLINE);
         toConvert2.setAddress(EventAddressDto.builder()
                 .latitude(expected2.getAddress().getLatitude())
                 .longitude(expected2.getAddress().getLongitude())
@@ -110,7 +108,7 @@ public class EventDayInfoMapperTest {
         toConvert3.setStartDateTime(expected3.getStartDateTime());
         toConvert3.setEndDateTime(expected3.getEndDateTime());
         toConvert3.setDayNumber(expected3.getDayNumber());
-        toConvert3.setStatus(expected3.getStatus());
+        toConvert3.setStatus(EventStatus.OFFLINE);
         toConvert3.setAddress(EventAddressDto.builder()
                 .latitude(expected3.getAddress().getLatitude())
                 .longitude(expected3.getAddress().getLongitude())

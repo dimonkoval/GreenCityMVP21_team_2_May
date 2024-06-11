@@ -1,7 +1,9 @@
 package greencity.mapping;
 
 import greencity.constant.EmailNotificationMessagesConstants;
+import greencity.dto.event.model.EventDayInfo;
 import greencity.dto.event.model.EventModelDto;
+import greencity.dto.event.model.EventStatus;
 import greencity.message.EventEmailMessage;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
@@ -33,12 +35,27 @@ public class EventEmailMessageMapper extends AbstractConverter<EventModelDto, Ev
                 .eventTitle(eventModelDto.getTitle())
                 .description(eventModelDto.getDescription())
                 .isOpen(eventModelDto.isOpen())
-                .status(eventModelDto.getDayInfos().getFirst().getStatus())
+                .status(setStatusFromEntity(eventModelDto.getDayInfos().getFirst()))
                 .link(eventModelDto.getDayInfos().getFirst().getLink())
                 .startDateTime(eventModelDto.getDayInfos().getFirst().getStartDateTime())
                 .endDateTime(eventModelDto.getDayInfos().getFirst().getEndDateTime())
                 .address(eventModelDto.getDayInfos().getFirst().getAddress())
                 .linkToEvent(greenCityMvpServerAddress + "/events/" + eventModelDto.getId())
                 .build();
+    }
+
+    private EventStatus setStatusFromEntity(EventDayInfo eventDayInfo) {
+        boolean isOnline = eventDayInfo.getLink() != null &&
+                !eventDayInfo.getLink().isBlank();
+        boolean isOffline = eventDayInfo.getAddress() != null &&
+                eventDayInfo.getAddress().getLatitude() != null &&
+                eventDayInfo.getAddress().getLongitude() != null;
+        if (isOnline) {
+            if (isOffline) {
+                return EventStatus.ONLINE_OFFLINE;
+            }
+            return EventStatus.ONLINE;
+        }
+        return EventStatus.OFFLINE;
     }
 }

@@ -147,7 +147,6 @@ class EventServiceImplTest {
                 .isAllDay(true)
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 23, 59), ZoneId.systemDefault()))
-                .status(EventStatus.OFFLINE)
                 .address(EventAddress.builder()
                         .latitude(BigDecimal.TEN)
                         .longitude(BigDecimal.TWO)
@@ -160,7 +159,6 @@ class EventServiceImplTest {
                 .isAllDay(true)
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 23, 59), ZoneId.systemDefault()))
-                .status(EventStatus.ONLINE)
                 .link("location link")
                 .build();
         image1 = EventImage.builder().imagePath("imagePath").isMain(true).build();

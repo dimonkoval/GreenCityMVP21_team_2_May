@@ -44,7 +44,6 @@ class EventEmailMessageMapperTest {
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 12, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 14, 0), ZoneId.systemDefault()))
                 .dayNumber(1)
-                .status(EventStatus.ONLINE)
                 .link("some link")
                 .address(address)
                 .build();
