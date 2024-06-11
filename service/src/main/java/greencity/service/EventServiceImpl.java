@@ -3,6 +3,7 @@ package greencity.service;
 import greencity.client.RestClient;
 import greencity.constant.ErrorMessage;
 import greencity.dto.event.*;
+import greencity.entity.Tag;
 import greencity.entity.event.EventImage;
 import greencity.entity.event.Event;
 import greencity.dto.tag.TagVO;
@@ -16,6 +17,7 @@ import greencity.repository.EventRepo;
 import greencity.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -56,9 +58,10 @@ public class EventServiceImpl implements EventService{
             eventImages.get(event.getMainImageNumber() - 1).setMain(true);
         }
 
-        Event eventModelDto = modelMapper.map(event, Event.class);
-        eventModelDto.setImages(eventImages);
-        eventModelDto.setAuthor(author);
+        Event eventToSave = modelMapper.map(event, Event.class);
+        eventToSave.setImages(eventImages);
+        User user = modelMapper.map(author, User.class);
+        eventToSave.setAuthor(user);
 
 
         if (event.getTags() != null && event.getTags().size() > 0) {
@@ -67,22 +70,24 @@ public class EventServiceImpl implements EventService{
             }
             List<TagVO> tagVOS = tagsService.findTagsByNamesAndType(
                     event.getTags(), TagType.EVENT);
-            eventModelDto.setTags(tagVOS);
+            eventToSave.setTags(modelMapper.map(tagVOS,
+                    new TypeToken<List<Tag>>() {
+                    }.getType()));
         }
 
-        eventModelDto = eventRepo.save(eventModelDto);
+        eventToSave = eventRepo.save(eventToSave);
 
-        EventEmailMessage eventEmailMessage = modelMapper.map(eventModelDto, EventEmailMessage.class);
+        EventEmailMessage eventEmailMessage = modelMapper.map(eventToSave, EventEmailMessage.class);
         sendEmailNotification(eventEmailMessage);
 
-        return modelMapper.map(eventModelDto, EventResponseDto.class);
+        return modelMapper.map(eventToSave, EventResponseDto.class);
     }
 
     @Override
     public void delete(Long id, UserVO author) {}
 
     @Override
-    public Event update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author) {
+    public EventResponseDto update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author) {
         return null;
     }
 

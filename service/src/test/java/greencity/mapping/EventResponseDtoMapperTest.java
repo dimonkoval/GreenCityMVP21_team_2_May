@@ -37,6 +37,9 @@ class EventResponseDtoMapperTest {
     @Mock
     private EventAuthorDtoMapper eventAuthorDtoMapper;
 
+    @Mock
+    private UserVOMapper userVOMapper;
+
     @Test
     void convert() {
         Event event = ModelUtils.getEventModelDto();

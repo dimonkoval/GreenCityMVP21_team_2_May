@@ -119,9 +119,10 @@ class EventsControllerWithSecurityConfigTest {
                 "      \"startDateTime\": \"2024-06-02T14:20:45.252Z\",\n" +
                 "      \"endDateTime\": \"2024-06-02T14:20:45.252Z\",\n" +
                 "      \"dayNumber\": 0,\n" +
-                "      \"location\": \"string\",\n" +
                 "      \"allDay\": true,\n" +
-                "      \"online\": true\n" +
+                "      \"status\": \"ONLINE\",\n" +
+                "      \"link\": \"string\",\n" +
+                "      \"address\": null\n" +
                 "    }\n" +
                 "  ],\n" +
                 "  \"description\": \"stringstringstringst\",\n" +

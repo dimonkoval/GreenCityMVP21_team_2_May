@@ -1,6 +1,6 @@
 package greencity.message;
 
-import greencity.dto.event.model.EventAddress;
+import greencity.dto.event.EventAddressDto;
 import greencity.enums.EventStatus;
 import lombok.*;
 
@@ -23,6 +23,6 @@ public class EventEmailMessage {
     private String link;
     private ZonedDateTime startDateTime;
     private ZonedDateTime endDateTime;
-    private EventAddress address;
+    private EventAddressDto address;
     private String linkToEvent;
 }

@@ -2,7 +2,6 @@ package greencity.validator;
 
 import greencity.annotations.UniqueEventDates;
 import greencity.dto.event.EventSaveDayInfoDto;
-import greencity.dto.event.model.EventDayInfo;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

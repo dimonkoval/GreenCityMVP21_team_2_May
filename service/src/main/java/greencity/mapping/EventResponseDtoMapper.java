@@ -3,7 +3,7 @@ package greencity.mapping;
 import greencity.constant.AppConstant;
 import greencity.dto.event.EventResponseDto;
 import greencity.entity.event.Event;
-import greencity.dto.tag.TagTranslationVO;
+import greencity.entity.localization.TagTranslation;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,9 @@ public class EventResponseDtoMapper extends AbstractConverter<Event, EventRespon
     @Autowired
     private EventAuthorDtoMapper eventAuthorDtoMapper;
 
+    @Autowired
+    private UserVOMapper userVOMapper;
+
     /**
      * Method for converting {@link Event} into {@link EventResponseDto}.
      *
@@ -47,19 +50,19 @@ public class EventResponseDtoMapper extends AbstractConverter<Event, EventRespon
                 .images(event.getImages().stream()
                         .map(eventImageDtoMapperMapper::convert)
                         .collect(Collectors.toList()))
-                .author(eventAuthorDtoMapper.convert(event.getAuthor()))
+                .author(eventAuthorDtoMapper.convert(userVOMapper.convert(event.getAuthor())))
                 .tagsEn(event.getTags() == null || event.getTags().size() == 0 ?
                         null :
                         event.getTags().stream()
                         .flatMap(t -> t.getTagTranslations().stream())
-                        .filter(t -> t.getLanguageVO().getCode().equals(AppConstant.DEFAULT_LANGUAGE_CODE))
-                        .map(TagTranslationVO::getName).collect(Collectors.toList()))
+                        .filter(t -> t.getLanguage().getCode().equals(AppConstant.DEFAULT_LANGUAGE_CODE))
+                        .map(TagTranslation::getName).collect(Collectors.toList()))
                 .tagsUa(event.getTags() == null || event.getTags().size() == 0 ?
                         null :
                         event.getTags().stream()
                         .flatMap(t -> t.getTagTranslations().stream())
-                        .filter(t -> t.getLanguageVO().getCode().equals("ua"))
-                        .map(TagTranslationVO::getName).collect(Collectors.toList()))
+                        .filter(t -> t.getLanguage().getCode().equals("ua"))
+                        .map(TagTranslation::getName).collect(Collectors.toList()))
                 .build();
     }
 

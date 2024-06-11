@@ -3,7 +3,6 @@ package greencity.service;
 import greencity.ModelUtils;
 import greencity.client.RestClient;
 import greencity.dto.event.*;
-import greencity.dto.event.model.*;
 import greencity.dto.user.UserVO;
 import greencity.entity.User;
 import greencity.entity.event.EventAddress;
@@ -71,7 +70,7 @@ class EventServiceImplTest {
     EventResponseDto eventResponseDto;
     EventResponseDayInfoDto dayInfoResponse1;
     EventResponseDayInfoDto dayInfoResponse2;
-    UserVO userVO;
+    User user;
     Event eventForResponse;
     Event eventForRequest;
     EventDayInfo dayInfo1;
@@ -145,7 +144,7 @@ class EventServiceImplTest {
                         EventImageDto.builder().imagePath("another path").isMain(false).build()))
                 .build();
 
-        userVO = UserVO.builder().id(1L).name("test name").build();
+        user = ModelUtils.getUser();
         dayInfo1 = EventDayInfo.builder()
                 .dayNumber(1)
                 .isAllDay(true)
@@ -173,7 +172,7 @@ class EventServiceImplTest {
                 .isOpen(eventRequestSaveDto.isOpen())
                 .description(eventRequestSaveDto.getDescription())
                 .images(List.of(image1, image2))
-                .author(userVO)
+                .author(this.user)
                 .dayInfos(List.of(dayInfo1, dayInfo2))
                 .build();
         eventForRequest = Event.builder()
@@ -188,11 +187,13 @@ class EventServiceImplTest {
 
     @Test
     void save() {
+        UserVO userVO = ModelUtils.getUserVO();
         when(fileService.upload(file1)).thenReturn("imagePath");
         when(fileService.upload(file2)).thenReturn("another path");
         when(modelMapper.map(eventRequestSaveDto, Event.class)).thenReturn(eventForRequest);
         when(eventRepo.save(eventForRequest)).thenReturn(eventForResponse);
         when(modelMapper.map(eventForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
+        when(modelMapper.map(userVO, User.class)).thenReturn(user);
         MockMultipartFile[] requestFiles = {file1, file2};
         assertEquals(eventResponseDto, eventService.save(eventRequestSaveDto, requestFiles, userVO));
     }

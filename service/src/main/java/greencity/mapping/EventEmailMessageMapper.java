@@ -20,6 +20,8 @@ public class EventEmailMessageMapper extends AbstractConverter<Event, EventEmail
     @Value("${greencitymvp.server.address}")
     private String greenCityMvpServerAddress;
 
+    EventAddressDtoMapper mapper = new EventAddressDtoMapper();
+
     /**
      * Method for converting {@link Event} into {@link EventEmailMessage}.
      *
@@ -39,7 +41,7 @@ public class EventEmailMessageMapper extends AbstractConverter<Event, EventEmail
                 .link(event.getDayInfos().getFirst().getLink())
                 .startDateTime(event.getDayInfos().getFirst().getStartDateTime())
                 .endDateTime(event.getDayInfos().getFirst().getEndDateTime())
-                .address(event.getDayInfos().getFirst().getAddress())
+                .address(mapper.convert(event.getDayInfos().getFirst().getAddress()))
                 .linkToEvent(greenCityMvpServerAddress + "/events/" + event.getId())
                 .build();
     }

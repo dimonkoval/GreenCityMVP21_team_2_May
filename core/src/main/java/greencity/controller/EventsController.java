@@ -6,7 +6,6 @@ import greencity.constant.HttpStatuses;
 import greencity.constant.SwaggerExampleModel;
 import greencity.dto.event.EventRequestSaveDto;
 import greencity.dto.event.EventResponseDto;
-import greencity.dto.event.model.EventModelDto;
 import greencity.dto.user.UserVO;
 import greencity.service.EventService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,7 +34,7 @@ public class EventsController {
     private final EventService eventService;
 
     /**
-     * Method for creating {@link EventModelDto}
+     * Method for creating {@link Event}
      *
      * @param eventRequestSaveDto - dto for {@link EventRequestSaveDto} entity.
      * @param images - array of {@link MultipartFile} images.

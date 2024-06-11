@@ -1,6 +1,7 @@
 package greencity.mapping;
 
 import greencity.ModelUtils;
+import greencity.entity.User;
 import greencity.entity.event.EventAddress;
 import greencity.entity.event.EventDayInfo;
 import greencity.entity.event.Event;
@@ -35,7 +36,7 @@ class EventEmailMessageMapperTest {
 
     @Test
     void convert() {
-        UserVO author = ModelUtils.getUserVO();
+        User author = ModelUtils.getUser();
         EventAddress address = ModelUtils.getEventAddress();
         EventDayInfo eventDayInfo = EventDayInfo.builder()
                 .id(1L)
