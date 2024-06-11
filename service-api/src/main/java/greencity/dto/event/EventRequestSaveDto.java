@@ -22,13 +22,14 @@ public class EventRequestSaveDto {
     @NotNull
     @ValidAddress(message = "Please add address to the event.")
     @ValidLink(message = "Please add a link to the event. The link must start with http(s)://")
-    @NotEmptyEventDateTime(message = "Please, enter at least one dateTime for Event")
-    @EventDateAfterOneHour(message = "First Event should be at least one hour after now")
-    @ValidSequenceEventDates(message = "Each event date must follow the previous one")
-    @StartBeforeEndTime(message = "End time cannot be before Start time")
-    @ValidAllDayEvent(message = "An all-day event should begin at 00:00 and conclude at 23:59")
-    @ValidSameDay(message = "StartDate and EndDate must be the same day")
-    @UniqueEventDates
+//    @NotEmptyEventDateTime(message = "Please, enter at least one dateTime for Event")
+//    @EventDateAfterOneHour(message = "First Event should be at least one hour after now")
+//    @ValidSequenceEventDates(message = "Each event date must follow the previous one")
+//    @StartBeforeEndTime(message = "End time cannot be before Start time")
+//    @ValidAllDayEvent(message = "An all-day event should begin at 00:00 and conclude at 23:59")
+//    @ValidSameDay(message = "StartDate and EndDate must be the same day")
+//    @UniqueEventDates
+    @ValidEventDateTime
     @Size(max = 7, min = 1)
     private List<EventSaveDayInfoDto> daysInfo;
 
