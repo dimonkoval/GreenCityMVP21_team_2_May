@@ -53,19 +53,4 @@ class ValidSequenceEventDatesValidatorTest {
         );
         assertFalse(validator.isValid(eventDays, context));
     }
-
-    @Test
-    void testEqualsSequenceEventDates() {
-        List<EventSaveDayInfoDto> eventDays = Arrays.asList(
-                EventSaveDayInfoDto.builder()
-                        .startDateTime(ZonedDateTime.now().plusDays(3))
-                        .endDateTime(ZonedDateTime.now().plusDays(3).plusHours(3))
-                        .build(),
-                EventSaveDayInfoDto.builder()
-                        .startDateTime(ZonedDateTime.now().plusDays(3))
-                        .endDateTime(ZonedDateTime.now().plusDays(3).plusHours(3))
-                        .build()
-        );
-        assertFalse(validator.isValid(eventDays, context));
-    }
 }

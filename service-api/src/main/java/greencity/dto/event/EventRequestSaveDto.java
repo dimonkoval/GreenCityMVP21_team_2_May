@@ -3,6 +3,7 @@ package greencity.dto.event;
 import greencity.annotations.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
