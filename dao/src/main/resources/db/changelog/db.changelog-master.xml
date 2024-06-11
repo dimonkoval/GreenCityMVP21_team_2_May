@@ -176,5 +176,10 @@
     <include file="db/changelog/logs/ch-drop-places-table-Bokalo.xml"/>
     <include file="db/changelog/logs/ch-drop-news-subscribers-table-Bokalo.xml"/>
     <include file="db/changelog/logs/ch-drop-user-friends-table-Bokalo.xml"/>
+    <include file="db/changelog/logs/ch-users-friends-Koval.xml"/>
+    <include file="db/changelog/logs/ch-update-column-status-in-users_friends-Koval.xml"/>
+    <include file="db/changelog/logs/ch-insert-into-users-friends_Koval.xml"/>
+    <include file="db/changelog/logs/ch-insert-into-habit-assign-Koval.xml"/>
+    <include file="db/changelog/logs/ch-insert-into-users-Koval.xml"/>
 </databaseChangeLog>
 
