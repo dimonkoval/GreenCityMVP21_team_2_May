@@ -18,6 +18,9 @@ public class EventRequestSaveDto {
     @Size(message = "Title must be a maximum of 70 characters", max = 70)
     private String title;
 
+    @NotNull
+    @ValidAddress(message = "Please add address to the event.")
+    @ValidLink(message = "Please add a link to the event. The link must start with http(s)://")
     @NotEmptyEventDateTime(message = "Please, enter at least one dateTime for Event")
     @EventDateAfterOneHour(message = "First Event should be at least one hour after now")
     @ValidSequenceEventDates(message = "Each event date must follow the previous one")
