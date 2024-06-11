@@ -113,6 +113,7 @@ class EventRequestSaveDtoTest {
                 Arguments.of(createInvalidEventSaveDayInfoDto("EventDateAfterOneHour"), "First Event should be at least one hour after now"),
                 Arguments.of(createInvalidEventSaveDayInfoDto("ValidAllDayEvent"), "An all-day event should begin at 00:00 and conclude at 23:59"),
                 Arguments.of(createInvalidEventSaveDayInfoDto("ValidSequenceEventDates"), "Each event date must follow the previous one"),
+                Arguments.of(createInvalidEventSaveDayInfoDto("ValidSameDay"), "StartDate and EndDate must be the same day"),
                 Arguments.of(createInvalidEventSaveDayInfoDto("UniqueEventDates"), "You can't enter the same date for two days")
                 );
     }
@@ -147,6 +148,17 @@ class EventRequestSaveDtoTest {
                                 .isAllDay(true)
                                 .startDateTime(ZonedDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(1, 0), ZoneId.systemDefault()))
                                 .endDateTime(ZonedDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(23, 59), ZoneId.systemDefault()))
+                                .status(EventStatus.ONLINE)
+                                .dayNumber(1)
+                                .link("https://valid-link.com")
+                                .build()
+                );
+            case "ValidSameDay":
+                return List.of(
+                        EventSaveDayInfoDto.builder()
+                                .isAllDay(false)
+                                .startDateTime(ZonedDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(1, 0), ZoneId.systemDefault()))
+                                .endDateTime(ZonedDateTime.of(LocalDate.now().plusDays(2), LocalTime.of(23, 59), ZoneId.systemDefault()))
                                 .status(EventStatus.ONLINE)
                                 .dayNumber(1)
                                 .link("https://valid-link.com")
