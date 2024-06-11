@@ -46,7 +46,7 @@ class EventRequestSaveDtoTest {
                 .startDateTime(ZonedDateTime.of(LocalDate.now().plusYears(1),
                         LocalTime.of(0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDate.now().plusYears(1),
-                        LocalTime.of(0, 0), ZoneId.systemDefault()))
+                        LocalTime.of(23, 59), ZoneId.systemDefault()))
                 .status(EventStatus.OFFLINE)
                 .dayNumber(1)
                 .address(addressDto)
@@ -133,7 +133,7 @@ class EventRequestSaveDtoTest {
                 .startDateTime(ZonedDateTime.of(LocalDate.now().plusYears(1),
                         LocalTime.of(0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDate.now().plusYears(1),
-                        LocalTime.of(0, 0), ZoneId.systemDefault()))
+                        LocalTime.of(23, 59), ZoneId.systemDefault()))
                 .status(EventStatus.OFFLINE)
                 .dayNumber(1)
                 .address(addressDto)
@@ -239,7 +239,7 @@ class EventRequestSaveDtoTest {
                 .startDateTime(ZonedDateTime.of(LocalDate.now().plusYears(1),
                         LocalTime.of(0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDate.now().plusYears(1),
-                        LocalTime.of(0, 0), ZoneId.systemDefault()))
+                        LocalTime.of(23, 59), ZoneId.systemDefault()))
                 .status(EventStatus.ONLINE)
                 .dayNumber(1)
                 .link(link)
@@ -291,7 +291,7 @@ class EventRequestSaveDtoTest {
                 .startDateTime(ZonedDateTime.of(LocalDate.now().plusYears(1),
                         LocalTime.of(0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDate.now().plusYears(1),
-                        LocalTime.of(0, 0), ZoneId.systemDefault()))
+                        LocalTime.of(23, 59), ZoneId.systemDefault()))
                 .status(EventStatus.ONLINE)
                 .dayNumber(1)
                 .link(link)
@@ -326,7 +326,7 @@ class EventRequestSaveDtoTest {
                 .startDateTime(ZonedDateTime.of(LocalDate.now().plusYears(1),
                         LocalTime.of(0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDate.now().plusYears(1),
-                        LocalTime.of(0, 0), ZoneId.systemDefault()))
+                        LocalTime.of(23, 59), ZoneId.systemDefault()))
                 .status(EventStatus.ONLINE_OFFLINE)
                 .dayNumber(1)
                 .link(link)
@@ -390,7 +390,7 @@ class EventRequestSaveDtoTest {
                 .startDateTime(ZonedDateTime.of(LocalDate.now().plusYears(1),
                         LocalTime.of(0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDate.now().plusYears(1),
-                        LocalTime.of(0, 0), ZoneId.systemDefault()))
+                        LocalTime.of(23, 59), ZoneId.systemDefault()))
                 .status(EventStatus.ONLINE_OFFLINE)
                 .dayNumber(1)
                 .link(link)
