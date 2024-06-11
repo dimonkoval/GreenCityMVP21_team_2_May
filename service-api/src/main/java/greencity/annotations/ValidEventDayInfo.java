@@ -1,13 +1,9 @@
 package greencity.annotations;
 
-import greencity.validator.ValidEventDateTimeValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 @NotEmptyEventDateTime(message = "Please, enter at least one dateTime for Event")
 @EventDateAfterOneHour(message = "First Event should be at least one hour after now")
@@ -16,11 +12,13 @@ import java.lang.annotation.Target;
 @ValidAllDayEvent(message = "An all-day event should begin at 00:00 and conclude at 23:59")
 @ValidSameDay(message = "StartDate and EndDate must be the same day")
 @UniqueEventDates
+@ValidAddress(message = "Please add address to the event.")
+@ValidLink(message = "Please add a link to the event. The link must start with http(s)://")
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidEventDateTimeValidator.class)
-public @interface ValidEventDateTime {
-    String message() default "";
+@Constraint(validatedBy = {})
+public @interface ValidEventDayInfo {
+    String message() default "Day info is invalid";
 
     Class<?>[] groups() default {};
 

@@ -1,6 +1,6 @@
 package greencity.dto.event.model;
 
-import greencity.annotations.ValidEventDateTime;
+import greencity.annotations.ValidEventDayInfo;
 import greencity.dto.tag.TagVO;
 import greencity.dto.user.UserVO;
 import jakarta.validation.constraints.NotBlank;
@@ -28,7 +28,7 @@ public class EventModelDto {
 
 //    @OneToMany
     @NotNull
-    @ValidEventDateTime
+    @ValidEventDayInfo
     //@ValidLocation
     @Size(max = 7, min = 1)
     private List<EventDayInfo> dayInfos;
