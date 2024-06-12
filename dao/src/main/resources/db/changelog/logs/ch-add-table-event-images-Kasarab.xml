@@ -13,7 +13,7 @@
             </column>
             <column name="is_main" type="BOOLEAN"/>
             <column name="event_id" type="BIGINT">
-                <constraints foreignKeyName="event_images_events" references="events (id)" />
+                <constraints foreignKeyName="FK_event_images_events" references="events (id)" />
             </column>
         </createTable>
     </changeSet>

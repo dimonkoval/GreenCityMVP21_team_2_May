@@ -11,16 +11,10 @@
             <column name="title" type="VARCHAR(70)">
                 <constraints nullable="false"/>
             </column>
-<!--            <column name="event_day_info_id" type="BIGINT">-->
-<!--                <constraints foreignKeyName="FK_events_event_day_info" references="event_day_infos (id)"/>-->
-<!--            </column>-->
             <column name="description" type="VARCHAR(63206)">
                 <constraints nullable="false"/>
             </column>
             <column name="is_open" type="BOOLEAN" defaultValueBoolean="true"/>
-<!--            <column name="image_id" type="BIGINT">-->
-<!--                <constraints foreignKeyName="FK_events_images" references="event_images (id)"/>-->
-<!--            </column>-->
             <column name="author_id" type="BIGINT">
                 <constraints foreignKeyName="FK_events_users" references="users (id)"/>
             </column>
