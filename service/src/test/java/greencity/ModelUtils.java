@@ -242,7 +242,7 @@ public class ModelUtils {
             List.of(TagTranslation.builder().name("Новини").language(Language.builder().code("ua").build()).build(),
                 TagTranslation.builder().name("News").language(Language.builder().code("en").build()).build()));
         return new EcoNews(1L, zonedDateTime, TestConst.SITE, "source", "shortInfo", getUser(),
-            "title", "text", List.of(EcoNewsComment.builder().id(1L).text("test").build()),
+            "title", "text", List.of(EcoNewsComment.builder().id(1L).text("test").user(getUser()).build()),
             Collections.singletonList(tag), Collections.emptySet(), Collections.emptySet());
     }
 
@@ -729,5 +729,21 @@ public class ModelUtils {
             .text("item")
             .status(ShoppingListItemStatus.INPROGRESS)
             .build();
+    }
+
+    public static Category getCategory() {
+        return Category.builder()
+                .id(2L)
+                .name("Name")
+                .build();
+    }
+
+    public static Habit getHabit() {
+        return Habit.builder()
+                .image("image")
+                .complexity(1)
+                .defaultDuration(2)
+                .isCustomHabit(true)
+                .build();
     }
 }
