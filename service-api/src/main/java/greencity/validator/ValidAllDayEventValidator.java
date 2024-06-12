@@ -26,13 +26,15 @@ public class ValidAllDayEventValidator implements ConstraintValidator<ValidAllDa
      */
     @Override
     public boolean isValid(List<EventSaveDayInfoDto> value, ConstraintValidatorContext context) {
-        for (EventSaveDayInfoDto eventDateTime : value) {
-            if (eventDateTime.isAllDay()) {
-                if (eventDateTime.getStartDateTime().toLocalTime().isAfter(LocalTime.of(0, 0))) {
-                    return false;
-                }
-                if (eventDateTime.getEndDateTime().toLocalTime().isBefore(LocalTime.of(23, 59))) {
-                    return false;
+        if (value != null) {
+            for (EventSaveDayInfoDto eventDateTime : value) {
+                if (eventDateTime.isAllDay()) {
+                    if (eventDateTime.getStartDateTime().toLocalTime().isAfter(LocalTime.of(0, 0))) {
+                        return false;
+                    }
+                    if (eventDateTime.getEndDateTime().toLocalTime().isBefore(LocalTime.of(23, 59))) {
+                        return false;
+                    }
                 }
             }
         }
