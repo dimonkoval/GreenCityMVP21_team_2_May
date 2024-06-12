@@ -17,10 +17,10 @@
             </column>
             <column name="day_number" type="INT"/>
             <column name="link" type="VARCHAR(255)"/>
-            <column name="latitude" type="NUMERIC(38,2)">
+            <column name="latitude" type="DECIMAL(10, 6)">
                 <constraints nullable="false"/>
             </column>
-            <column name="longitude" type="NUMERIC(38,2)">
+            <column name="longitude" type="DECIMAL(11, 6)">
                 <constraints nullable="false"/>
             </column>
             <column name="address_en" type="VARCHAR(255)"/>

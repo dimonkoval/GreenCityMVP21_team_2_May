@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="insertIntoEventsKasarab-1" author="Roman Kasarab">
+        <insert tableName="events">
+            <column name="title">Event 1</column>
+            <column name="description">Description for Event 1</column>
+            <column name="is_open">true</column>
+            <column name="author_id">3</column>
+        </insert>
+        <insert tableName="events">
+            <column name="title">Event 2</column>
+            <column name="description">Description for Event 2</column>
+            <column name="is_open">false</column>
+            <column name="author_id">3</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
