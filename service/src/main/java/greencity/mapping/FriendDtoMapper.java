@@ -1,6 +1,6 @@
 package greencity.mapping;
 
-import greencity.dto.user.FriendDtoResponse;
+import greencity.dto.friend.FriendDtoResponse;
 import greencity.entity.User;
 import org.springframework.stereotype.Component;
 

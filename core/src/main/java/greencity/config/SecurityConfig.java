@@ -153,6 +153,9 @@ public class SecurityConfig {
                                 "/events",
                                 "/events/{id}",
                                 "/events/author/{userId}",
+                                "/friends/{userId}",
+                                "/friends/user/{userId}",
+                                "/friends/search/{userId}",
                                 "/token")
                         .permitAll()
                         .requestMatchers(HttpMethod.POST,
@@ -210,6 +213,7 @@ public class SecurityConfig {
                                 "/econews/comments/like",
                                 "/events",
                                 CUSTOM_SHOPPING_LIST_ITEMS,
+                                "/friends/{userId}",
                                 "/files/image",
                                 "/files/convert",
                                 HABIT_ASSIGN_ID,
