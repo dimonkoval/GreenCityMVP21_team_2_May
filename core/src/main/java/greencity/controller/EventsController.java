@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -52,7 +53,7 @@ public class EventsController {
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<EventResponseDto> save(
             @Parameter(description = SwaggerExampleModel.ADD_EVENT, required = true)
-            @RequestPart EventRequestSaveDto eventRequestSaveDto,                       // add @ValidationClass
+            @RequestPart @Valid EventRequestSaveDto eventRequestSaveDto,
             @Parameter(description = "Upload array of images for event.") MultipartFile[] images,
             @Parameter(hidden = true) @CurrentUser UserVO user
             ) {
