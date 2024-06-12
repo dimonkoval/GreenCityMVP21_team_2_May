@@ -4,6 +4,7 @@ import greencity.annotations.ApiPageable;
 import greencity.annotations.CurrentUser;
 import greencity.constant.HttpStatuses;
 import greencity.constant.SwaggerExampleModel;
+import greencity.dto.PageableAdvancedDto;
 import greencity.dto.event.EventRequestSaveDto;
 import greencity.dto.event.EventResponseDto;
 import greencity.dto.user.UserVO;
@@ -22,8 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Validated
 @RestController
@@ -73,7 +72,7 @@ public class EventsController {
     })
     @GetMapping()
     @ApiPageable
-    public ResponseEntity<List<EventResponseDto>> findAll(@Parameter(hidden = true) Pageable page) {
+    public ResponseEntity<PageableAdvancedDto<EventResponseDto>> findAll(@Parameter(hidden = true) Pageable page) {
         return ResponseEntity.status(HttpStatus.OK).body(eventService.findAll(page));
     }
 
@@ -105,8 +104,8 @@ public class EventsController {
     })
     @ApiPageable
     @GetMapping("/author/{userId}")
-    public ResponseEntity<List<EventResponseDto>> getEventByAuthorId(@PathVariable Long userId,
-                                                                   @Parameter(hidden = true) Pageable page ) {
+    public ResponseEntity<PageableAdvancedDto<EventResponseDto>> getEventByAuthorId(@PathVariable Long userId,
+                                                                                    @Parameter(hidden = true) Pageable page ) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(eventService.findAllByAuthor(page, userId));
     }

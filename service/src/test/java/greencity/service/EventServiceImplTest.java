@@ -2,6 +2,7 @@ package greencity.service;
 
 import greencity.ModelUtils;
 import greencity.client.RestClient;
+import greencity.dto.PageableAdvancedDto;
 import greencity.dto.event.*;
 import greencity.dto.user.UserVO;
 import greencity.entity.User;
@@ -20,6 +21,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -200,8 +204,14 @@ class EventServiceImplTest {
 
     @Test
     void findAll() {
-        List<EventResponseDto> expected = List.of(eventResponseDto);
-        when(eventRepo.findAll(pageable)).thenReturn(List.of(eventForResponse));
+        List<Event> events = List.of(eventForResponse);
+        List<EventResponseDto> expectedDto = List.of(eventResponseDto);
+        PageRequest pageRequest = PageRequest.of(0, 2);
+        Page<Event> translationPage = new PageImpl<>(events,
+                pageRequest, events.size());
+        PageableAdvancedDto<EventResponseDto> expected = new PageableAdvancedDto<>(expectedDto, expectedDto.size(), 0, 1,
+                0, false, false, true, true);
+        when(eventRepo.findAll(pageable)).thenReturn(translationPage);
         when(modelMapper.map(eventForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
         assertEquals(expected, eventService.findAll(pageable));
     }
@@ -229,7 +239,7 @@ class EventServiceImplTest {
 
     @Test
     void uploadImage_ReturnNull() {
-        assertEquals(null, eventService.uploadImage(null));
+        assertNull(eventService.uploadImage(null));
     }
 
     @Test
@@ -253,10 +263,16 @@ class EventServiceImplTest {
 
     @Test
     void findAllByAuthor() {
-        List<EventResponseDto> expected = List.of(eventResponseDto);
+        List<Event> events = List.of(eventForResponse);
+        List<EventResponseDto> expectedDto = List.of(eventResponseDto);
         long authorId = 1;
+        PageRequest pageRequest = PageRequest.of(0, 2);
+        Page<Event> translationPage = new PageImpl<>(events,
+                pageRequest, events.size());
+        PageableAdvancedDto<EventResponseDto> expected = new PageableAdvancedDto<>(expectedDto, expectedDto.size(), 0, 1,
+                0, false, false, true, true);
         when(userRepo.findById(authorId)).thenReturn(Optional.of(ModelUtils.getUser()));
-        when(eventRepo.findAllByAuthorId(pageable, authorId)).thenReturn(List.of(eventForResponse));
+        when(eventRepo.findAllByAuthorId(pageable, authorId)).thenReturn(translationPage);
         when(modelMapper.map(eventForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
         assertEquals(expected, eventService.findAllByAuthor(pageable, authorId));
     }

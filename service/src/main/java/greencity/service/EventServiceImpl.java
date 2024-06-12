@@ -2,6 +2,7 @@ package greencity.service;
 
 import greencity.client.RestClient;
 import greencity.constant.ErrorMessage;
+import greencity.dto.PageableAdvancedDto;
 import greencity.dto.event.*;
 import greencity.entity.Tag;
 import greencity.entity.event.EventImage;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestAttributes;
@@ -92,9 +94,9 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public List<EventResponseDto> findAll(Pageable pageable) {
-        List<Event> events = eventRepo.findAll(pageable);
-        return events.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
+    public PageableAdvancedDto<EventResponseDto> findAll(Pageable pageable) {
+        Page<Event> events = eventRepo.findAll(pageable);
+        return buildPageableAdvancedDto(events);
     }
 
     @Override
@@ -122,10 +124,10 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public List<EventResponseDto> findAllByAuthor(Pageable pageable, Long userId) {
+    public PageableAdvancedDto<EventResponseDto> findAllByAuthor(Pageable pageable, Long userId) {
         User user = userRepo.findById(userId).orElseThrow(() -> new WrongIdException(ErrorMessage.USER_NOT_FOUND_BY_ID + userId));
-        List<Event> events = eventRepo.findAllByAuthorId(pageable, userId);
-        return events.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
+        Page<Event> events = eventRepo.findAllByAuthorId(pageable, userId);
+        return buildPageableAdvancedDto(events);
     }
 
 
@@ -139,5 +141,22 @@ public class EventServiceImpl implements EventService{
                 RequestContextHolder.resetRequestAttributes();
             }
         });
+    }
+
+    private PageableAdvancedDto<EventResponseDto> buildPageableAdvancedDto(Page<Event> eventPage) {
+        List<EventResponseDto> eventResponseDtos = eventPage.stream()
+                .map(event -> modelMapper.map(event, EventResponseDto.class))
+                .toList();
+
+        return new PageableAdvancedDto<>(
+                eventResponseDtos,
+                eventPage.getTotalElements(),
+                eventPage.getPageable().getPageNumber(),
+                eventPage.getTotalPages(),
+                eventPage.getNumber(),
+                eventPage.hasPrevious(),
+                eventPage.hasNext(),
+                eventPage.isFirst(),
+                eventPage.isLast());
     }
 }
