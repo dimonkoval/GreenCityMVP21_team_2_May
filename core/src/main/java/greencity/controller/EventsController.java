@@ -2,6 +2,7 @@ package greencity.controller;
 
 import greencity.annotations.ApiPageable;
 import greencity.annotations.CurrentUser;
+import greencity.annotations.ImageArrayValidation;
 import greencity.annotations.ImageValidation;
 import greencity.constant.HttpStatuses;
 import greencity.constant.SwaggerExampleModel;
@@ -57,7 +58,7 @@ public class EventsController {
             @Parameter(description = SwaggerExampleModel.ADD_EVENT, required = true)
             @RequestPart @Valid EventRequestSaveDto eventRequestSaveDto,
             @Parameter(description = "Upload array of images for event.")
-            @ImageValidation @Size(max = 5) MultipartFile[] images,
+            @ImageArrayValidation MultipartFile[] images,
             @Parameter(hidden = true) @CurrentUser UserVO user
             ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
