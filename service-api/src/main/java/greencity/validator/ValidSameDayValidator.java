@@ -20,15 +20,15 @@ public class ValidSameDayValidator implements ConstraintValidator<ValidSameDay, 
      */
     @Override
     public boolean isValid(List<EventSaveDayInfoDto> value, ConstraintValidatorContext constraintValidatorContext) {
-
-        for ( EventSaveDayInfoDto eventSaveDayInfoDto : value ) {
-            LocalDate startDate = eventSaveDayInfoDto.getStartDateTime().toLocalDate();
-            LocalDate endDate = eventSaveDayInfoDto.getEndDateTime().toLocalDate();
-            if (!startDate.equals(endDate)) {
-                return false;
+        if (value != null) {
+            for ( EventSaveDayInfoDto eventSaveDayInfoDto : value ) {
+                LocalDate startDate = eventSaveDayInfoDto.getStartDateTime().toLocalDate();
+                LocalDate endDate = eventSaveDayInfoDto.getEndDateTime().toLocalDate();
+                if (!startDate.equals(endDate)) {
+                    return false;
+                }
             }
         }
-
         return true;
     }
 }

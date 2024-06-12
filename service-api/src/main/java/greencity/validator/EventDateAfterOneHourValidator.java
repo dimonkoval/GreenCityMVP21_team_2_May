@@ -27,7 +27,7 @@ public class EventDateAfterOneHourValidator implements ConstraintValidator<Event
     public boolean isValid(List<EventSaveDayInfoDto> value, ConstraintValidatorContext context) {
         //first dateTime of event should be at least in one hour after now
         ZonedDateTime nowPlusOneHour = ZonedDateTime.now().plusHours(1);
-        if (value.get(0).getStartDateTime().isBefore(nowPlusOneHour)) {
+        if (value != null && value.size() > 0 && value.get(0).getStartDateTime().isBefore(nowPlusOneHour)) {
             return false;
         }
 

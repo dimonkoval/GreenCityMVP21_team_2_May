@@ -28,11 +28,13 @@ public class UniqueEventDatesValidator implements ConstraintValidator<UniqueEven
      */
     @Override
     public boolean isValid(List<EventSaveDayInfoDto> value, ConstraintValidatorContext context) {
-        Set<LocalDate> dates = new HashSet<>();
-        for (EventSaveDayInfoDto eventDayInfo : value) {
-            LocalDate startDate = eventDayInfo.getStartDateTime().toLocalDate();
-            if (!dates.add(startDate)) {
-                return false;
+        if (value != null) {
+            Set<LocalDate> dates = new HashSet<>();
+            for (EventSaveDayInfoDto eventDayInfo : value) {
+                LocalDate startDate = eventDayInfo.getStartDateTime().toLocalDate();
+                if (!dates.add(startDate)) {
+                    return false;
+                }
             }
         }
         return true;

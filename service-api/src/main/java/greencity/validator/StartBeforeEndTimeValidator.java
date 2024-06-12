@@ -23,10 +23,12 @@ public class StartBeforeEndTimeValidator implements ConstraintValidator<StartBef
      */
     @Override
     public boolean isValid(List<EventSaveDayInfoDto> value, ConstraintValidatorContext context) {
-        for(EventSaveDayInfoDto eventDateTime : value) {
-            if (eventDateTime.getStartDateTime().isAfter(eventDateTime.getEndDateTime())
-                    || eventDateTime.getStartDateTime().equals(eventDateTime.getEndDateTime())) {
-                return false;
+        if (value != null) {
+            for(EventSaveDayInfoDto eventDateTime : value) {
+                if (eventDateTime.getStartDateTime().isAfter(eventDateTime.getEndDateTime())
+                        || eventDateTime.getStartDateTime().equals(eventDateTime.getEndDateTime())) {
+                    return false;
+                }
             }
         }
         return true;
