@@ -5,15 +5,15 @@
     <changeSet id="insertIntoEventImagesKasarab-1" author="Roman Kasarab">
         <insert tableName="event_tags">
             <column name="event_id">1</column>
-            <column name="tag_id">1</column>
+            <column name="tag_id">12</column>
         </insert>
         <insert tableName="event_tags">
             <column name="event_id">1</column>
-            <column name="tag_id">2</column>
+            <column name="tag_id">13</column>
         </insert>
         <insert tableName="event_tags">
             <column name="event_id">2</column>
-            <column name="tag_id">1</column>
+            <column name="tag_id">14</column>
         </insert>
     </changeSet>
 </databaseChangeLog>
