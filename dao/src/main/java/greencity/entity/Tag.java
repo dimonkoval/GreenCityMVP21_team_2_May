@@ -1,6 +1,6 @@
 package greencity.entity;
 
-import greencity.dto.event.model.EventModelDto;
+import greencity.entity.event.Event;
 import greencity.entity.localization.TagTranslation;
 import greencity.enums.TagType;
 import lombok.*;
@@ -35,6 +35,6 @@ public class Tag {
     @ManyToMany(mappedBy = "tags")
     private Set<Habit> habits;
 
-   // @ManyToMany
-   // private Set<Event> events;
+   @ManyToMany(mappedBy = "tags")
+   private Set<Event> events;
 }

@@ -3,7 +3,8 @@ package greencity.mapping;
 import greencity.dto.event.EventAddressDto;
 import greencity.dto.event.EventRequestSaveDto;
 import greencity.dto.event.EventSaveDayInfoDto;
-import greencity.dto.event.model.EventModelDto;
+import greencity.entity.event.Event;
+import greencity.enums.EventStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,11 +16,11 @@ import static greencity.ModelUtils.getEventModelDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
-public class EventModelDtoMapperTest {
+public class EventMapperTest {
     @InjectMocks
     EventModelDtoMapper mapper;
 
-    EventModelDto expected = getEventModelDto();
+    Event expected = getEventModelDto();
 
     @Test
     void convert() {
@@ -33,7 +34,7 @@ public class EventModelDtoMapperTest {
         dayInfoDto.setDayNumber(expected.getDayInfos().get(0).getDayNumber());
         dayInfoDto.setStartDateTime(expected.getDayInfos().get(0).getStartDateTime());
         dayInfoDto.setEndDateTime(expected.getDayInfos().get(0).getEndDateTime());
-        dayInfoDto.setStatus(expected.getDayInfos().get(0).getStatus());
+        dayInfoDto.setStatus(EventStatus.ONLINE);
         if (expected.getDayInfos().get(0).getAddress() == null) {
             dayInfoDto.setAddress(null);
         } else {

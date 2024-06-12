@@ -1,7 +1,7 @@
 package greencity.mapping;
 
 import greencity.dto.event.*;
-import greencity.dto.event.model.EventDayInfo;
+import greencity.entity.event.EventDayInfo;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -31,7 +31,6 @@ public class EventDayInfoMapper extends AbstractConverter<EventSaveDayInfoDto, E
                 .startDateTime(saveDayInfoDto.getStartDateTime())
                 .endDateTime(saveDayInfoDto.getEndDateTime())
                 .dayNumber(saveDayInfoDto.getDayNumber())
-                .status(saveDayInfoDto.getStatus())
                 .link(saveDayInfoDto.getLink())
                 .address(mapper.convert(saveDayInfoDto.getAddress()))
                 .build();

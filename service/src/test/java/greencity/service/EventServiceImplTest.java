@@ -2,10 +2,15 @@ package greencity.service;
 
 import greencity.ModelUtils;
 import greencity.client.RestClient;
+import greencity.dto.PageableAdvancedDto;
 import greencity.dto.event.*;
-import greencity.dto.event.model.*;
 import greencity.dto.user.UserVO;
 import greencity.entity.User;
+import greencity.entity.event.EventAddress;
+import greencity.entity.event.EventDayInfo;
+import greencity.entity.event.EventImage;
+import greencity.entity.event.Event;
+import greencity.enums.EventStatus;
 import greencity.exception.exceptions.WrongIdException;
 import greencity.message.EventEmailMessage;
 import greencity.repository.EventRepo;
@@ -13,10 +18,12 @@ import greencity.repository.UserRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -67,9 +74,9 @@ class EventServiceImplTest {
     EventResponseDto eventResponseDto;
     EventResponseDayInfoDto dayInfoResponse1;
     EventResponseDayInfoDto dayInfoResponse2;
-    UserVO userVO;
-    EventModelDto eventModelDtoForResponse;
-    EventModelDto eventModelDtoForRequest;
+    User user;
+    Event eventForResponse;
+    Event eventForRequest;
     EventDayInfo dayInfo1;
     EventDayInfo dayInfo2;
     EventImage image1;
@@ -141,13 +148,12 @@ class EventServiceImplTest {
                         EventImageDto.builder().imagePath("another path").isMain(false).build()))
                 .build();
 
-        userVO = UserVO.builder().id(1L).name("test name").build();
+        user = ModelUtils.getUser();
         dayInfo1 = EventDayInfo.builder()
                 .dayNumber(1)
                 .isAllDay(true)
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 23, 59), ZoneId.systemDefault()))
-                .status(EventStatus.OFFLINE)
                 .address(EventAddress.builder()
                         .latitude(BigDecimal.TEN)
                         .longitude(BigDecimal.TWO)
@@ -160,21 +166,20 @@ class EventServiceImplTest {
                 .isAllDay(true)
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 0, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 23, 59), ZoneId.systemDefault()))
-                .status(EventStatus.ONLINE)
                 .link("location link")
                 .build();
         image1 = EventImage.builder().imagePath("imagePath").isMain(true).build();
         image2 = EventImage.builder().imagePath("another path").isMain(false).build();
-        eventModelDtoForResponse = EventModelDto.builder()
+        eventForResponse = Event.builder()
                 .id(1L)
                 .title(eventRequestSaveDto.getTitle())
                 .isOpen(eventRequestSaveDto.isOpen())
                 .description(eventRequestSaveDto.getDescription())
                 .images(List.of(image1, image2))
-                .author(userVO)
+                .author(this.user)
                 .dayInfos(List.of(dayInfo1, dayInfo2))
                 .build();
-        eventModelDtoForRequest = EventModelDto.builder()
+        eventForRequest = Event.builder()
                 .title(eventRequestSaveDto.getTitle())
                 .isOpen(eventRequestSaveDto.isOpen())
                 .description(eventRequestSaveDto.getDescription())
@@ -186,33 +191,41 @@ class EventServiceImplTest {
 
     @Test
     void save() {
+        UserVO userVO = ModelUtils.getUserVO();
         when(fileService.upload(file1)).thenReturn("imagePath");
         when(fileService.upload(file2)).thenReturn("another path");
-        when(modelMapper.map(eventRequestSaveDto, EventModelDto.class)).thenReturn(eventModelDtoForRequest);
-        when(eventRepo.save(eventModelDtoForRequest)).thenReturn(eventModelDtoForResponse);
-        when(modelMapper.map(eventModelDtoForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
+        when(modelMapper.map(eventRequestSaveDto, Event.class)).thenReturn(eventForRequest);
+        when(eventRepo.save(eventForRequest)).thenReturn(eventForResponse);
+        when(modelMapper.map(eventForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
+        when(modelMapper.map(userVO, User.class)).thenReturn(user);
         MockMultipartFile[] requestFiles = {file1, file2};
         assertEquals(eventResponseDto, eventService.save(eventRequestSaveDto, requestFiles, userVO));
     }
 
     @Test
     void findAll() {
-        List<EventResponseDto> expected = List.of(eventResponseDto);
-        when(eventRepo.findAll(pageable)).thenReturn(List.of(eventModelDtoForResponse));
-        when(modelMapper.map(eventModelDtoForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
+        List<Event> events = List.of(eventForResponse);
+        List<EventResponseDto> expectedDto = List.of(eventResponseDto);
+        PageRequest pageRequest = PageRequest.of(0, 2);
+        Page<Event> translationPage = new PageImpl<>(events,
+                pageRequest, events.size());
+        PageableAdvancedDto<EventResponseDto> expected = new PageableAdvancedDto<>(expectedDto, expectedDto.size(), 0, 1,
+                0, false, false, true, true);
+        when(eventRepo.findAll(pageable)).thenReturn(translationPage);
+        when(modelMapper.map(eventForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
         assertEquals(expected, eventService.findAll(pageable));
     }
 
     @Test
     void findById() {
-        when(eventRepo.findById(1L)).thenReturn(Optional.of(eventModelDtoForResponse));
-        when(modelMapper.map(eventModelDtoForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
+        when(eventRepo.findById(1L)).thenReturn(Optional.of(eventForResponse));
+        when(modelMapper.map(eventForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
         assertEquals(eventResponseDto, eventService.findById(1L));
     }
 
     @Test
     void findById_ThrowsNotFound() {
-        Optional<EventModelDto> notFound = Optional.empty();
+        Optional<Event> notFound = Optional.empty();
         when(eventRepo.findById(2L)).thenReturn(notFound);
         assertThrows(WrongIdException.class, () -> eventService.findById(2L));
     }
@@ -226,7 +239,7 @@ class EventServiceImplTest {
 
     @Test
     void uploadImage_ReturnNull() {
-        assertEquals(null, eventService.uploadImage(null));
+        assertNull(eventService.uploadImage(null));
     }
 
     @Test
@@ -250,11 +263,17 @@ class EventServiceImplTest {
 
     @Test
     void findAllByAuthor() {
-        List<EventResponseDto> expected = List.of(eventResponseDto);
+        List<Event> events = List.of(eventForResponse);
+        List<EventResponseDto> expectedDto = List.of(eventResponseDto);
         long authorId = 1;
+        PageRequest pageRequest = PageRequest.of(0, 2);
+        Page<Event> translationPage = new PageImpl<>(events,
+                pageRequest, events.size());
+        PageableAdvancedDto<EventResponseDto> expected = new PageableAdvancedDto<>(expectedDto, expectedDto.size(), 0, 1,
+                0, false, false, true, true);
         when(userRepo.findById(authorId)).thenReturn(Optional.of(ModelUtils.getUser()));
-        when(eventRepo.findAllByAuthorId(pageable, authorId)).thenReturn(List.of(eventModelDtoForResponse));
-        when(modelMapper.map(eventModelDtoForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
+        when(eventRepo.findAllByAuthorId(pageable, authorId)).thenReturn(translationPage);
+        when(modelMapper.map(eventForResponse, EventResponseDto.class)).thenReturn(eventResponseDto);
         assertEquals(expected, eventService.findAllByAuthor(pageable, authorId));
     }
 

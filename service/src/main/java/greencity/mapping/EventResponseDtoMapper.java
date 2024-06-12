@@ -2,8 +2,7 @@ package greencity.mapping;
 
 import greencity.constant.AppConstant;
 import greencity.dto.event.EventResponseDto;
-import greencity.dto.event.model.EventModelDto;
-import greencity.dto.tag.TagTranslationVO;
+import greencity.entity.event.Event;
 import greencity.entity.localization.TagTranslation;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
@@ -14,11 +13,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Class that used by {@link ModelMapper} to map {@link EventModelDto} into
+ * Class that used by {@link ModelMapper} to map {@link Event} into
  * {@link EventResponseDto}.
  */
 @Component
-public class EventResponseDtoMapper extends AbstractConverter<EventModelDto, EventResponseDto> {
+public class EventResponseDtoMapper extends AbstractConverter<Event, EventResponseDto> {
 
     @Autowired
     private EventResponseDayInfoDtoMapper eventResponseDayInfoDtoMapper;
@@ -29,49 +28,52 @@ public class EventResponseDtoMapper extends AbstractConverter<EventModelDto, Eve
     @Autowired
     private EventAuthorDtoMapper eventAuthorDtoMapper;
 
+    @Autowired
+    private UserVOMapper userVOMapper;
+
     /**
-     * Method for converting {@link EventModelDto} into {@link EventResponseDto}.
+     * Method for converting {@link Event} into {@link EventResponseDto}.
      *
-     * @param eventModelDto object ot convert.
+     * @param event object ot convert.
      * @return converted object.
      */
     @Override
-    protected EventResponseDto convert(EventModelDto eventModelDto) {
+    protected EventResponseDto convert(Event event) {
         return EventResponseDto.builder()
-                .id(eventModelDto.getId())
-                .title(eventModelDto.getTitle())
-                .dateTimes(eventModelDto.getDayInfos().stream()
+                .id(event.getId())
+                .title(event.getTitle())
+                .dateTimes(event.getDayInfos().stream()
                         .map(eventResponseDayInfoDtoMapper::convert)
                         .collect(Collectors.toList()))
-                .description(eventModelDto.getDescription())
-                .isOpen(eventModelDto.isOpen())
-                .images(eventModelDto.getImages().stream()
+                .description(event.getDescription())
+                .isOpen(event.isOpen())
+                .images(event.getImages().stream()
                         .map(eventImageDtoMapperMapper::convert)
                         .collect(Collectors.toList()))
-                .author(eventAuthorDtoMapper.convert(eventModelDto.getAuthor()))
-                .tagsEn(eventModelDto.getTags() == null || eventModelDto.getTags().size() == 0 ?
+                .author(eventAuthorDtoMapper.convert(userVOMapper.convert(event.getAuthor())))
+                .tagsEn(event.getTags() == null || event.getTags().size() == 0 ?
                         null :
-                        eventModelDto.getTags().stream()
+                        event.getTags().stream()
                         .flatMap(t -> t.getTagTranslations().stream())
-                        .filter(t -> t.getLanguageVO().getCode().equals(AppConstant.DEFAULT_LANGUAGE_CODE))
-                        .map(TagTranslationVO::getName).collect(Collectors.toList()))
-                .tagsUa(eventModelDto.getTags() == null || eventModelDto.getTags().size() == 0 ?
+                        .filter(t -> t.getLanguage().getCode().equals(AppConstant.DEFAULT_LANGUAGE_CODE))
+                        .map(TagTranslation::getName).collect(Collectors.toList()))
+                .tagsUa(event.getTags() == null || event.getTags().size() == 0 ?
                         null :
-                        eventModelDto.getTags().stream()
+                        event.getTags().stream()
                         .flatMap(t -> t.getTagTranslations().stream())
-                        .filter(t -> t.getLanguageVO().getCode().equals("ua"))
-                        .map(TagTranslationVO::getName).collect(Collectors.toList()))
+                        .filter(t -> t.getLanguage().getCode().equals("ua"))
+                        .map(TagTranslation::getName).collect(Collectors.toList()))
                 .build();
     }
 
     /**
      * Method that build {@link List} of {@link EventResponseDto} from
-     * {@link List} of {@link EventModelDto}.
+     * {@link List} of {@link Event}.
      *
-     * @param dtoList {@link List} of {@link EventModelDto}
+     * @param dtoList {@link List} of {@link Event}
      * @return {@link List} of {@link EventResponseDto}
      */
-    public List<EventResponseDto> mapAllToList(List<EventModelDto> dtoList) {
+    public List<EventResponseDto> mapAllToList(List<Event> dtoList) {
         return dtoList.stream().map(this::convert).collect(Collectors.toList());
     }
 }

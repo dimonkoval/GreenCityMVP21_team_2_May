@@ -1,5 +1,5 @@
 package greencity.dto.event;
-import greencity.dto.event.model.EventStatus;
+import greencity.enums.EventStatus;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -565,5 +565,82 @@ class EventRequestSaveDtoTest {
                 .dayNumber(1)
                 .link("https://valid-link.com")
                 .build();
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideValidDescription")
+    void validDescription(String description) {
+        eventRequestSaveDto.setTitle("title");
+        eventRequestSaveDto.setDescription(description);
+        eventRequestSaveDto.setTags(List.of("Social"));
+        eventRequestSaveDto.setDaysInfo(List.of(createValidEventSaveDayInfoDto()));
+        Set<ConstraintViolation<EventRequestSaveDto>> violations = validator.validate(eventRequestSaveDto);
+        assertEquals(0, violations.size());
+    }
+
+    private static Stream<Arguments> provideValidDescription() {
+        return Stream.of(
+                Arguments.of("D".repeat(1846)),
+                Arguments.of("D".repeat(846)),
+                Arguments.of("D".repeat(20)),
+                Arguments.of("D".repeat(63206))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInvalidDescription")
+    void invalidDescription(String description, String message) {
+        eventRequestSaveDto.setTitle("title");
+        eventRequestSaveDto.setDescription(description);
+        eventRequestSaveDto.setTags(List.of("Social"));
+        eventRequestSaveDto.setDaysInfo(List.of(createValidEventSaveDayInfoDto()));
+        Set<ConstraintViolation<EventRequestSaveDto>> violations = validator.validate(eventRequestSaveDto);
+        assertEquals(1, violations.size());
+        assertEquals(description, violations.iterator().next().getInvalidValue());
+        assertEquals(message, violations.iterator().next().getMessage());
+    }
+
+    private static Stream<Arguments> provideInvalidDescription() {
+        return Stream.of(
+                Arguments.of("D".repeat(19), "Description must be at least 20 and maximum 63206 characters"),
+                Arguments.of("D", "Description must be at least 20 and maximum 63206 characters"),
+                Arguments.of("D".repeat(63207), "Description must be at least 20 and maximum 63206 characters"),
+                Arguments.of("D".repeat(68971), "Description must be at least 20 and maximum 63206 characters")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInvalidSizeDayInfos")
+    void invalidSizeDayInfos(List<EventSaveDayInfoDto> dayInfos, String message) {
+        eventRequestSaveDto.setTitle("title");
+        eventRequestSaveDto.setDescription("description1234567890");
+        eventRequestSaveDto.setTags(List.of("Social"));
+        eventRequestSaveDto.setDaysInfo(dayInfos);
+        Set<ConstraintViolation<EventRequestSaveDto>> violations = validator.validate(eventRequestSaveDto);
+        for (ConstraintViolation<EventRequestSaveDto> violation: violations) {
+            System.out.println(violation.getInvalidValue());
+            System.out.println(violation.getMessage());
+        }
+        assertEquals(1, violations.size());
+        assertEquals(dayInfos, violations.iterator().next().getInvalidValue());
+        assertEquals(message, violations.iterator().next().getMessage());
+    }
+
+    private static Stream<Arguments> provideInvalidSizeDayInfos() {
+        ZonedDateTime start = createValidEventSaveDayInfoDto().getStartDateTime();
+        ZonedDateTime end = createValidEventSaveDayInfoDto().getEndDateTime();
+        return Stream.of(
+                Arguments.of(List.of(), "Please, enter at least one dateTime for Event"),
+                Arguments.of(null, "Please, enter at least one dateTime for Event"),
+                Arguments.of(List.of(createValidEventSaveDayInfoDto(),
+                        createValidEventSaveDayInfoDto().setStartDateTime(start.plusDays(1)).setEndDateTime(end.plusDays(1)),
+                        createValidEventSaveDayInfoDto().setStartDateTime(start.plusDays(2)).setEndDateTime(end.plusDays(2)),
+                        createValidEventSaveDayInfoDto().setStartDateTime(start.plusDays(3)).setEndDateTime(end.plusDays(3)),
+                        createValidEventSaveDayInfoDto().setStartDateTime(start.plusDays(4)).setEndDateTime(end.plusDays(4)),
+                        createValidEventSaveDayInfoDto().setStartDateTime(start.plusDays(5)).setEndDateTime(end.plusDays(5)),
+                        createValidEventSaveDayInfoDto().setStartDateTime(start.plusDays(6)).setEndDateTime(end.plusDays(6)),
+                        createValidEventSaveDayInfoDto().setStartDateTime(start.plusDays(7)).setEndDateTime(end.plusDays(7))
+                        ), "Event must have not more than 7 days")
+        );
     }
 }

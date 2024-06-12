@@ -1,9 +1,7 @@
 package greencity.dto.event;
 
 import greencity.annotations.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.util.List;
@@ -16,24 +14,15 @@ import java.util.List;
 @EqualsAndHashCode
 public class EventRequestSaveDto {
     @NotBlank(message = "Title cannot be blank")
-    @Size(message = "Title must be a maximum of 70 characters", max = 70)
+    @Size(message = "Title must be a maximum of {max} characters", max = 70)
     private String title;
 
-    @NotNull
-    @ValidAddress(message = "Please add address to the event.")
-    @ValidLink(message = "Please add a link to the event. The link must start with http(s)://")
-    @NotEmptyEventDateTime(message = "Please, enter at least one dateTime for Event")
-    @EventDateAfterOneHour(message = "First Event should be at least one hour after now")
-    @ValidSequenceEventDates(message = "Each event date must follow the previous one")
-    @StartBeforeEndTime(message = "End time cannot be before Start time")
-    @ValidAllDayEvent(message = "An all-day event should begin at 00:00 and conclude at 23:59")
-    @ValidSameDay(message = "StartDate and EndDate must be the same day")
-    @UniqueEventDates
-    @Size(max = 7, min = 1)
+    @ValidEventDayInfo
+    @Size(max = 7, message = "Event must have not more than {max} days")
     private List<EventSaveDayInfoDto> daysInfo;
 
     @NotBlank
-    @Size(min = 20, max = 63206)
+    @Size(min = 20, max = 63206, message = "Description must be at least {min} and maximum {max} characters")
     private String description;
 
     private boolean isOpen = true;

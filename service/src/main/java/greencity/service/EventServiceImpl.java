@@ -2,12 +2,13 @@ package greencity.service;
 
 import greencity.client.RestClient;
 import greencity.constant.ErrorMessage;
+import greencity.dto.PageableAdvancedDto;
 import greencity.dto.event.*;
-import greencity.dto.event.model.EventImage;
-import greencity.dto.event.model.EventModelDto;
+import greencity.entity.Tag;
+import greencity.entity.event.EventImage;
+import greencity.entity.event.Event;
 import greencity.dto.tag.TagVO;
 import greencity.dto.user.UserVO;
-import greencity.entity.Tag;
 import greencity.entity.User;
 import greencity.enums.TagType;
 import greencity.exception.exceptions.NotSavedException;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestAttributes;
@@ -58,9 +60,10 @@ public class EventServiceImpl implements EventService{
             eventImages.get(event.getMainImageNumber() - 1).setMain(true);
         }
 
-        EventModelDto eventModelDto = modelMapper.map(event, EventModelDto.class);
-        eventModelDto.setImages(eventImages);
-        eventModelDto.setAuthor(author);
+        Event eventToSave = modelMapper.map(event, Event.class);
+        eventToSave.setImages(eventImages);
+        User user = modelMapper.map(author, User.class);
+        eventToSave.setAuthor(user);
 
 
         if (event.getTags() != null && event.getTags().size() > 0) {
@@ -69,34 +72,36 @@ public class EventServiceImpl implements EventService{
             }
             List<TagVO> tagVOS = tagsService.findTagsByNamesAndType(
                     event.getTags(), TagType.EVENT);
-            eventModelDto.setTags(tagVOS);
+            eventToSave.setTags(modelMapper.map(tagVOS,
+                    new TypeToken<List<Tag>>() {
+                    }.getType()));
         }
 
-        eventModelDto = eventRepo.save(eventModelDto);
+        eventToSave = eventRepo.save(eventToSave);
 
-        EventEmailMessage eventEmailMessage = modelMapper.map(eventModelDto, EventEmailMessage.class);
+        EventEmailMessage eventEmailMessage = modelMapper.map(eventToSave, EventEmailMessage.class);
         sendEmailNotification(eventEmailMessage);
 
-        return modelMapper.map(eventModelDto, EventResponseDto.class);
+        return modelMapper.map(eventToSave, EventResponseDto.class);
     }
 
     @Override
     public void delete(Long id, UserVO author) {}
 
     @Override
-    public EventModelDto update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author) {
+    public EventResponseDto update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author) {
         return null;
     }
 
     @Override
-    public List<EventResponseDto> findAll(Pageable pageable) {
-        List<EventModelDto> eventModelDtos = eventRepo.findAll(pageable);
-        return eventModelDtos.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
+    public PageableAdvancedDto<EventResponseDto> findAll(Pageable pageable) {
+        Page<Event> events = eventRepo.findAll(pageable);
+        return buildPageableAdvancedDto(events);
     }
 
     @Override
     public EventResponseDto findById(Long id) {
-        EventModelDto event = eventRepo
+        Event event = eventRepo
                 .findById(id)
                 .orElseThrow(() -> new WrongIdException(ErrorMessage.EVENT_NOT_FOUND_BY_ID + id));
         return modelMapper.map(event, EventResponseDto.class);
@@ -119,10 +124,10 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public List<EventResponseDto> findAllByAuthor(Pageable pageable, Long userId) {
+    public PageableAdvancedDto<EventResponseDto> findAllByAuthor(Pageable pageable, Long userId) {
         User user = userRepo.findById(userId).orElseThrow(() -> new WrongIdException(ErrorMessage.USER_NOT_FOUND_BY_ID + userId));
-        List<EventModelDto> eventModelDtos = eventRepo.findAllByAuthorId(pageable, userId);
-        return eventModelDtos.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
+        Page<Event> events = eventRepo.findAllByAuthorId(pageable, userId);
+        return buildPageableAdvancedDto(events);
     }
 
 
@@ -136,5 +141,22 @@ public class EventServiceImpl implements EventService{
                 RequestContextHolder.resetRequestAttributes();
             }
         });
+    }
+
+    private PageableAdvancedDto<EventResponseDto> buildPageableAdvancedDto(Page<Event> eventPage) {
+        List<EventResponseDto> eventResponseDtos = eventPage.stream()
+                .map(event -> modelMapper.map(event, EventResponseDto.class))
+                .toList();
+
+        return new PageableAdvancedDto<>(
+                eventResponseDtos,
+                eventPage.getTotalElements(),
+                eventPage.getPageable().getPageNumber(),
+                eventPage.getTotalPages(),
+                eventPage.getNumber(),
+                eventPage.hasPrevious(),
+                eventPage.hasNext(),
+                eventPage.isFirst(),
+                eventPage.isLast());
     }
 }

@@ -25,13 +25,18 @@ public class ValidSequenceEventDatesValidator implements ConstraintValidator<Val
      */
     @Override
     public boolean isValid(List<EventSaveDayInfoDto> value, ConstraintValidatorContext context) {
-        LocalDate prevDate = value.get(0).getStartDateTime().toLocalDate();
-        for (int i = 1; i < value.size(); i++) {
-            LocalDate currentDate = value.get(i).getStartDateTime().toLocalDate();
-            if (prevDate.isAfter(currentDate)) {
-                return false;
+        LocalDate prevDate = null;
+        if (value != null) {
+            if (value.size() > 0) {
+                prevDate = value.get(0).getStartDateTime().toLocalDate();
             }
-            prevDate = currentDate;
+            for (int i = 1; i < value.size(); i++) {
+                LocalDate currentDate = value.get(i).getStartDateTime().toLocalDate();
+                if (prevDate.isAfter(currentDate)) {
+                    return false;
+                }
+                prevDate = currentDate;
+            }
         }
         return true;
     }

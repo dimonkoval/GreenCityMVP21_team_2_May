@@ -1,6 +1,6 @@
 package greencity.annotations;
 
-import greencity.validator.ValidSequenceEventDatesValidator;
+import greencity.validator.ImageArrayValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -9,16 +9,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.ANNOTATION_TYPE, ElementType.FIELD, ElementType.PARAMETER })
+@Constraint(validatedBy = ImageArrayValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidSequenceEventDatesValidator.class)
-public @interface ValidSequenceEventDates {
+@Target(ElementType.PARAMETER)
+public @interface ImageArrayValidation {
     /**
      * Defines the message that will be showed when the input data is not valid.
      *
      * @return message
      */
-    String message() default "Each next event date should be after the previous one";
+    String message() default "Download PNG or JPEG only. Max size of 10 Mb each.";
 
     /**
      * Let you select to split the annotations into different groups to apply

@@ -1,11 +1,10 @@
 package greencity;
 
 import greencity.constant.AppConstant;
-import greencity.constant.EmailNotificationMessagesConstants;
 import greencity.dto.PageableAdvancedDto;
 import greencity.dto.econews.*;
 import greencity.dto.econewscomment.*;
-import greencity.dto.event.model.*;
+import greencity.dto.event.EventAddressDto;
 import greencity.dto.habit.*;
 import greencity.dto.habitfact.*;
 import greencity.dto.language.LanguageDTO;
@@ -21,6 +20,10 @@ import greencity.dto.verifyemail.VerifyEmailVO;
 import greencity.entity.*;
 import greencity.entity.localization.ShoppingListItemTranslation;
 import greencity.entity.localization.TagTranslation;
+import greencity.entity.event.EventAddress;
+import greencity.entity.event.EventDayInfo;
+import greencity.entity.event.EventImage;
+import greencity.entity.event.Event;
 import greencity.enums.*;
 import greencity.message.EventEmailMessage;
 import org.springframework.mock.web.MockMultipartFile;
@@ -49,12 +52,12 @@ public class ModelUtils {
     public static LocalDateTime localDateTime = LocalDateTime.now();
 
     public static Tag getTag() {
-        return new Tag(1L, TagType.ECO_NEWS, getTagTranslations(), Collections.emptyList(), Collections.emptySet());
+        return new Tag(1L, TagType.ECO_NEWS, getTagTranslations(), Collections.emptyList(), Collections.emptySet(), Collections.emptySet());
     }
 
     public static Tag getHabitTag() {
         return new Tag(1L, TagType.HABIT, getHabitTagTranslations(), Collections.emptyList(),
-            Collections.emptySet());
+            Collections.emptySet(), Collections.emptySet());
     }
 
     public static List<TagTranslation> getTagTranslations() {
@@ -101,20 +104,19 @@ public class ModelUtils {
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 12, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 14, 0), ZoneId.systemDefault()))
                 .dayNumber(1)
-                .status(EventStatus.ONLINE)
                 .link("some link")
                 .build();
     }
 
-    public static EventModelDto getEventModelDto() {
-        return EventModelDto.builder()
+    public static Event getEventModelDto() {
+        return Event.builder()
                 .id(1L)
                 .title("title")
                 .dayInfos(List.of(getEventDayInfo()))
                 .description("description123456789012345678901234567890")
                 .isOpen(true)
                 .images(new ArrayList<>())
-                .author(getUserVO())
+                .author(getUser())
                 .build();
     }
 
@@ -135,6 +137,15 @@ public class ModelUtils {
                 .build();
     }
 
+    public static EventAddressDto getEventAddressDto() {
+        return EventAddressDto.builder()
+                .latitude(BigDecimal.ONE)
+                .longitude(BigDecimal.ZERO)
+                .addressEn("english address")
+                .addressUa("адреса укроїнською")
+                .build();
+    }
+
     public static EventEmailMessage getEventEmailMessage() {
         return EventEmailMessage.builder()
                 .email(getUserVO().getEmail())
@@ -143,11 +154,11 @@ public class ModelUtils {
                 .eventTitle("Title")
                 .description("Description")
                 .isOpen(true)
-                .status(EventStatus.ONLINE)
+                .status(EventStatus.ONLINE_OFFLINE)
                 .link("some link")
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 12, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 14, 0), ZoneId.systemDefault()))
-                .address(getEventAddress())
+                .address(getEventAddressDto())
                 .linkToEvent("http://localhost:8080/events/1")
                 .build();
     }

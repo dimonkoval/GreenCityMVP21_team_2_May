@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="changeSetEventImagesKasarab-1" author="Roman Kasarab">
+        <createTable tableName="event_images">
+            <column name="id" autoIncrement="true" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="image_path" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_main" type="BOOLEAN"/>
+            <column name="event_id" type="BIGINT">
+                <constraints foreignKeyName="FK_event_images_events" references="events (id)" />
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

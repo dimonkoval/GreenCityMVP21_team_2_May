@@ -3,7 +3,8 @@ package greencity.mapping;
 import greencity.ModelUtils;
 import greencity.dto.event.EventAddressDto;
 import greencity.dto.event.EventResponseDayInfoDto;
-import greencity.dto.event.model.EventDayInfo;
+import greencity.entity.event.EventDayInfo;
+import greencity.enums.EventStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,7 +27,7 @@ class EventResponseDayInfoDtoMapperTest {
                 .startDateTime(eventDayInfo.getStartDateTime())
                 .endDateTime(eventDayInfo.getEndDateTime())
                 .dayNumber(eventDayInfo.getDayNumber())
-                .status(eventDayInfo.getStatus())
+                .status(EventStatus.ONLINE)
                 .address(eventDayInfo.getAddress() == null ? null :
                         EventAddressDto.builder()
                         .latitude(eventDayInfo.getAddress().getLatitude())

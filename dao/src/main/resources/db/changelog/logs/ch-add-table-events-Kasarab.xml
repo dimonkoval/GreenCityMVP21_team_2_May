@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="changeSetEventsKasarab-1" author="Roman Kasarab">
+        <createTable tableName="events">
+            <column name="id" autoIncrement="true" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="VARCHAR(70)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(63206)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_open" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="author_id" type="BIGINT">
+                <constraints foreignKeyName="FK_events_users" references="users (id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

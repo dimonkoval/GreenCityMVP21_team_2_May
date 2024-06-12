@@ -1,10 +1,10 @@
 package greencity.mapping;
 
 import greencity.ModelUtils;
-import greencity.dto.event.model.EventAddress;
-import greencity.dto.event.model.EventDayInfo;
-import greencity.dto.event.model.EventModelDto;
-import greencity.dto.event.model.EventStatus;
+import greencity.entity.User;
+import greencity.entity.event.EventAddress;
+import greencity.entity.event.EventDayInfo;
+import greencity.entity.event.Event;
 import greencity.dto.user.UserVO;
 import greencity.message.EventEmailMessage;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +36,7 @@ class EventEmailMessageMapperTest {
 
     @Test
     void convert() {
-        UserVO author = ModelUtils.getUserVO();
+        User author = ModelUtils.getUser();
         EventAddress address = ModelUtils.getEventAddress();
         EventDayInfo eventDayInfo = EventDayInfo.builder()
                 .id(1L)
@@ -44,7 +44,6 @@ class EventEmailMessageMapperTest {
                 .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 12, 0), ZoneId.systemDefault()))
                 .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 11, 24, 14, 0), ZoneId.systemDefault()))
                 .dayNumber(1)
-                .status(EventStatus.ONLINE)
                 .link("some link")
                 .address(address)
                 .build();
@@ -52,7 +51,7 @@ class EventEmailMessageMapperTest {
         List<EventDayInfo> dayInfos = new LinkedList<>();
         dayInfos.add(eventDayInfo);
 
-        EventModelDto eventModelDto = EventModelDto.builder()
+        Event event = Event.builder()
                 .id(1L)
                 .title("Title")
                 .dayInfos(dayInfos)
@@ -64,7 +63,7 @@ class EventEmailMessageMapperTest {
 
         EventEmailMessage expected = ModelUtils.getEventEmailMessage();
 
-        EventEmailMessage emailMessage = eventEmailMessageMapper.convert(eventModelDto);
+        EventEmailMessage emailMessage = eventEmailMessageMapper.convert(event);
 
         assertEquals(expected.getEmail(), emailMessage.getEmail());
         assertEquals(expected.getSubject(), emailMessage.getSubject());

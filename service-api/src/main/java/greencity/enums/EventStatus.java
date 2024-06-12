@@ -1,4 +1,4 @@
-package greencity.dto.event.model;
+package greencity.enums;
 
 public enum EventStatus {
     ONLINE, OFFLINE, ONLINE_OFFLINE

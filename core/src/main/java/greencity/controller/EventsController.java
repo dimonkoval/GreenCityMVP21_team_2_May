@@ -2,12 +2,13 @@ package greencity.controller;
 
 import greencity.annotations.ApiPageable;
 import greencity.annotations.CurrentUser;
+import greencity.annotations.ImageArrayValidation;
 import greencity.annotations.ImageValidation;
 import greencity.constant.HttpStatuses;
 import greencity.constant.SwaggerExampleModel;
+import greencity.dto.PageableAdvancedDto;
 import greencity.dto.event.EventRequestSaveDto;
 import greencity.dto.event.EventResponseDto;
-import greencity.dto.event.model.EventModelDto;
 import greencity.dto.user.UserVO;
 import greencity.service.EventService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,8 +27,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Validated
 @RestController
@@ -36,7 +37,7 @@ public class EventsController {
     private final EventService eventService;
 
     /**
-     * Method for creating {@link EventModelDto}
+     * Method for creating {@link Event}
      *
      * @param eventRequestSaveDto - dto for {@link EventRequestSaveDto} entity.
      * @param images - array of {@link MultipartFile} images.
@@ -55,8 +56,9 @@ public class EventsController {
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<EventResponseDto> save(
             @Parameter(description = SwaggerExampleModel.ADD_EVENT, required = true)
-            @RequestPart EventRequestSaveDto eventRequestSaveDto,                       // add @ValidationClass
-            @Parameter(description = "Upload array of images for event.") MultipartFile[] images,
+            @RequestPart @Valid EventRequestSaveDto eventRequestSaveDto,
+            @Parameter(description = "Upload array of images for event.")
+            @ImageArrayValidation @Size(max = 5, message = "Download up to 5 images") MultipartFile[] images,
             @Parameter(hidden = true) @CurrentUser UserVO user
             ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -75,7 +77,7 @@ public class EventsController {
     })
     @GetMapping()
     @ApiPageable
-    public ResponseEntity<List<EventResponseDto>> findAll(@Parameter(hidden = true) Pageable page) {
+    public ResponseEntity<PageableAdvancedDto<EventResponseDto>> findAll(@Parameter(hidden = true) Pageable page) {
         return ResponseEntity.status(HttpStatus.OK).body(eventService.findAll(page));
     }
 
@@ -107,8 +109,8 @@ public class EventsController {
     })
     @ApiPageable
     @GetMapping("/author/{userId}")
-    public ResponseEntity<List<EventResponseDto>> getEventByAuthorId(@PathVariable Long userId,
-                                                                   @Parameter(hidden = true) Pageable page ) {
+    public ResponseEntity<PageableAdvancedDto<EventResponseDto>> getEventByAuthorId(@PathVariable Long userId,
+                                                                                    @Parameter(hidden = true) Pageable page ) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(eventService.findAllByAuthor(page, userId));
     }

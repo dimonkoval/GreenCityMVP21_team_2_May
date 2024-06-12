@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="changeSetEventDayInfosKasarab-1" author="Roman Kasarab">
+        <createTable tableName="event_day_infos">
+            <column name="id" autoIncrement="true" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="is_all_day" type="BOOLEAN"/>
+            <column name="start_date_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="day_number" type="INT"/>
+            <column name="link" type="VARCHAR(255)"/>
+            <column name="latitude" type="DECIMAL(10, 6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="DECIMAL(11, 6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_en" type="VARCHAR(255)"/>
+            <column name="address_ua" type="VARCHAR(255)"/>
+            <column name="event_id" type="BIGINT">
+                <constraints foreignKeyName="FK_event_day_info_event" references="events (id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

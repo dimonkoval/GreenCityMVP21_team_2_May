@@ -2,7 +2,7 @@ package greencity.mapping;
 
 import greencity.ModelUtils;
 import greencity.dto.event.EventImageDto;
-import greencity.dto.event.model.EventImage;
+import greencity.entity.event.EventImage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

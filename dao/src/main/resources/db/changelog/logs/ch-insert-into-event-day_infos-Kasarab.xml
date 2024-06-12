@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="insertIntoEventDayInfosKasarab-1" author="Roman Kasarab">
+        <insert tableName="event_day_infos">
+            <column name="is_all_day">false</column>
+            <column name="start_date_time">2024-06-15T10:00:00</column>
+            <column name="end_date_time">2024-06-15T15:00:00</column>
+            <column name="day_number">1</column>
+            <column name="link">http://example.com</column>
+            <column name="latitude">40.712776</column>
+            <column name="longitude">-74.005974</column>
+            <column name="address_ua" >Address UA 1</column>
+            <column name="address_en" >Address EN 1</column>
+            <column name="event_id">1</column>
+        </insert>
+        <insert tableName="event_day_infos">
+            <column name="is_all_day">false</column>
+            <column name="start_date_time">2024-06-14T14:00:00</column>
+            <column name="end_date_time">2024-06-14T16:00:00</column>
+            <column name="day_number">1</column>
+            <column name="link">http://example.com</column>
+            <column name="latitude">34.052235</column>
+            <column name="longitude">-118.243683</column>
+            <column name="address_ua" >Address UA 2</column>
+            <column name="address_en" >Address EN 2</column>
+            <column name="event_id">2</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
