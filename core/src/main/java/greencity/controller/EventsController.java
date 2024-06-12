@@ -114,4 +114,27 @@ public class EventsController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(eventService.findAllByAuthor(page, userId));
     }
+
+    /**
+     * Method for deleting an event.
+     *
+     * @author Max Bohonko.
+     */
+    @Operation(summary = "Delete event")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+        @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST,
+            content = @Content(examples = @ExampleObject(HttpStatuses.BAD_REQUEST))),
+        @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED,
+            content = @Content(examples = @ExampleObject(HttpStatuses.UNAUTHORIZED))),
+        @ApiResponse(responseCode = "403", description = HttpStatuses.FORBIDDEN,
+            content = @Content(examples = @ExampleObject(HttpStatuses.FORBIDDEN))),
+        @ApiResponse(responseCode = "404", description = HttpStatuses.NOT_FOUND,
+            content = @Content(examples = @ExampleObject(HttpStatuses.NOT_FOUND)))
+    })
+    @DeleteMapping("/delete/{eventId}")
+    public ResponseEntity<Object> delete(@PathVariable Long eventId, @Parameter(hidden = true) Principal principal) {
+        eventService.delete(eventId, principal.getName());
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

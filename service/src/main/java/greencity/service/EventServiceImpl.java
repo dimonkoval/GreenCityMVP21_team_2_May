@@ -86,7 +86,15 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public void delete(Long id, UserVO author) {}
+    public void delete(Long id, String email) {
+        UserVO userVO = restClient.findByEmail(email);
+        EventModelDto eventModelDto = findEventByIdOrThrowException(id);
+        if (isUserAuthorOrAdmin(userVO, eventModelDto)) {
+            eventRepo.deleteById(id);
+        } else {
+            throw new WrongIdException(ErrorMessage.USER_HAS_NO_PERMISSION);
+        }
+    }
 
     @Override
     public EventResponseDto update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author) {

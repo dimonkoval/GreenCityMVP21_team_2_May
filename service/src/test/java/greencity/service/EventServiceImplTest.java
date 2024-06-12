@@ -296,4 +296,43 @@ class EventServiceImplTest {
         verify(restClient).sendEmailNotification(eventEmailMessage);
         assertEquals(requestAttributes, RequestContextHolder.getRequestAttributes());
     }
+
+    @Test
+    void deleteTest_SuccessScenario() {
+        userVO.setRole(Role.ROLE_ADMIN);
+
+        EventModelDto eventModelDto = new EventModelDto();
+        UserVO author = new UserVO();
+        author.setId(2L);
+        eventModelDto.setAuthor(author);
+
+        when(restClient.findByEmail(anyString())).thenReturn(userVO);
+        when(eventRepo.findById(anyLong())).thenReturn(Optional.of(eventModelDto));
+
+        eventService.delete(1L, "test@mail.com");
+
+        verify(eventRepo, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void deleteTest_WrongIdException_Event_Not_Exists() {
+        when(eventRepo.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(WrongIdException.class, () -> eventService.delete(1L, "test@mail.com"));
+    }
+
+    @Test
+    void deleteTest_WrongIdException_No_Permission() {
+        userVO.setRole(Role.ROLE_USER);
+
+        EventModelDto eventModelDto = new EventModelDto();
+        UserVO author = new UserVO();
+        author.setId(2L);
+        eventModelDto.setAuthor(author);
+
+        when(restClient.findByEmail(anyString())).thenReturn(userVO);
+        when(eventRepo.findById(anyLong())).thenReturn(Optional.of(eventModelDto));
+
+        assertThrows(WrongIdException.class, () -> eventService.delete(1L, "test@mail.com"));
+    }
 }
