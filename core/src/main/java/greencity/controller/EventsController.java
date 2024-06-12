@@ -2,6 +2,7 @@ package greencity.controller;
 
 import greencity.annotations.ApiPageable;
 import greencity.annotations.CurrentUser;
+import greencity.annotations.ImageValidation;
 import greencity.constant.HttpStatuses;
 import greencity.constant.SwaggerExampleModel;
 import greencity.dto.PageableAdvancedDto;
@@ -16,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -54,7 +56,8 @@ public class EventsController {
     public ResponseEntity<EventResponseDto> save(
             @Parameter(description = SwaggerExampleModel.ADD_EVENT, required = true)
             @RequestPart @Valid EventRequestSaveDto eventRequestSaveDto,
-            @Parameter(description = "Upload array of images for event.") MultipartFile[] images,
+            @Parameter(description = "Upload array of images for event.")
+            @ImageValidation @Size(max = 5) MultipartFile[] images,
             @Parameter(hidden = true) @CurrentUser UserVO user
             ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
