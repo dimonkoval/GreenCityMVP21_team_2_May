@@ -58,7 +58,7 @@ public class EventsController {
             @Parameter(description = SwaggerExampleModel.ADD_EVENT, required = true)
             @RequestPart @Valid EventRequestSaveDto eventRequestSaveDto,
             @Parameter(description = "Upload array of images for event.")
-            @ImageArrayValidation MultipartFile[] images,
+            @ImageArrayValidation @Size(max = 5) MultipartFile[] images,
             @Parameter(hidden = true) @CurrentUser UserVO user
             ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(

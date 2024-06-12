@@ -18,9 +18,6 @@ public class ImageArrayValidator implements ConstraintValidator<ImageArrayValida
 
     @Override
     public boolean isValid(MultipartFile[] images, ConstraintValidatorContext constraintValidatorContext) {
-        if (images.length > 5) {
-            return false;
-        }
         for (MultipartFile image: images) {
             if (image == null) {
                 return true;
