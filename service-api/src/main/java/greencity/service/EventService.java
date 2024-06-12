@@ -11,17 +11,19 @@ import java.util.List;
 
 public interface EventService {
     EventResponseDto save(EventRequestSaveDto event, MultipartFile[] images, UserVO author);
-    void delete(Long id, UserVO author);
+
+    void delete(Long id, String name);
+
     EventModelDto update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author);
 
-    //Pageable implements sorted criteria
+    // Pageable implements sorted criteria
     List<EventResponseDto> findAll(Pageable pageable);
 
     EventResponseDto findById(Long id);
 
     String uploadImage(MultipartFile image);
 
-    //need consider if we need both below and above
+    // need consider if we need both below and above
     String[] uploadImages(MultipartFile[] images);
 
     List<EventResponseDto> findAllByAuthor(Pageable pageable, Long userId);

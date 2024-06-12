@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 //@Repository
-@Component //need to be removed
+@Component // need to be removed
 public class EventRepo {
 
     private List<EventModelDto> events = new ArrayList<>();
@@ -28,10 +28,14 @@ public class EventRepo {
     }
 
     public Optional<EventModelDto> findById(Long id) {
-        return Optional.ofNullable(events.stream().filter(e -> e.getId().equals(id)).toList().get(0));
+        return Optional.ofNullable(events.stream().filter(e -> e.getId().equals(id)).toList().getFirst());
     }
 
     public List<EventModelDto> findAllByAuthorId(Pageable pageable, Long userId) {
         return events.stream().filter(e -> e.getAuthor().getId().equals(userId)).toList();
+    }
+
+    public void deleteById(Long id) {
+        events.removeIf(e -> e.getId().equals(id));
     }
 }

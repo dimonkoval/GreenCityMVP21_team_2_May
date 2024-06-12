@@ -7,8 +7,8 @@ import greencity.dto.event.model.EventImage;
 import greencity.dto.event.model.EventModelDto;
 import greencity.dto.tag.TagVO;
 import greencity.dto.user.UserVO;
-import greencity.entity.Tag;
 import greencity.entity.User;
+import greencity.enums.Role;
 import greencity.enums.TagType;
 import greencity.exception.exceptions.NotSavedException;
 import greencity.exception.exceptions.WrongIdException;
@@ -17,7 +17,6 @@ import greencity.repository.EventRepo;
 import greencity.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,7 +31,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Service
 @EnableCaching
 @RequiredArgsConstructor
-public class EventServiceImpl implements EventService{
+public class EventServiceImpl implements EventService {
     private final EventRepo eventRepo;
     private final ModelMapper modelMapper;
     private final FileService fileService;
@@ -40,7 +39,6 @@ public class EventServiceImpl implements EventService{
     private final RestClient restClient;
     private final TagsService tagsService;
     private final ThreadPoolExecutor emailThreadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
-
 
     @Override
     public EventResponseDto save(EventRequestSaveDto event, MultipartFile[] images, UserVO author) {
@@ -62,13 +60,12 @@ public class EventServiceImpl implements EventService{
         eventModelDto.setImages(eventImages);
         eventModelDto.setAuthor(author);
 
-
         if (event.getTags() != null && event.getTags().size() > 0) {
             if (new HashSet<>(event.getTags()).size() < event.getTags().size()) {
                 throw new NotSavedException(ErrorMessage.EVENT_NOT_SAVED);
             }
             List<TagVO> tagVOS = tagsService.findTagsByNamesAndType(
-                    event.getTags(), TagType.EVENT);
+                event.getTags(), TagType.EVENT);
             eventModelDto.setTags(tagVOS);
         }
 
@@ -81,7 +78,15 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public void delete(Long id, UserVO author) {}
+    public void delete(Long id, String email) {
+        UserVO userVO = restClient.findByEmail(email);
+        EventModelDto eventModelDto = findEventByIdOrThrowException(id);
+        if (isUserAuthorOrAdmin(userVO, eventModelDto)) {
+            eventRepo.deleteById(id);
+        } else {
+            throw new WrongIdException(ErrorMessage.USER_HAS_NO_PERMISSION);
+        }
+    }
 
     @Override
     public EventModelDto update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author) {
@@ -97,8 +102,8 @@ public class EventServiceImpl implements EventService{
     @Override
     public EventResponseDto findById(Long id) {
         EventModelDto event = eventRepo
-                .findById(id)
-                .orElseThrow(() -> new WrongIdException(ErrorMessage.EVENT_NOT_FOUND_BY_ID + id));
+            .findById(id)
+            .orElseThrow(() -> new WrongIdException(ErrorMessage.EVENT_NOT_FOUND_BY_ID + id));
         return modelMapper.map(event, EventResponseDto.class);
     }
 
@@ -125,7 +130,6 @@ public class EventServiceImpl implements EventService{
         return eventModelDtos.stream().map(e -> modelMapper.map(e, EventResponseDto.class)).toList();
     }
 
-
     public void sendEmailNotification(EventEmailMessage eventEmailMessage) {
         RequestAttributes originalRequestAttributes = RequestContextHolder.getRequestAttributes();
         emailThreadPool.submit(() -> {
@@ -136,5 +140,14 @@ public class EventServiceImpl implements EventService{
                 RequestContextHolder.resetRequestAttributes();
             }
         });
+    }
+
+    private boolean isUserAuthorOrAdmin(UserVO userVO, EventModelDto eventModelDto) {
+        return eventModelDto.getAuthor().getId().equals(userVO.getId()) || userVO.getRole() == Role.ROLE_ADMIN;
+    }
+
+    private EventModelDto findEventByIdOrThrowException(Long id) {
+        String errorMessage = ErrorMessage.EVENT_NOT_FOUND_BY_ID + id;
+        return eventRepo.findById(id).orElseThrow(() -> new WrongIdException(errorMessage));
     }
 }

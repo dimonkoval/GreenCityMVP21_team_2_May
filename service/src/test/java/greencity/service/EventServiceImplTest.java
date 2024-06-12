@@ -6,6 +6,7 @@ import greencity.dto.event.*;
 import greencity.dto.event.model.*;
 import greencity.dto.user.UserVO;
 import greencity.entity.User;
+import greencity.enums.Role;
 import greencity.exception.exceptions.WrongIdException;
 import greencity.message.EventEmailMessage;
 import greencity.repository.EventRepo;
@@ -80,106 +81,106 @@ class EventServiceImplTest {
     @BeforeEach
     void setup() {
         dayInfoRequest1 = EventSaveDayInfoDto.builder()
-                .dayNumber(1)
-                .isAllDay(true)
-                .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 0, 0), ZoneId.systemDefault()))
-                .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 23, 59), ZoneId.systemDefault()))
-                .status(EventStatus.OFFLINE)
-                .address(EventAddressDto.builder()
-                        .latitude(BigDecimal.TEN)
-                        .longitude(BigDecimal.TWO)
-                        .addressEn("location address")
-                        .addressUa("адреса місця")
-                        .build())
-                .build();
+            .dayNumber(1)
+            .isAllDay(true)
+            .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 0, 0), ZoneId.systemDefault()))
+            .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 23, 59), ZoneId.systemDefault()))
+            .status(EventStatus.OFFLINE)
+            .address(EventAddressDto.builder()
+                .latitude(BigDecimal.TEN)
+                .longitude(BigDecimal.TWO)
+                .addressEn("location address")
+                .addressUa("адреса місця")
+                .build())
+            .build();
         dayInfoRequest2 = EventSaveDayInfoDto.builder()
-                .dayNumber(2)
-                .isAllDay(true)
-                .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 0, 0), ZoneId.systemDefault()))
-                .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 23, 59), ZoneId.systemDefault()))
-                .status(EventStatus.ONLINE)
-                .link("location link")
-                .build();
+            .dayNumber(2)
+            .isAllDay(true)
+            .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 0, 0), ZoneId.systemDefault()))
+            .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 23, 59), ZoneId.systemDefault()))
+            .status(EventStatus.ONLINE)
+            .link("location link")
+            .build();
         eventRequestSaveDto = EventRequestSaveDto.builder()
-                .title("Event title")
-                .description("Event description")
-                .isOpen(true)
-                .mainImageNumber(1)
-                .daysInfo(List.of(dayInfoRequest1, dayInfoRequest2))
-                .build();
+            .title("Event title")
+            .description("Event description")
+            .isOpen(true)
+            .mainImageNumber(1)
+            .daysInfo(List.of(dayInfoRequest1, dayInfoRequest2))
+            .build();
 
         dayInfoResponse1 = EventResponseDayInfoDto.builder()
-                .dayNumber(1)
-                .isAllDay(true)
-                .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 0, 0), ZoneId.systemDefault()))
-                .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 23, 59), ZoneId.systemDefault()))
-                .status(EventStatus.OFFLINE)
-                .address(EventAddressDto.builder()
-                        .latitude(BigDecimal.TEN)
-                        .longitude(BigDecimal.TWO)
-                        .addressEn("location address")
-                        .addressUa("адреса місця")
-                        .build())
-                .build();
+            .dayNumber(1)
+            .isAllDay(true)
+            .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 0, 0), ZoneId.systemDefault()))
+            .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 23, 59), ZoneId.systemDefault()))
+            .status(EventStatus.OFFLINE)
+            .address(EventAddressDto.builder()
+                .latitude(BigDecimal.TEN)
+                .longitude(BigDecimal.TWO)
+                .addressEn("location address")
+                .addressUa("адреса місця")
+                .build())
+            .build();
         dayInfoResponse2 = EventResponseDayInfoDto.builder()
-                .dayNumber(2)
-                .isAllDay(true)
-                .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 0, 0), ZoneId.systemDefault()))
-                .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 23, 59), ZoneId.systemDefault()))
-                .status(EventStatus.ONLINE)
-                .link("location link")
-                .build();
+            .dayNumber(2)
+            .isAllDay(true)
+            .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 0, 0), ZoneId.systemDefault()))
+            .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 23, 59), ZoneId.systemDefault()))
+            .status(EventStatus.ONLINE)
+            .link("location link")
+            .build();
         eventResponseDto = EventResponseDto.builder()
-                .id(1L)
-                .title(eventRequestSaveDto.getTitle())
-                .isOpen(eventRequestSaveDto.isOpen())
-                .description(eventRequestSaveDto.getDescription())
-                .dateTimes(List.of(dayInfoResponse1, dayInfoResponse2))
-                .author(EventAuthorDto.builder().id(1L).name("test name").build())
-                .images(List.of(
-                        EventImageDto.builder().imagePath("imagePath").isMain(true).build(),
-                        EventImageDto.builder().imagePath("another path").isMain(false).build()))
-                .build();
+            .id(1L)
+            .title(eventRequestSaveDto.getTitle())
+            .isOpen(eventRequestSaveDto.isOpen())
+            .description(eventRequestSaveDto.getDescription())
+            .dateTimes(List.of(dayInfoResponse1, dayInfoResponse2))
+            .author(EventAuthorDto.builder().id(1L).name("test name").build())
+            .images(List.of(
+                EventImageDto.builder().imagePath("imagePath").isMain(true).build(),
+                EventImageDto.builder().imagePath("another path").isMain(false).build()))
+            .build();
 
         userVO = UserVO.builder().id(1L).name("test name").build();
         dayInfo1 = EventDayInfo.builder()
-                .dayNumber(1)
-                .isAllDay(true)
-                .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 0, 0), ZoneId.systemDefault()))
-                .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 23, 59), ZoneId.systemDefault()))
-                .status(EventStatus.OFFLINE)
-                .address(EventAddress.builder()
-                        .latitude(BigDecimal.TEN)
-                        .longitude(BigDecimal.TWO)
-                        .addressEn("location address")
-                        .addressUa("адреса місця")
-                        .build())
-                .build();
+            .dayNumber(1)
+            .isAllDay(true)
+            .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 0, 0), ZoneId.systemDefault()))
+            .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 2, 17, 23, 59), ZoneId.systemDefault()))
+            .status(EventStatus.OFFLINE)
+            .address(EventAddress.builder()
+                .latitude(BigDecimal.TEN)
+                .longitude(BigDecimal.TWO)
+                .addressEn("location address")
+                .addressUa("адреса місця")
+                .build())
+            .build();
         dayInfo2 = EventDayInfo.builder()
-                .dayNumber(2)
-                .isAllDay(true)
-                .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 0, 0), ZoneId.systemDefault()))
-                .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 23, 59), ZoneId.systemDefault()))
-                .status(EventStatus.ONLINE)
-                .link("location link")
-                .build();
+            .dayNumber(2)
+            .isAllDay(true)
+            .startDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 0, 0), ZoneId.systemDefault()))
+            .endDateTime(ZonedDateTime.of(LocalDateTime.of(2025, 3, 17, 23, 59), ZoneId.systemDefault()))
+            .status(EventStatus.ONLINE)
+            .link("location link")
+            .build();
         image1 = EventImage.builder().imagePath("imagePath").isMain(true).build();
         image2 = EventImage.builder().imagePath("another path").isMain(false).build();
         eventModelDtoForResponse = EventModelDto.builder()
-                .id(1L)
-                .title(eventRequestSaveDto.getTitle())
-                .isOpen(eventRequestSaveDto.isOpen())
-                .description(eventRequestSaveDto.getDescription())
-                .images(List.of(image1, image2))
-                .author(userVO)
-                .dayInfos(List.of(dayInfo1, dayInfo2))
-                .build();
+            .id(1L)
+            .title(eventRequestSaveDto.getTitle())
+            .isOpen(eventRequestSaveDto.isOpen())
+            .description(eventRequestSaveDto.getDescription())
+            .images(List.of(image1, image2))
+            .author(userVO)
+            .dayInfos(List.of(dayInfo1, dayInfo2))
+            .build();
         eventModelDtoForRequest = EventModelDto.builder()
-                .title(eventRequestSaveDto.getTitle())
-                .isOpen(eventRequestSaveDto.isOpen())
-                .description(eventRequestSaveDto.getDescription())
-                .dayInfos(List.of(dayInfo1, dayInfo2))
-                .build();
+            .title(eventRequestSaveDto.getTitle())
+            .isOpen(eventRequestSaveDto.isOpen())
+            .description(eventRequestSaveDto.getDescription())
+            .dayInfos(List.of(dayInfo1, dayInfo2))
+            .build();
         file1 = new MockMultipartFile("name", new byte[10]);
         file2 = new MockMultipartFile("another", new byte[1024]);
     }
@@ -247,7 +248,6 @@ class EventServiceImplTest {
         assertEquals(0, actual.length);
     }
 
-
     @Test
     void findAllByAuthor() {
         List<EventResponseDto> expected = List.of(eventResponseDto);
@@ -276,5 +276,44 @@ class EventServiceImplTest {
 
         verify(restClient).sendEmailNotification(eventEmailMessage);
         assertEquals(requestAttributes, RequestContextHolder.getRequestAttributes());
+    }
+
+    @Test
+    void deleteTest_SuccessScenario() {
+        userVO.setRole(Role.ROLE_ADMIN);
+
+        EventModelDto eventModelDto = new EventModelDto();
+        UserVO author = new UserVO();
+        author.setId(2L);
+        eventModelDto.setAuthor(author);
+
+        when(restClient.findByEmail(anyString())).thenReturn(userVO);
+        when(eventRepo.findById(anyLong())).thenReturn(Optional.of(eventModelDto));
+
+        eventService.delete(1L, "test@mail.com");
+
+        verify(eventRepo, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void deleteTest_WrongIdException_Event_Not_Exists() {
+        when(eventRepo.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(WrongIdException.class, () -> eventService.delete(1L, "test@mail.com"));
+    }
+
+    @Test
+    void deleteTest_WrongIdException_No_Permission() {
+        userVO.setRole(Role.ROLE_USER);
+
+        EventModelDto eventModelDto = new EventModelDto();
+        UserVO author = new UserVO();
+        author.setId(2L);
+        eventModelDto.setAuthor(author);
+
+        when(restClient.findByEmail(anyString())).thenReturn(userVO);
+        when(eventRepo.findById(anyLong())).thenReturn(Optional.of(eventModelDto));
+
+        assertThrows(WrongIdException.class, () -> eventService.delete(1L, "test@mail.com"));
     }
 }
