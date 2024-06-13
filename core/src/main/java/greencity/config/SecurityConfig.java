@@ -153,9 +153,6 @@ public class SecurityConfig {
                                 "/events",
                                 "/events/{id}",
                                 "/events/author/{userId}",
-                                "/friends/{userId}",
-                                "/friends/user/{userId}",
-                                "/friends/search/{userId}",
                                 "/token")
                         .permitAll()
                         .requestMatchers(HttpMethod.POST,
@@ -196,6 +193,9 @@ public class SecurityConfig {
                                 "/user/{userId}/profileStatistics/",
                                 "/factoftheday/",
                                 "/factoftheday/all",
+                                "/friends/{userId}",
+                                "/friends/user/{userId}",
+                                "/friends/search/{userId}",
                                 "/user/shopping-list-items/{userId}/get-all-inprogress",
                                 "/habit/assign/{habitAssignId}/allUserAndCustomList",
                                 "/habit/assign/allUserAndCustomShoppingListsInprogress",
