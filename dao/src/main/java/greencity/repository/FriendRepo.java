@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FriendRepo  extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
+public interface FriendRepo extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     @Query(nativeQuery = true, value = "SELECT DISTINCT u.* "
             + "FROM users_friends uf "
             + "JOIN habit_assign ha ON uf.friend_id = ha.user_id "
@@ -27,5 +27,26 @@ public interface FriendRepo  extends JpaRepository<User, Long>, JpaSpecification
             + "JOIN users_friends uf1 ON u.id = uf1.friend_id "
             + "JOIN users_friends uf2 ON u.id = uf2.friend_id "
             + "WHERE uf1.user_id = :userId1 AND uf2.user_id = :userId2")
-    List<User> findMutualFriends(@Param("userId1") Long userId1, @Param("userId2") Long userId2);
+    List<User> findMutualFriends(@Param("userId1") Long userId1,
+                                 @Param("userId2") Long userId2);
+
+    @Query(nativeQuery = true, value = "SELECT DISTINCT u.* "
+            + "FROM users_friends uf "
+            + "JOIN users_friends uf2 ON uf.friend_id = uf2.user_id "
+            + "JOIN users u ON (u.id = uf.friend_id OR u.id = uf2.friend_id) "
+            + "WHERE uf.user_id = :userId "
+            + "AND u.id <> :userId "
+            + "AND (:city IS NULL OR u.city = :city)")
+    Page<User> searchFriendsOfFriends(@Param("userId")Long userId,
+                                      @Param("city")String city,
+                                      Pageable pageable);
+
+    @Query(nativeQuery = true, value = "SELECT DISTINCT u.* "
+            + "FROM users_friends uf "
+            + "JOIN users u ON u.id = uf.friend_id "
+            + "WHERE uf.user_id = :userId "
+            + "AND (:city IS NULL OR u.city = :city)")
+    Page<User> searchDirectFriends(@Param("userId")Long userId,
+                                   @Param("city")String city,
+                                   Pageable pageable);
 }

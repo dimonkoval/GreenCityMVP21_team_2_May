@@ -2,7 +2,7 @@ package greencity.service;
 
 import greencity.constant.ErrorMessage;
 import greencity.dto.PageableDto;
-import greencity.dto.user.FriendDtoResponse;
+import greencity.dto.friend.FriendDtoResponse;
 import greencity.entity.User;
 import greencity.exception.exceptions.NotFoundException;
 import greencity.mapping.FriendDtoMapper;
@@ -26,12 +26,11 @@ public class FriendServiceImpl implements FriendService {
     private final FriendRepo friendRepo;
     private final HabitAssignRepo habitAssignRepo;
     private final EcoNewsRepo ecoNewsRepo;
-    private final UserServiceImpl userService;
     private final FriendDtoMapper mapper;
+    private final FriendshipService friendshipService;
 
     @Override
     public PageableDto<FriendDtoResponse> getAllUserFriends(Long userId, Pageable pageable) {
-
         User userFound = getUserById(userId);
 
         List<Long> habitIds = habitAssignRepo.getHabitsByUserID(userId)
@@ -40,17 +39,7 @@ public class FriendServiceImpl implements FriendService {
                 .collect(Collectors.toList());
 
         Page<User> friendsPage = friendRepo.getAllFriendsByUserId(userId, userFound.getCity(), habitIds, pageable);
-
-        List<FriendDtoResponse> friendDtoResponses = friendsPage.stream()
-                .map(user -> {
-                    return populateFriendDto(user, userId);
-                })
-                .collect(Collectors.toList());
-
-        return new PageableDto<>(friendDtoResponses,
-                friendsPage.getTotalElements(),
-                friendsPage.getPageable().getPageNumber(),
-                friendsPage.getTotalPages());
+        return convertToPageableDto(friendsPage, userId);
     }
 
     @Override
@@ -59,12 +48,49 @@ public class FriendServiceImpl implements FriendService {
         return populateFriendDto(user, userId);
     }
 
-    public User getUserById(Long userId) {
+    @Override
+    public PageableDto<FriendDtoResponse>
+        searchFriends(Long userId, boolean filterByCity, boolean friendsOfFriends, Pageable pageable) {
+        User user = getUserById(userId);
+
+        String city = (filterByCity ? user.getCity() : null);
+
+        if (friendsOfFriends) {
+            return searchFriendsOfFriends(userId, city, pageable);
+        }
+        return searchDirectFriends(userId, city, pageable);
+    }
+
+    @Override
+    public String addFriend(Long userId, Long friendId) {
+        friendshipService.addFriend(userId, friendId);
+        return "Friend by ID " + friendId + "added successfully";
+    }
+
+    private PageableDto<FriendDtoResponse> searchDirectFriends(Long userId, String city, Pageable pageable) {
+        return convertToPageableDto(friendRepo.searchDirectFriends(userId, city, pageable), userId);
+    }
+
+    private PageableDto<FriendDtoResponse> searchFriendsOfFriends(Long userId, String city, Pageable pageable) {
+        return convertToPageableDto(friendRepo.searchFriendsOfFriends(userId, city, pageable), userId);
+    }
+
+    private PageableDto<FriendDtoResponse> convertToPageableDto(Page<User> friendsPage, Long userId) {
+        List<FriendDtoResponse> friendDtoResponses = friendsPage.stream()
+                .map(user -> populateFriendDto(user, userId))
+                .collect(Collectors.toList());
+        return new PageableDto<>(friendDtoResponses,
+                friendsPage.getTotalElements(),
+                friendsPage.getPageable().getPageNumber(),
+                friendsPage.getTotalPages());
+    }
+
+    private User getUserById(Long userId) {
         return userRepo.findById(userId)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.USER_NOT_FOUND_BY_ID + userId));
     }
 
-    public FriendDtoResponse populateFriendDto(User user, Long userId) {
+    private FriendDtoResponse populateFriendDto(User user, Long userId) {
         FriendDtoResponse friendDtoResponse = mapper.convert(user);
         if (friendDtoResponse != null) {
             friendDtoResponse.setMutualFriends(
