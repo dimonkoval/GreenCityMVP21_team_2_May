@@ -263,7 +263,6 @@ class EventServiceImplTest {
         assertEquals(0, actual.length);
     }
 
-
     @Test
     void findAllByAuthor() {
         List<Event> events = List.of(eventForResponse);
