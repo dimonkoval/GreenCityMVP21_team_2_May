@@ -11,6 +11,9 @@ import greencity.entity.event.EventDayInfo;
 import greencity.entity.event.EventImage;
 import greencity.entity.event.Event;
 import greencity.enums.EventStatus;
+import greencity.enums.Role;
+import greencity.exception.exceptions.NotFoundException;
+import greencity.exception.exceptions.UserHasNoPermissionToAccessException;
 import greencity.exception.exceptions.WrongIdException;
 import greencity.message.EventEmailMessage;
 import greencity.repository.EventRepo;
@@ -299,40 +302,35 @@ class EventServiceImplTest {
 
     @Test
     void deleteTest_SuccessScenario() {
-        userVO.setRole(Role.ROLE_ADMIN);
-
-        EventModelDto eventModelDto = new EventModelDto();
-        UserVO author = new UserVO();
-        author.setId(2L);
-        eventModelDto.setAuthor(author);
+        User author = User.builder().id(1L).build();
+        Event toDelete = Event.builder().author(author).build();
+        UserVO userVO = ModelUtils.getUserVO().setRole(Role.ROLE_ADMIN);
 
         when(restClient.findByEmail(anyString())).thenReturn(userVO);
-        when(eventRepo.findById(anyLong())).thenReturn(Optional.of(eventModelDto));
+        when(eventRepo.findById(anyLong())).thenReturn(Optional.of(toDelete));
 
         eventService.delete(1L, "test@mail.com");
 
-        verify(eventRepo, times(1)).deleteById(1L);
+        verify(eventRepo, times(1)).delete(toDelete);
     }
 
     @Test
-    void deleteTest_WrongIdException_Event_Not_Exists() {
+    void deleteTest_NotFoundException_Event_Not_Exists() {
         when(eventRepo.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(WrongIdException.class, () -> eventService.delete(1L, "test@mail.com"));
+        assertThrows(NotFoundException.class, () -> eventService.delete(1L, "test@mail.com"));
     }
 
     @Test
-    void deleteTest_WrongIdException_No_Permission() {
-        userVO.setRole(Role.ROLE_USER);
-
-        EventModelDto eventModelDto = new EventModelDto();
-        UserVO author = new UserVO();
-        author.setId(2L);
-        eventModelDto.setAuthor(author);
+    void deleteTest_NoPermissionException() {
+        User author = User.builder().id(1L).build();
+        Event toDelete = Event.builder().author(author).build();
+        UserVO userVO = ModelUtils.getUserVO().setId(2L);
 
         when(restClient.findByEmail(anyString())).thenReturn(userVO);
-        when(eventRepo.findById(anyLong())).thenReturn(Optional.of(eventModelDto));
+        when(eventRepo.findById(anyLong())).thenReturn(Optional.of(toDelete));
 
-        assertThrows(WrongIdException.class, () -> eventService.delete(1L, "test@mail.com"));
+        assertThrows(UserHasNoPermissionToAccessException.class,
+                () -> eventService.delete(1L, "test@mail.com"));
     }
 }
