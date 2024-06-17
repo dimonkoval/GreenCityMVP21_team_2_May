@@ -114,4 +114,21 @@ public class EventsController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(eventService.findAllByAuthor(page, userId));
     }
+
+    /**
+     * Method for adding an attender to the event.
+     *
+     * @author Roman Kasarab
+     */
+    @Operation(summary = "Add an attender to the event.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+            @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
+            @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED),
+            @ApiResponse(responseCode = "404", description = HttpStatuses.NOT_FOUND)
+    })
+    @PostMapping("/attender/{eventId}")
+    public void addAttender(@PathVariable Long eventId, @Parameter(hidden = true) @CurrentUser UserVO user) {
+        eventService.addAttender(eventId, user);
+    }
 }
