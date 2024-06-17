@@ -10,10 +10,12 @@ import greencity.entity.event.Event;
 import greencity.dto.tag.TagVO;
 import greencity.dto.user.UserVO;
 import greencity.entity.User;
+import greencity.enums.Role;
 import greencity.enums.TagType;
 import greencity.exception.exceptions.BadRequestException;
 import greencity.exception.exceptions.NotFoundException;
 import greencity.exception.exceptions.NotSavedException;
+import greencity.exception.exceptions.UserHasNoPermissionToAccessException;
 import greencity.exception.exceptions.WrongIdException;
 import greencity.message.EventEmailMessage;
 import greencity.repository.EventRepo;
@@ -87,8 +89,17 @@ public class EventServiceImpl implements EventService{
         return modelMapper.map(eventToSave, EventResponseDto.class);
     }
 
-    @Override
-    public void delete(Long id, UserVO author) {}
+    public void delete(Long id, String email) {
+        UserVO userVO = restClient.findByEmail(email);
+        Event toDelete = eventRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.EVENT_NOT_FOUND));
+
+        if (toDelete.getAuthor().getId().equals(userVO.getId()) || userVO.getRole() == Role.ROLE_ADMIN) {
+            eventRepo.delete(toDelete);
+        } else {
+            throw new UserHasNoPermissionToAccessException(ErrorMessage.USER_HAS_NO_PERMISSION);
+        }
+    }
 
     @Override
     public EventResponseDto update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author) {

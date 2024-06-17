@@ -27,7 +27,6 @@ public class FriendServiceImpl implements FriendService {
     private final HabitAssignRepo habitAssignRepo;
     private final EcoNewsRepo ecoNewsRepo;
     private final FriendDtoMapper mapper;
-    private final FriendshipService friendshipService;
 
     @Override
     public PageableDto<FriendDtoResponse> getAllUserFriends(Long userId, Pageable pageable) {
@@ -59,12 +58,6 @@ public class FriendServiceImpl implements FriendService {
             return searchFriendsOfFriends(userId, city, pageable);
         }
         return searchDirectFriends(userId, city, pageable);
-    }
-
-    @Override
-    public String addFriend(Long userId, Long friendId) {
-        friendshipService.addFriend(userId, friendId);
-        return "Friend by ID " + friendId + "added successfully";
     }
 
     private PageableDto<FriendDtoResponse> searchDirectFriends(Long userId, String city, Pageable pageable) {
