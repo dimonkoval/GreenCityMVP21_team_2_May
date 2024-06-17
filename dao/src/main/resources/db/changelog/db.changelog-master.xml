@@ -189,5 +189,7 @@
     <include file="db/changelog/logs/ch-insert-into-event-images-Kasarab.xml"/>
     <include file="db/changelog/logs/ch-insert-into-event-day_infos-Kasarab.xml"/>
     <include file="db/changelog/logs/ch-insert-into-event-tags-Kasarab.xml"/>
+    <include file="db/changelog/logs/ch-add-table-events-comments-Herchanivska.xml"/>
+    <include file="db/changelog/logs/ch-insert-into-events-comments-Herchanivska.xml"/>
 </databaseChangeLog>
 

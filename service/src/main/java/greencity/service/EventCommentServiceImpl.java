@@ -74,7 +74,7 @@ public class EventCommentServiceImpl implements EventCommentService {
     public PageableDto<EventCommentResponseDto> getAllEventComments(Pageable pageable, Long eventId, UserVO userVO) {
         Event event = eventRepo.findById(eventId)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.EVENT_NOT_FOUND_BY_ID + eventId));
-        Page<EventComment> pages = eventCommentRepo.findAllByEvent(event);
+        Page<EventComment> pages = eventCommentRepo.findAllByEventOrderByCreatedDateDesc(event, pageable);
         List<EventCommentResponseDto> eventComments = pages.stream()
                 .map(eventComment -> modelMapper.map(eventComment, EventCommentResponseDto.class))
                 .toList();

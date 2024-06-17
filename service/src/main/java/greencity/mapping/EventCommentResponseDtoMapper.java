@@ -3,7 +3,9 @@ package greencity.mapping;
 import greencity.dto.eventcomment.EventCommentResponseDto;
 import greencity.entity.EventComment;
 import org.modelmapper.AbstractConverter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EventCommentResponseDtoMapper extends AbstractConverter<EventComment, EventCommentResponseDto> {
     private EventCommentAuthorDtoMapper mapper = new EventCommentAuthorDtoMapper();
     @Override
