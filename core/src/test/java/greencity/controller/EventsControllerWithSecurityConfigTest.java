@@ -7,6 +7,8 @@ import greencity.config.PageableConfig;
 import greencity.config.SecurityConfig;
 import greencity.dto.event.EventRequestSaveDto;
 import greencity.dto.user.UserVO;
+import greencity.exception.exceptions.NotFoundException;
+import greencity.repository.EventRepo;
 import greencity.security.jwt.JwtTool;
 import greencity.service.EventService;
 import greencity.service.UserService;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -38,8 +41,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -62,6 +64,9 @@ class EventsControllerWithSecurityConfigTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private EventRepo eventRepo;
 
     @Autowired
     private WebApplicationContext context;
@@ -116,12 +121,12 @@ class EventsControllerWithSecurityConfigTest {
                 "  \"title\": \"string\",\n" +
                 "  \"daysInfo\": [\n" +
                 "    {\n" +
-                "      \"startDateTime\": \"2024-06-02T14:20:45.252Z\",\n" +
-                "      \"endDateTime\": \"2024-06-02T14:20:45.252Z\",\n" +
+                "      \"startDateTime\": \"2029-06-02T14:20:45.252Z\",\n" +
+                "      \"endDateTime\": \"2029-06-02T19:20:45.252Z\",\n" +
                 "      \"dayNumber\": 0,\n" +
-                "      \"allDay\": true,\n" +
+                "      \"allDay\": false,\n" +
                 "      \"status\": \"ONLINE\",\n" +
-                "      \"link\": \"string\",\n" +
+                "      \"link\": \"https://example.com\",\n" +
                 "      \"address\": null\n" +
                 "    }\n" +
                 "  ],\n" +
@@ -213,5 +218,44 @@ class EventsControllerWithSecurityConfigTest {
                 .andExpect(status().isOk());
 
         verify(eventService).findAllByAuthor(pageable, userId);
+    }
+
+    @Test
+    @WithAnonymousUser
+    void addAttender_ReturnsIsUnauthorized() throws Exception {
+        Long eventId = 1L;
+
+        mockMvc.perform(post(LINK + "/attender/{eventId}", eventId))
+                .andExpect(status().isUnauthorized());
+
+        verifyNoInteractions(eventService);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "User, USER",
+            "Moderator, MODERATOR",
+            "Ubs_Employee, UBS_EMPLOYEE",
+            "Employee, EMPLOYEE"
+    })
+    @WithMockUser(username = "TestUser", roles = "USER")
+    void addAttender_ReturnsIsOk() throws Exception {
+        Long eventId = 1L;
+        UserVO user = ModelUtils.getUserVO();
+
+        Mockito.doNothing().when(eventService).addAttender(eventId, user);
+        mockMvc.perform(post(LINK + "/attender/{eventId}", eventId))
+                .andExpect(status().isOk());
+
+        Mockito.verify(eventService, Mockito.times(1)).addAttender(Mockito.eq(eventId), Mockito.any(UserVO.class));
+    }
+
+    @Test
+    @WithMockUser(username = "TestUser", roles = "USER")
+    void addAttender_ReturnsIsBadRequest() throws Exception {
+        mockMvc.perform(post(LINK + "/attender/{eventid}", "badRequest"))
+                .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(eventService);
     }
 }
