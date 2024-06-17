@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @author Viktoriia Herchanivska
  */
 @Component
-public class EventModelDtoMapper extends AbstractConverter<EventRequestSaveDto, Event> {
+public class EventMapper extends AbstractConverter<EventRequestSaveDto, Event> {
     private EventDayInfoMapper eventDayInfoMapper = new EventDayInfoMapper();
 
     /**

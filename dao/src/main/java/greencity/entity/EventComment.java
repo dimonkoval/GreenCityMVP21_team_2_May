@@ -36,4 +36,7 @@ public class EventComment {
 
     @ManyToOne
     private Event event;
+
+    @ManyToOne
+    private EventComment parentComment;
 }
