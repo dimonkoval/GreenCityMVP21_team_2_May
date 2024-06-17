@@ -11,6 +11,9 @@ import greencity.entity.event.EventDayInfo;
 import greencity.entity.event.EventImage;
 import greencity.entity.event.Event;
 import greencity.enums.EventStatus;
+import greencity.enums.Role;
+import greencity.exception.exceptions.NotFoundException;
+import greencity.exception.exceptions.UserHasNoPermissionToAccessException;
 import greencity.exception.exceptions.WrongIdException;
 import greencity.message.EventEmailMessage;
 import greencity.repository.EventRepo;
@@ -260,7 +263,6 @@ class EventServiceImplTest {
         assertEquals(0, actual.length);
     }
 
-
     @Test
     void findAllByAuthor() {
         List<Event> events = List.of(eventForResponse);
@@ -295,5 +297,39 @@ class EventServiceImplTest {
 
         verify(restClient).sendEmailNotification(eventEmailMessage);
         assertEquals(requestAttributes, RequestContextHolder.getRequestAttributes());
+    }
+
+    @Test
+    void deleteTest_SuccessScenario() {
+        User author = User.builder().id(1L).build();
+        Event toDelete = Event.builder().author(author).build();
+        UserVO userVO = ModelUtils.getUserVO().setRole(Role.ROLE_ADMIN);
+
+        when(restClient.findByEmail(anyString())).thenReturn(userVO);
+        when(eventRepo.findById(anyLong())).thenReturn(Optional.of(toDelete));
+
+        eventService.delete(1L, "test@mail.com");
+
+        verify(eventRepo, times(1)).delete(toDelete);
+    }
+
+    @Test
+    void deleteTest_NotFoundException_Event_Not_Exists() {
+        when(eventRepo.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> eventService.delete(1L, "test@mail.com"));
+    }
+
+    @Test
+    void deleteTest_NoPermissionException() {
+        User author = User.builder().id(1L).build();
+        Event toDelete = Event.builder().author(author).build();
+        UserVO userVO = ModelUtils.getUserVO().setId(2L);
+
+        when(restClient.findByEmail(anyString())).thenReturn(userVO);
+        when(eventRepo.findById(anyLong())).thenReturn(Optional.of(toDelete));
+
+        assertThrows(UserHasNoPermissionToAccessException.class,
+                () -> eventService.delete(1L, "test@mail.com"));
     }
 }

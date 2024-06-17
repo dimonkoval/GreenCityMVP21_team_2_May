@@ -9,6 +9,7 @@ import greencity.exception.exceptions.NotFoundException;
 import greencity.exception.handler.CustomExceptionHandler;
 import greencity.service.EventService;
 import greencity.service.UserService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +17,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -27,15 +30,18 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.security.Principal;
 
 import static greencity.ModelUtils.getPrincipal;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class EventsControllerTest {
 
     private static final String eventsLink = "/events";
@@ -126,16 +132,15 @@ class EventsControllerTest {
         mockMvc.perform(post(eventsLink)
                         .content("{}")
                         .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void saveTest_ReturnsUnsupportedMediaType() throws Exception {
         mockMvc.perform(post(eventsLink)
-                                .content("{}")
-                                .accept(MediaType.APPLICATION_JSON))
+                        .content("{}")
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnsupportedMediaType());
     }
 
@@ -224,4 +229,52 @@ class EventsControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    void deleteTest_ReturnsOk() throws Exception {
+        Principal principal = Mockito.mock(Principal.class);
+
+        when(principal.getName()).thenReturn("testUser@gmail.com");
+
+        mockMvc.perform(delete(eventsLink + "/delete/{eventId}", 1L)
+                        .principal(principal)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(eventService).delete(1L, principal.getName());
+    }
+
+    @Test
+    void deleteTest_WhenEventDoesNotExist() throws Exception {
+        Principal principal = Mockito.mock(Principal.class);
+
+        when(principal.getName()).thenReturn("testUser@gmail.com");
+        doThrow(new NotFoundException("Event not found")).when(eventService).delete(anyLong(), anyString());
+
+        mockMvc.perform(delete(eventsLink + "/delete/{eventId}", 1L)
+                        .principal(principal)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> Assertions.assertInstanceOf(
+                        NotFoundException.class,
+                        result.getResolvedException()));
+
+        verify(eventService).delete(1L, principal.getName());
+    }
+
+    @Test
+    void deleteTest_ReturnsBadRequest_WhenInvalidIdIsPassed() throws Exception {
+        Principal principal = Mockito.mock(Principal.class);
+
+        when(principal.getName()).thenReturn("testUser@gmail.com");
+
+        mockMvc.perform(delete(eventsLink + "/delete/{eventId}", "not_number")
+                        .principal(principal)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> Assertions.assertInstanceOf(
+                        MethodArgumentTypeMismatchException.class,
+                        result.getResolvedException()));
+
+        verify(eventService, never()).delete(anyLong(), anyString());
+    }
 }
