@@ -258,6 +258,7 @@ public class SecurityConfig {
                                 CUSTOM_SHOPPING_LIST_ITEMS,
                                 CUSTOM_SHOPPING_LIST_URL,
                                 "/favorite_place/{placeId}",
+                                "/friends",
                                 "/social-networks",
                                 USER_CUSTOM_SHOPPING_LIST_ITEMS,
                                 USER_SHOPPING_LIST + "/user-shopping-list-items")

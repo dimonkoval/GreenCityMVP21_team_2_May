@@ -3,13 +3,12 @@ package greencity.controller;
 import greencity.annotations.ApiLocale;
 import greencity.annotations.ApiPageableWithLocale;
 import greencity.annotations.CurrentUser;
-import greencity.constant.ErrorMessage;
 import greencity.constant.HttpStatuses;
 import greencity.dto.PageableDto;
-import greencity.dto.friend.FriendDtoRequest;
 import greencity.dto.friend.FriendDtoResponse;
 import greencity.dto.user.UserVO;
 import greencity.service.FriendService;
+import greencity.service.FriendshipService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,10 +20,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,8 +34,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/friends")
 public class FriendController {
     private final FriendService friendService;
+    private final FriendshipService friendshipService;
 
-    @Operation(summary = "Get all friends by user ID.")
+    @Operation(summary = "Get user's friends from the same city and with the same habits")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
         @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
@@ -53,14 +53,14 @@ public class FriendController {
                 friendService.getAllUserFriends(userId, pageable));
     }
 
-    @Operation(summary = "Get info about a friend by user ID.")
+    @Operation(summary = "Getting info about a friend with user attributes, habit counters, and mutual friends")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
         @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
         @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED),
         @ApiResponse(responseCode = "404", description = HttpStatuses.NOT_FOUND),
     })
-    @GetMapping("/user/{userId}")
+    @GetMapping("/profile/{userId}")
     @ApiLocale
     public ResponseEntity<FriendDtoResponse> getFriendProfile(
             @PathVariable Long userId) {
@@ -68,7 +68,7 @@ public class FriendController {
                 friendService.getFriendProfile(userId));
     }
 
-    @Operation(summary = "Search for friends by filters")
+    @Operation(summary = "Search for friends with optional filters by city and by friends of friends")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
         @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
@@ -91,22 +91,33 @@ public class FriendController {
         @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
         @ApiResponse(responseCode = "201", description = HttpStatuses.CREATED),
         @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
-        @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED),
-        @ApiResponse(responseCode = "403", description = HttpStatuses.FORBIDDEN),
         @ApiResponse(responseCode = "404", description = HttpStatuses.NOT_FOUND),
-        @ApiResponse(responseCode = "409", description = HttpStatuses.CONFLICT),
     })
     @PostMapping("/{userId}")
     @ApiLocale
     public ResponseEntity<String> addFriend(
         @PathVariable Long userId,
-        @RequestBody FriendDtoRequest request,
+        @RequestParam Long friendId,
         @Parameter(hidden = true) @CurrentUser UserVO user) {
-        if (!userId.equals(user.getId())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorMessage.ACCESS_DENIED_MESSAGE);
-        }
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(friendService.addFriend(userId, request.getFriendId()));
+                .body(friendshipService.addFriend(userId, friendId, user));
+    }
+
+    @Operation(summary = "Remove friend from friend list")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+        @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
+        @ApiResponse(responseCode = "404", description = HttpStatuses.NOT_FOUND),
+    })
+    @DeleteMapping()
+    @ApiLocale
+    public ResponseEntity<String> deleteFriend(
+            @RequestParam("userId") Long userId,
+            @RequestParam("friendId") Long friendId,
+            @Parameter(hidden = true) @CurrentUser UserVO user) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(friendshipService.deleteFriend(userId, friendId, user));
     }
 }

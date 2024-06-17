@@ -13,6 +13,4 @@ public interface FriendService {
                                                  boolean filterByCity,
                                                  boolean friendsOfFriends,
                                                  Pageable pageable);
-
-    String addFriend(Long userId, Long friendId);
 }
