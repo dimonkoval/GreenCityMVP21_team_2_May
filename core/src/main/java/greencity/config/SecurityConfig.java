@@ -212,6 +212,7 @@ public class SecurityConfig {
                                 "/econews/comments/{econewsId}",
                                 "/econews/comments/like",
                                 "/events",
+                                "/events/attender/{eventId}",
                                 CUSTOM_SHOPPING_LIST_ITEMS,
                                 "/friends/{userId}",
                                 "/files/image",

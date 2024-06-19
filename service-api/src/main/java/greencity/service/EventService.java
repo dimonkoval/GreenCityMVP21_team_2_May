@@ -27,4 +27,12 @@ public interface EventService {
     String[] uploadImages(MultipartFile[] images);
 
     PageableAdvancedDto<EventResponseDto> findAllByAuthor(Pageable pageable, Long userId);
+
+    /**
+     * Add an attender to the Event by id.
+     *
+     * @param eventId - event id.
+     * @param user - user.
+     */
+    void addAttender(Long eventId, UserVO user);
 }

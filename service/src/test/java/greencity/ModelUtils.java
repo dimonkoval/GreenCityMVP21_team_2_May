@@ -97,6 +97,34 @@ public class ModelUtils {
         return Collections.singletonList(getHabitTag());
     }
 
+    public static Event getEvent() {
+        return Event.builder()
+                .id(1L)
+                .title("title")
+                .dayInfos(List.of(getEventDayInfo()))
+                .description("description123456789012345678901234567890")
+                .isOpen(true)
+                .images(new ArrayList<>())
+                .author(getUser())
+                .tags(new ArrayList<>())
+                .attenders(new HashSet<>())
+                .build();
+    }
+
+    public static Event getClosedEvent() {
+        return Event.builder()
+                .id(1L)
+                .title("title")
+                .dayInfos(List.of(getEventDayInfo()))
+                .description("description123456789012345678901234567890")
+                .isOpen(false)
+                .images(new ArrayList<>())
+                .author(getUser())
+                .tags(new ArrayList<>())
+                .attenders(new HashSet<>())
+                .build();
+    }
+
     public static EventDayInfo getEventDayInfo() {
         return EventDayInfo.builder()
                 .id(1L)
