@@ -115,7 +115,6 @@ public class EventCommentController {
     @DeleteMapping("/{eventCommentId}")
     public ResponseEntity<Object> delete(@PathVariable Long eventCommentId,
         @Parameter(hidden = true) @CurrentUser UserVO user) {
-        eventCommentService.delete(eventCommentId, user);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(eventCommentService.delete(eventCommentId, user));
     }
 }
