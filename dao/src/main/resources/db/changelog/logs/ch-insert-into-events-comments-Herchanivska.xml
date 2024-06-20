@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="insertIntoEventsCommentsHerchanivska-3" author="Viktoriia Hechanivska">
+        <insert tableName="events_comments">
+            <column name="text">First comment to event</column>
+            <column name="user_id">2</column>
+            <column name="event_id">1</column>
+        </insert>
+        <insert tableName="events_comments">
+            <column name="text">Text of another comment is here.</column>
+            <column name="user_id">3</column>
+            <column name="event_id">1</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

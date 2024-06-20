@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(SpringExtension.class)
 public class EventMapperTest {
     @InjectMocks
-    EventModelDtoMapper mapper;
+    EventMapper mapper;
 
     Event expected = getEventModelDto();
 
