@@ -191,5 +191,7 @@
     <include file="db/changelog/logs/ch-insert-into-event-tags-Kasarab.xml"/>
     <include file="db/changelog/logs/ch-add-table-events-comments-Herchanivska.xml"/>
     <include file="db/changelog/logs/ch-insert-into-events-comments-Herchanivska.xml"/>
+    <include file="db/changelog/logs/ch-add-table-event-attenders-Kasarab.xml"/>
+    <include file="db/changelog/logs/ch-insert-into-event-attenders-Kasarab.xml"/>
 </databaseChangeLog>
 

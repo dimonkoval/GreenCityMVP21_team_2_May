@@ -11,7 +11,9 @@ import java.util.List;
 
 public interface EventService {
     EventResponseDto save(EventRequestSaveDto event, MultipartFile[] images, UserVO author);
-    void delete(Long id, UserVO author);
+
+    void delete(Long id, String email);
+
     EventResponseDto update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author);
 
     //Pageable implements sorted criteria
@@ -25,4 +27,12 @@ public interface EventService {
     String[] uploadImages(MultipartFile[] images);
 
     PageableAdvancedDto<EventResponseDto> findAllByAuthor(Pageable pageable, Long userId);
+
+    /**
+     * Add an attender to the Event by id.
+     *
+     * @param eventId - event id.
+     * @param user - user.
+     */
+    void addAttender(Long eventId, UserVO user);
 }

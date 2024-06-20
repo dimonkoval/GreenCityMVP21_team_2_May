@@ -10,8 +10,12 @@ import greencity.entity.event.Event;
 import greencity.dto.tag.TagVO;
 import greencity.dto.user.UserVO;
 import greencity.entity.User;
+import greencity.enums.Role;
 import greencity.enums.TagType;
+import greencity.exception.exceptions.BadRequestException;
+import greencity.exception.exceptions.NotFoundException;
 import greencity.exception.exceptions.NotSavedException;
+import greencity.exception.exceptions.UserHasNoPermissionToAccessException;
 import greencity.exception.exceptions.WrongIdException;
 import greencity.message.EventEmailMessage;
 import greencity.repository.EventRepo;
@@ -85,8 +89,17 @@ public class EventServiceImpl implements EventService{
         return modelMapper.map(eventToSave, EventResponseDto.class);
     }
 
-    @Override
-    public void delete(Long id, UserVO author) {}
+    public void delete(Long id, String email) {
+        UserVO userVO = restClient.findByEmail(email);
+        Event toDelete = eventRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.EVENT_NOT_FOUND));
+
+        if (toDelete.getAuthor().getId().equals(userVO.getId()) || userVO.getRole() == Role.ROLE_ADMIN) {
+            eventRepo.delete(toDelete);
+        } else {
+            throw new UserHasNoPermissionToAccessException(ErrorMessage.USER_HAS_NO_PERMISSION);
+        }
+    }
 
     @Override
     public EventResponseDto update(EventRequestSaveDto event, List<MultipartFile> images, UserVO author) {
@@ -130,6 +143,29 @@ public class EventServiceImpl implements EventService{
         return buildPageableAdvancedDto(events);
     }
 
+    @Override
+    public void addAttender(Long eventId, UserVO user) {
+        Event event = eventRepo.findById(eventId).orElseThrow(() -> new NotFoundException(ErrorMessage.EVENT_NOT_FOUND_BY_ID + eventId));
+        User currentUser = modelMapper.map(user, User.class);
+        checkingJoiningEvent(event, currentUser);
+        event.getAttenders().add(currentUser);
+        eventRepo.save(event);
+        EventEmailMessage eventEmailMessage = modelMapper.map(event, EventEmailMessage.class);
+        eventEmailMessage.setSubject(String.format("User %s joined to your event", currentUser.getName()));
+        sendEmailNotification(eventEmailMessage);
+    }
+
+    private void checkingJoiningEvent(Event event, User user) {
+        if (event.getAuthor().getId().equals(user.getId())) {
+            throw new BadRequestException(ErrorMessage.YOU_ARE_EVENT_AUTHOR);
+        }
+        if (!event.isOpen()) {
+            throw new BadRequestException(ErrorMessage.YOU_CANNOT_JOIN_TO_CLOSED_EVENT);
+        }
+        if (event.getAttenders().stream().anyMatch(attender -> attender.getId().equals(user.getId()))) {
+            throw new BadRequestException(ErrorMessage.YOU_HAVE_ALREADY_JOINED_TO_EVENT);
+        }
+    }
 
     public void sendEmailNotification(EventEmailMessage eventEmailMessage) {
         RequestAttributes originalRequestAttributes = RequestContextHolder.getRequestAttributes();
