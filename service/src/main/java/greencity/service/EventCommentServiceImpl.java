@@ -8,7 +8,9 @@ import greencity.dto.user.UserVO;
 import greencity.entity.EventComment;
 import greencity.entity.User;
 import greencity.entity.event.Event;
+import greencity.enums.CommentStatus;
 import greencity.exception.exceptions.NotFoundException;
+import greencity.exception.exceptions.UserHasNoPermissionToAccessException;
 import greencity.repository.EventCommentRepo;
 import greencity.repository.EventRepo;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -83,5 +86,29 @@ public class EventCommentServiceImpl implements EventCommentService {
                 pages.getTotalElements(),
                 pages.getPageable().getPageNumber(),
                 pages.getTotalPages());
+    }
+
+    /**
+     * Method set true for field 'deleted' of the comment {@link EventComment} by id.
+     *
+     * @param eventCommentId specifies {@link EventComment} to which we search for comments.
+     */
+    @Transactional
+    @Override
+    public void delete(Long eventCommentId, UserVO user) {
+        EventComment eventComment = eventCommentRepo.findByIdAndStatusNot(eventCommentId, CommentStatus.DELETED)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.EVENT_COMMENT_NOT_FOUND_BY_ID + eventCommentId));
+
+        if (!user.getId().equals(eventComment.getUser().getId())) {
+            throw new UserHasNoPermissionToAccessException(ErrorMessage.USER_HAS_NO_PERMISSION);
+        }
+
+        eventComment.setStatus(CommentStatus.DELETED);
+        if (eventComment.getComments() != null) {
+            eventComment.getComments()
+                    .forEach(comment -> comment.setStatus(CommentStatus.DELETED));
+        }
+
+        eventCommentRepo.save(eventComment);
     }
 }

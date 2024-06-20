@@ -12,6 +12,7 @@ import greencity.service.EventCommentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -93,5 +94,28 @@ public class EventCommentController {
             @Parameter(hidden = true) @CurrentUser UserVO user) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(eventCommentService.getAllEventComments(pageable, eventId, user));
+    }
+
+    /**
+     * Method for deleting {EventComment} by its id.
+     *
+     * @param eventCommentId {@link EventComment} id
+     *                       which will be deleted.
+     * @return id of deleted {@link EventComment}.
+     * @author Roman Kasarab
+     */
+    @Operation(summary = "Delete comment")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+            @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED,
+                    content = @Content(examples = @ExampleObject(HttpStatuses.UNAUTHORIZED))),
+            @ApiResponse(responseCode = "404", description = HttpStatuses.NOT_FOUND,
+                    content = @Content(examples = @ExampleObject(HttpStatuses.NOT_FOUND)))
+    })
+    @DeleteMapping("/{eventCommentId}")
+    public ResponseEntity<Object> delete(@PathVariable Long eventCommentId,
+        @Parameter(hidden = true) @CurrentUser UserVO user) {
+        eventCommentService.delete(eventCommentId, user);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

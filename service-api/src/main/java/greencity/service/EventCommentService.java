@@ -22,4 +22,6 @@ public interface EventCommentService {
     int countOfComments(Long ecoNewsId);
 
     PageableDto<EventCommentResponseDto> getAllEventComments(Pageable pageable, Long eventId, UserVO userVO);
+
+    void delete(Long eventCommentId, UserVO user);
 }
