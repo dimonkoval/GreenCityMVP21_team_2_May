@@ -101,7 +101,7 @@ public class EventCommentController {
      *
      * @param eventCommentId {@link EventComment} id
      *                       which will be deleted.
-     * @return id of deleted {@link EventComment}.
+     * @return message of deleted comment {@link EventComment}.
      * @author Roman Kasarab
      */
     @Operation(summary = "Delete comment")

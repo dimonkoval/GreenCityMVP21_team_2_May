@@ -23,5 +23,11 @@ public interface EventCommentService {
 
     PageableDto<EventCommentResponseDto> getAllEventComments(Pageable pageable, Long eventId, UserVO userVO);
 
-    void delete(Long eventCommentId, UserVO user);
+    /**
+     * Method for deleting the {@link EventComment} by id.
+     *
+     * @param eventCommentId - {@link EventComment} instance id which will be deleted.
+     * @param user           current {@link EventCommentVO} that wants to delete.
+     */
+    String delete(Long eventCommentId, UserVO user);
 }

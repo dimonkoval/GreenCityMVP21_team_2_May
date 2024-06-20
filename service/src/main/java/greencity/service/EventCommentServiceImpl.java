@@ -89,13 +89,13 @@ public class EventCommentServiceImpl implements EventCommentService {
     }
 
     /**
-     * Method set true for field 'deleted' of the comment {@link EventComment} by id.
+     * Method set 'DELETED' for field 'status' of the comment {@link EventComment} by id.
      *
      * @param eventCommentId specifies {@link EventComment} to which we search for comments.
      */
     @Transactional
     @Override
-    public void delete(Long eventCommentId, UserVO user) {
+    public String delete(Long eventCommentId, UserVO user) {
         EventComment eventComment = eventCommentRepo.findByIdAndStatusNot(eventCommentId, CommentStatus.DELETED)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.EVENT_COMMENT_NOT_FOUND_BY_ID + eventCommentId));
 
@@ -110,5 +110,6 @@ public class EventCommentServiceImpl implements EventCommentService {
         }
 
         eventCommentRepo.save(eventComment);
+        return "Comment deleted successfully";
     }
 }
