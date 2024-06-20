@@ -1,5 +1,6 @@
 package greencity.service;
 
+import greencity.client.RestClient;
 import greencity.constant.ErrorMessage;
 import greencity.dto.PageableDto;
 import greencity.dto.eventcomment.EventCommentRequestDto;
@@ -27,6 +28,7 @@ import java.util.List;
 public class EventCommentServiceImpl implements EventCommentService {
     private final EventRepo eventRepo;
     private final EventCommentRepo eventCommentRepo;
+    private final RestClient restClient;
     private ModelMapper modelMapper;
 
     /**
@@ -95,11 +97,13 @@ public class EventCommentServiceImpl implements EventCommentService {
      */
     @Transactional
     @Override
-    public String delete(Long eventCommentId, UserVO user) {
+    public String delete(Long eventCommentId, String email) {
         EventComment eventComment = eventCommentRepo.findByIdAndStatusNot(eventCommentId, CommentStatus.DELETED)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.EVENT_COMMENT_NOT_FOUND_BY_ID + eventCommentId));
 
-        if (!user.getId().equals(eventComment.getUser().getId())) {
+        UserVO currentUser = restClient.findByEmail(email);
+
+        if (!currentUser.getId().equals(eventComment.getUser().getId())) {
             throw new UserHasNoPermissionToAccessException(ErrorMessage.USER_HAS_NO_PERMISSION);
         }
 

@@ -27,7 +27,7 @@ public interface EventCommentService {
      * Method for deleting the {@link EventComment} by id.
      *
      * @param eventCommentId - {@link EventComment} instance id which will be deleted.
-     * @param user           current {@link EventCommentVO} that wants to delete.
+     * @param email           User who wants to delete a comment.
      */
-    String delete(Long eventCommentId, UserVO user);
+    String delete(Long eventCommentId, String email);
 }

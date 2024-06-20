@@ -24,6 +24,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Validated
 @AllArgsConstructor
 @RestController
@@ -113,8 +115,9 @@ public class EventCommentController {
                     content = @Content(examples = @ExampleObject(HttpStatuses.NOT_FOUND)))
     })
     @DeleteMapping("/{eventCommentId}")
-    public ResponseEntity<Object> delete(@PathVariable Long eventCommentId,
-        @Parameter(hidden = true) @CurrentUser UserVO user) {
-        return ResponseEntity.status(HttpStatus.OK).body(eventCommentService.delete(eventCommentId, user));
+    public ResponseEntity<Object> delete(
+            @PathVariable Long eventCommentId,
+            @Parameter(hidden = true) Principal principal) {
+        return ResponseEntity.status(HttpStatus.OK).body(eventCommentService.delete(eventCommentId, principal.getName()));
     }
 }
