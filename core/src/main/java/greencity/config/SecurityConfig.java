@@ -253,7 +253,8 @@ public class SecurityConfig {
                                 USER_SHOPPING_LIST + "/{shoppingListItemId}/status/{status}",
                                 USER_SHOPPING_LIST + "/{userShoppingListItemId}",
                                 "/user/profilePicture",
-                                "/user/deleteProfilePicture")
+                                "/user/deleteProfilePicture",
+                                "/events/comments/{commentId}")
                         .hasAnyRole(USER, ADMIN, MODERATOR, UBS_EMPLOYEE)
                         .requestMatchers(HttpMethod.DELETE,
                                 ECONEWS_COMMENTS,

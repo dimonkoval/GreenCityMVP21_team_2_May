@@ -91,6 +91,32 @@ public class EventCommentServiceImpl implements EventCommentService {
     }
 
     /**
+     * Updates the text of an existing event comment.
+     * This method updates the text of an existing event comment specified by its ID.
+     * The comment must not be deleted, and the user attempting the update must be the owner of the comment.
+     *
+     * @param commentId   the ID of the comment to be updated
+     * @param commentText the new text for the comment; must be between 1 and 8 characters
+     * @param email       the email of the user attempting to update the comment
+     */
+    @Transactional
+    @Override
+    public void update(Long commentId, String commentText, String email) {
+        EventComment comment = eventCommentRepo.findByIdAndStatusNot(commentId, CommentStatus.DELETED)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.EVENT_COMMENT_NOT_FOUND_BY_ID + commentId));
+
+        UserVO currentUser = restClient.findByEmail(email);
+
+        if (!currentUser.getId().equals(comment.getUser().getId())) {
+            throw new UserHasNoPermissionToAccessException(ErrorMessage.USER_HAS_NO_PERMISSION);
+        }
+
+        comment.setText(commentText);
+        comment.setStatus(CommentStatus.EDITED);
+        eventCommentRepo.save(comment);
+    }
+
+    /**
      * Method set 'DELETED' for field 'status' of the comment {@link EventComment} by id.
      *
      * @param eventCommentId specifies {@link EventComment} to which we search for comments.

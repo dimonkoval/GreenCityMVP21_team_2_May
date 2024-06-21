@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -96,6 +97,32 @@ public class EventCommentController {
             @Parameter(hidden = true) @CurrentUser UserVO user) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(eventCommentService.getAllEventComments(pageable, eventId, user));
+    }
+
+    /**
+     * Method to update certain {@link EventComment} by id.
+     *
+     * @param commentId of {@link EventComment} to update
+     * @param commentText edited text of {@link EventComment}
+     * @author Roman Kasarab
+     */
+    @Operation(summary = "Update comment.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = HttpStatuses.NO_CONTENT),
+            @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST,
+                    content = @Content(examples = @ExampleObject(HttpStatuses.BAD_REQUEST))),
+            @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED,
+                    content = @Content(examples = @ExampleObject(HttpStatuses.UNAUTHORIZED))),
+            @ApiResponse(responseCode = "404", description = HttpStatuses.NOT_FOUND,
+                    content = @Content(examples = @ExampleObject(HttpStatuses.NOT_FOUND)))
+    })
+    @PatchMapping("/{commentId}")
+    public ResponseEntity<Object> update(
+            @PathVariable Long commentId,
+            @RequestBody @Size(min = 1, max = 8000) String commentText,
+            @Parameter(hidden = true) Principal principal) {
+        eventCommentService.update(commentId, commentText, principal.getName());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     /**
