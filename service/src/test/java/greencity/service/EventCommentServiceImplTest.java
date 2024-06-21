@@ -31,7 +31,7 @@ class EventCommentServiceImplTest {
     private EventCommentRepo eventCommentRepo;
 
     @Mock
-    private RestClient restClient;
+    private UserService userService;
 
     @InjectMocks
     private EventCommentServiceImpl eventCommentService;
@@ -43,7 +43,7 @@ class EventCommentServiceImplTest {
         String email = "email@email.com";
 
         UserVO currentUser = getUserVO();
-        when(restClient.findByEmail(email)).thenReturn(currentUser);
+        when(userService.findByEmail(email)).thenReturn(currentUser);
         EventComment eventComment = getEventComment();
 
         when(eventCommentRepo.findByIdAndStatusNot(commentId, CommentStatus.DELETED)).thenReturn(Optional.ofNullable(eventComment));
@@ -78,7 +78,7 @@ class EventCommentServiceImplTest {
         eventComment.setUser(user);
         String editedText = "Updated text";
         String email = "email@email.com";
-        when(restClient.findByEmail(email)).thenReturn(currentUser);
+        when(userService.findByEmail(email)).thenReturn(currentUser);
 
         when(eventCommentRepo.findByIdAndStatusNot(commentId, CommentStatus.DELETED)).thenReturn(Optional.of(eventComment));
 

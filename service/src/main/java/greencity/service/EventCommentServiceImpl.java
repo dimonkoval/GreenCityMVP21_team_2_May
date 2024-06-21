@@ -14,6 +14,7 @@ import greencity.exception.exceptions.NotFoundException;
 import greencity.exception.exceptions.UserHasNoPermissionToAccessException;
 import greencity.repository.EventCommentRepo;
 import greencity.repository.EventRepo;
+import greencity.repository.UserRepo;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,7 @@ import java.util.List;
 public class EventCommentServiceImpl implements EventCommentService {
     private final EventRepo eventRepo;
     private final EventCommentRepo eventCommentRepo;
+    private final UserService userService;
     private final RestClient restClient;
     private ModelMapper modelMapper;
 
@@ -105,7 +107,7 @@ public class EventCommentServiceImpl implements EventCommentService {
         EventComment comment = eventCommentRepo.findByIdAndStatusNot(commentId, CommentStatus.DELETED)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.EVENT_COMMENT_NOT_FOUND_BY_ID + commentId));
 
-        UserVO currentUser = restClient.findByEmail(email);
+        UserVO currentUser = userService.findByEmail(email);
 
         if (!currentUser.getId().equals(comment.getUser().getId())) {
             throw new UserHasNoPermissionToAccessException(ErrorMessage.USER_HAS_NO_PERMISSION);
