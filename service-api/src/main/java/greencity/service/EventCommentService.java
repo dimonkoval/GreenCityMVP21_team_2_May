@@ -22,4 +22,12 @@ public interface EventCommentService {
     int countOfComments(Long ecoNewsId);
 
     PageableDto<EventCommentResponseDto> getAllEventComments(Pageable pageable, Long eventId, UserVO userVO);
+
+    /**
+     * Method for deleting the {@link EventComment} by id.
+     *
+     * @param eventCommentId - {@link EventComment} instance id which will be deleted.
+     * @param email           User who wants to delete a comment.
+     */
+    String delete(Long eventCommentId, String email);
 }

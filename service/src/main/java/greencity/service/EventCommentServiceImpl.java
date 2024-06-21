@@ -1,5 +1,6 @@
 package greencity.service;
 
+import greencity.client.RestClient;
 import greencity.constant.ErrorMessage;
 import greencity.dto.PageableDto;
 import greencity.dto.eventcomment.EventCommentRequestDto;
@@ -8,7 +9,9 @@ import greencity.dto.user.UserVO;
 import greencity.entity.EventComment;
 import greencity.entity.User;
 import greencity.entity.event.Event;
+import greencity.enums.CommentStatus;
 import greencity.exception.exceptions.NotFoundException;
+import greencity.exception.exceptions.UserHasNoPermissionToAccessException;
 import greencity.repository.EventCommentRepo;
 import greencity.repository.EventRepo;
 import lombok.AllArgsConstructor;
@@ -16,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +28,7 @@ import java.util.List;
 public class EventCommentServiceImpl implements EventCommentService {
     private final EventRepo eventRepo;
     private final EventCommentRepo eventCommentRepo;
+    private final RestClient restClient;
     private ModelMapper modelMapper;
 
     /**
@@ -83,5 +88,32 @@ public class EventCommentServiceImpl implements EventCommentService {
                 pages.getTotalElements(),
                 pages.getPageable().getPageNumber(),
                 pages.getTotalPages());
+    }
+
+    /**
+     * Method set 'DELETED' for field 'status' of the comment {@link EventComment} by id.
+     *
+     * @param eventCommentId specifies {@link EventComment} to which we search for comments.
+     */
+    @Transactional
+    @Override
+    public String delete(Long eventCommentId, String email) {
+        EventComment eventComment = eventCommentRepo.findByIdAndStatusNot(eventCommentId, CommentStatus.DELETED)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.EVENT_COMMENT_NOT_FOUND_BY_ID + eventCommentId));
+
+        UserVO currentUser = restClient.findByEmail(email);
+
+        if (!currentUser.getId().equals(eventComment.getUser().getId())) {
+            throw new UserHasNoPermissionToAccessException(ErrorMessage.USER_HAS_NO_PERMISSION);
+        }
+
+        eventComment.setStatus(CommentStatus.DELETED);
+        if (eventComment.getComments() != null) {
+            eventComment.getComments()
+                    .forEach(comment -> comment.setStatus(CommentStatus.DELETED));
+        }
+
+        eventCommentRepo.save(eventComment);
+        return "Comment deleted successfully";
     }
 }
