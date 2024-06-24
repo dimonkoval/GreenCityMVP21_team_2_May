@@ -1,5 +1,6 @@
 package greencity.repository;
 
+import greencity.dto.friend.RecommendedFriendProjection;
 import greencity.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,14 +13,13 @@ import java.util.List;
 
 @Repository
 public interface FriendRepo extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
-    @Query(nativeQuery = true, value = "SELECT DISTINCT u.* "
+    @Query(nativeQuery = true, value = "SELECT DISTINCT u.*, uf.created_date "
             + "FROM users_friends uf "
-            + "JOIN habit_assign ha ON uf.friend_id = ha.user_id "
             + "JOIN users u ON uf.friend_id = u.id "
-            + "WHERE uf.user_id = :userId AND ha.habit_id IN (:habitIds) AND u.city = :city")
+            + "WHERE uf.user_id = :userId "
+            + "AND (:city IS NULL OR u.city = :city)")
     Page<User> getAllFriendsByUserId(@Param("userId") Long userId,
                                      @Param("city") String city,
-                                     @Param("habitIds") List<Long> habitIds,
                                      Pageable pageable);
 
     @Query(nativeQuery = true, value = "SELECT DISTINCT u.* "
@@ -33,20 +33,27 @@ public interface FriendRepo extends JpaRepository<User, Long>, JpaSpecificationE
     @Query(nativeQuery = true, value = "SELECT DISTINCT u.* "
             + "FROM users_friends uf "
             + "JOIN users_friends uf2 ON uf.friend_id = uf2.user_id "
-            + "JOIN users u ON (u.id = uf.friend_id OR u.id = uf2.friend_id) "
+            + "JOIN users u ON u.id = uf2.friend_id "
             + "WHERE uf.user_id = :userId "
             + "AND u.id <> :userId "
             + "AND (:city IS NULL OR u.city = :city)")
-    Page<User> searchFriendsOfFriends(@Param("userId")Long userId,
-                                      @Param("city")String city,
-                                      Pageable pageable);
-
-    @Query(nativeQuery = true, value = "SELECT DISTINCT u.* "
-            + "FROM users_friends uf "
-            + "JOIN users u ON u.id = uf.friend_id "
-            + "WHERE uf.user_id = :userId "
-            + "AND (:city IS NULL OR u.city = :city)")
-    Page<User> searchDirectFriends(@Param("userId")Long userId,
+    List<User> getFriendsOfFriends(@Param("userId")Long userId,
                                    @Param("city")String city,
                                    Pageable pageable);
+
+    @Query(nativeQuery = true, value = "SELECT DISTINCT u.*, uf.created_date, "
+            + "CASE WHEN ec.eco_news_id IS NOT NULL AND ec.eco_news_id IN "
+            + "(SELECT eco_news_id FROM econews_comment WHERE user_id = :userId) "
+            + "THEN 1 ELSE 2 END AS relevance_order "
+            + "FROM users_friends uf JOIN users u ON uf.friend_id = u.id "
+            + "LEFT JOIN econews_comment ec ON ec.user_id = u.id "
+            + "WHERE uf.user_id = :userId AND (:city IS NULL OR u.city = :city) "
+            + "ORDER BY relevance_order, u.rating DESC, uf.created_date DESC")
+    Page<User> getRelevantFriends(@Param("userId")Long userId,
+                                  @Param("city")String city,
+                                  Pageable pageable);
+
+    @Query(nativeQuery = true, value = "SELECT  id, name, city, rating, profile_picture AS profilePicturePath "
+            + "FROM public.fn_recommended_friends(:userId)")
+    Page<RecommendedFriendProjection> getFriendRecommendations(@Param("userId") Long userId, Pageable pageable);
 }

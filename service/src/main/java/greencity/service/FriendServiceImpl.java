@@ -3,6 +3,8 @@ package greencity.service;
 import greencity.constant.ErrorMessage;
 import greencity.dto.PageableDto;
 import greencity.dto.friend.FriendDtoResponse;
+import greencity.dto.friend.RecommendedFriendDto;
+import greencity.dto.friend.RecommendedFriendProjection;
 import greencity.entity.User;
 import greencity.exception.exceptions.NotFoundException;
 import greencity.mapping.FriendDtoMapper;
@@ -11,7 +13,9 @@ import greencity.repository.FriendRepo;
 import greencity.repository.HabitAssignRepo;
 import greencity.repository.UserRepo;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -27,17 +31,25 @@ public class FriendServiceImpl implements FriendService {
     private final HabitAssignRepo habitAssignRepo;
     private final EcoNewsRepo ecoNewsRepo;
     private final FriendDtoMapper mapper;
+    private final ModelMapper modelMapper;
 
     @Override
-    public PageableDto<FriendDtoResponse> getAllUserFriends(Long userId, Pageable pageable) {
-        User userFound = getUserById(userId);
+    public PageableDto<FriendDtoResponse> getUserFriends(Long userId,
+                                                         String city,
+                                                         boolean friendsOfFriends,
+                                                         boolean filterByHabit,
+                                                         Pageable pageable) {
+        getUserById(userId);
 
-        List<Long> habitIds = habitAssignRepo.getHabitsByUserID(userId)
-                .stream()
-                .map(habit -> habit.getHabit().getId())
-                .collect(Collectors.toList());
+        Page<User> friendsPage = friendRepo.getAllFriendsByUserId(userId, city, pageable);
 
-        Page<User> friendsPage = friendRepo.getAllFriendsByUserId(userId, userFound.getCity(), habitIds, pageable);
+        if (filterByHabit) {
+            friendsPage = getFriendsByHabit(friendsPage, userId, city, pageable);
+        }
+
+        if (friendsOfFriends) {
+            friendsPage = getFriendsOfFriends(friendsPage, userId, city, pageable);
+        }
         return convertToPageableDto(friendsPage, userId);
     }
 
@@ -48,24 +60,56 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public PageableDto<FriendDtoResponse>
-        searchFriends(Long userId, boolean filterByCity, boolean friendsOfFriends, Pageable pageable) {
-        User user = getUserById(userId);
+    public PageableDto<RecommendedFriendDto> getFriendRecommendations(Long userId, Pageable pageable) {
+        Page<RecommendedFriendProjection> recommendations = friendRepo.getFriendRecommendations(userId, pageable);
+        List<RecommendedFriendDto> friendDtoResponses = recommendations.stream()
+                .map(friend -> modelMapper.map(friend, RecommendedFriendDto.class))
+                .collect(Collectors.toList());
+        return new PageableDto<>(friendDtoResponses,
+                recommendations.getTotalElements(),
+                recommendations.getPageable().getPageNumber(),
+                recommendations.getTotalPages());
+    }
 
-        String city = (filterByCity ? user.getCity() : null);
+    @Override
+    public PageableDto<FriendDtoResponse> getRelevantFriends(Long userId, String city, Pageable pageable) {
+        return convertToPageableDto(friendRepo.getRelevantFriends(userId, city, pageable), userId);
+    }
 
-        if (friendsOfFriends) {
-            return searchFriendsOfFriends(userId, city, pageable);
+    public Page<User> getFriendsByHabit(Page<User> friendsPage, Long userId, String city, Pageable pageable) {
+
+        List<Long> habitIds = habitAssignRepo.getHabitsByUserID(userId)
+                .stream()
+                .map(habit -> habit.getHabit().getId())
+                .collect(Collectors.toList());
+
+        if (habitIds != null && !habitIds.isEmpty()) {
+            List<User> filteredByHabit = friendsPage.getContent().stream()
+                    .filter(user -> friendHasHabits(user.getId(), habitIds))
+                    .collect(Collectors.toList());
+            friendsPage = new PageImpl<>(filteredByHabit, pageable, filteredByHabit.size());
         }
-        return searchDirectFriends(userId, city, pageable);
+        return friendsPage;
     }
 
-    private PageableDto<FriendDtoResponse> searchDirectFriends(Long userId, String city, Pageable pageable) {
-        return convertToPageableDto(friendRepo.searchDirectFriends(userId, city, pageable), userId);
+    private boolean friendHasHabits(Long userId, List<Long> habitIds) {
+        return habitAssignRepo.getHabitsByUserID(userId)
+                .stream()
+                .map(habit -> habit.getHabit().getId())
+                .anyMatch(habitIds::contains);
     }
 
-    private PageableDto<FriendDtoResponse> searchFriendsOfFriends(Long userId, String city, Pageable pageable) {
-        return convertToPageableDto(friendRepo.searchFriendsOfFriends(userId, city, pageable), userId);
+    private PageableDto<FriendDtoResponse> getDirectFriends(Long userId, String city, Pageable pageable) {
+        return convertToPageableDto(friendRepo.getAllFriendsByUserId(userId, city, pageable), userId);
+    }
+
+    private Page<User> getFriendsOfFriends(Page<User> friendsPage, Long userId, String city, Pageable pageable) {
+        List<User> listFriendsOfFriends = friendRepo.getFriendsOfFriends(userId, city, pageable);
+        List<User> filteredByFriendsOfFriends = friendsPage.getContent().stream()
+                .filter(listFriendsOfFriends::contains)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(filteredByFriendsOfFriends, pageable, filteredByFriendsOfFriends.size());
     }
 
     private PageableDto<FriendDtoResponse> convertToPageableDto(Page<User> friendsPage, Long userId) {
