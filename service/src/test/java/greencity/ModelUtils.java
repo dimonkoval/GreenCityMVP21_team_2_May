@@ -785,4 +785,27 @@ public class ModelUtils {
                 .isCustomHabit(true)
                 .build();
     }
+
+    public static EventComment getEventComment() {
+        return EventComment.builder()
+                .id(1L)
+                .text("text")
+                .createdDate(LocalDateTime.now())
+                .user(getUser())
+                .event(getEvent())
+                .status(CommentStatus.ORIGINAL)
+                .comments(Arrays.asList(getSubEventComment()))
+                .build();
+    }
+
+    public static EventComment getSubEventComment() {
+        return EventComment.builder()
+                .id(1L)
+                .text("SubEventComment")
+                .status(CommentStatus.ORIGINAL)
+                .createdDate(LocalDateTime.now())
+                .user(getUser())
+                .event(getEvent())
+                .build();
+    }
 }
