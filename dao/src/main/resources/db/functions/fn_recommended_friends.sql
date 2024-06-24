@@ -13,8 +13,7 @@ CREATE OR REPLACE FUNCTION public.fn_recommended_friends(
     VOLATILE PARALLEL UNSAFE
     ROWS 1000
 
-AS
-$BODY$
+AS '
 BEGIN
 
     RETURN QUERY
@@ -66,8 +65,7 @@ BEGIN
         FROM users u
                  JOIN common_friends cf
                       ON cf.id = u.id AND cf.id <> current_user_id;
-END
-$BODY$;
+END ';
 
-ALTER FUNCTION public.fn_recommended_friends(bigint)
-    OWNER TO postgres;
+ ALTER FUNCTION public.fn_recommended_friends(bigint)
+     OWNER TO postgres;

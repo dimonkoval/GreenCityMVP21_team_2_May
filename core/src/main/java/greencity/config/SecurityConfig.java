@@ -195,7 +195,7 @@ public class SecurityConfig {
                                 "/factoftheday/",
                                 "/factoftheday/all",
                                 "/friends/{userId}",
-                                "/friends/user/{userId}",
+                                "/friends/profile/{userId}",
                                 "/friends/search/{userId}",
                                 "/user/shopping-list-items/{userId}/get-all-inprogress",
                                 "/habit/assign/{habitAssignId}/allUserAndCustomList",

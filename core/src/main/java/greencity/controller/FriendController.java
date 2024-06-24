@@ -6,6 +6,7 @@ import greencity.annotations.CurrentUser;
 import greencity.constant.HttpStatuses;
 import greencity.dto.PageableDto;
 import greencity.dto.friend.FriendDtoResponse;
+import greencity.dto.friend.RecommendedFriendDto;
 import greencity.dto.user.UserVO;
 import greencity.service.FriendService;
 import greencity.service.FriendshipService;
@@ -15,7 +16,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ public class FriendController {
     private final FriendService friendService;
     private final FriendshipService friendshipService;
 
-    @Operation(summary = "Get user's friends from the same city and with the same habits")
+    @Operation(summary = "Get user's friends by filters")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
         @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
@@ -45,12 +45,34 @@ public class FriendController {
     })
     @GetMapping("/{userId}")
     @ApiPageableWithLocale
-    public ResponseEntity<PageableDto<FriendDtoResponse>> getAllFriendsByUserID(
+    public ResponseEntity<PageableDto<FriendDtoResponse>> getFriendsByUserID(
             @PathVariable Long userId,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false, defaultValue = "false") boolean friendsOfFriends,
+            @RequestParam(required = false, defaultValue = "false") boolean filterByHabit,
             @Parameter(hidden = true)
-            @PageableDefault(size = 6, sort = "u.rating", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 6) Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(
-                friendService.getAllUserFriends(userId, pageable));
+                friendService.getUserFriends(userId, city, friendsOfFriends,
+                        filterByHabit, pageable));
+    }
+
+    @Operation(summary = "Getting the most relevant friends, based on commenting and personal rating")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
+        @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
+        @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED),
+        @ApiResponse(responseCode = "404", description = HttpStatuses.NOT_FOUND),
+    })
+    @GetMapping("/relevantFriends/{userId}")
+    @ApiPageableWithLocale
+    public ResponseEntity<PageableDto<FriendDtoResponse>> getRelevantFriends(
+            @PathVariable Long userId,
+            @RequestParam(required = false) String city,
+            @Parameter(hidden = true)
+            @PageableDefault(size = 6) Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                friendService.getRelevantFriends(userId, city, pageable));
     }
 
     @Operation(summary = "Getting info about a friend with user attributes, habit counters, and mutual friends")
@@ -68,22 +90,20 @@ public class FriendController {
                 friendService.getFriendProfile(userId));
     }
 
-    @Operation(summary = "Search for friends with optional filters by city and by friends of friends")
+    @Operation(summary = "Gets recommended friends")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = HttpStatuses.OK),
         @ApiResponse(responseCode = "400", description = HttpStatuses.BAD_REQUEST),
         @ApiResponse(responseCode = "401", description = HttpStatuses.UNAUTHORIZED),
         @ApiResponse(responseCode = "404", description = HttpStatuses.NOT_FOUND),
     })
-    @GetMapping("/search/{userId}")
+    @GetMapping("/recommendations/{userId}")
     @ApiPageableWithLocale
-    public ResponseEntity<PageableDto<FriendDtoResponse>> getFriendByUserID(
+    public ResponseEntity<PageableDto<RecommendedFriendDto>> getFriendRecommendations(
         @PathVariable Long userId,
-        @RequestParam(required = false) boolean filterByCity,
-        @RequestParam(required = false, defaultValue = "false") boolean friendsOfFriends,
-        @PageableDefault(sort = "u.rating", direction = Sort.Direction.DESC) Pageable pageable) {
+        @Parameter(hidden = true)Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(
-                friendService.searchFriends(userId, filterByCity, friendsOfFriends, pageable));
+                friendService.getFriendRecommendations(userId, pageable));
     }
 
     @Operation(summary = "Adding a new friend")
