@@ -6,7 +6,8 @@ import greencity.dto.friend.RecommendedFriendDto;
 import org.springframework.data.domain.Pageable;
 
 public interface FriendService {
-    PageableDto<FriendDtoResponse> getUserFriends(Long userId, String city, boolean friendsOfFriends, boolean filterByHabit, Pageable pageable);
+    PageableDto<FriendDtoResponse> getUserFriends(
+            Long userId, String city, boolean friendsOfFriends, boolean filterByHabit, Pageable pageable);
 
     FriendDtoResponse getFriendProfile(Long userId);
 
